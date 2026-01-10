@@ -136,7 +136,7 @@ export function NodeDetailsPanel({
         </div>
       ) : (
         <Link href={`/learn/${node.slug}`}>
-          <Button className="w-full h-11">{status === "completed" ? "Review Lesson" : "Open Lesson"}</Button>
+          <Button className="w-full h-11">{status === "completed" ? "Continue Lesson" : "Start Lesson"}</Button>
         </Link>
       )}
     </div>
