@@ -72,9 +72,16 @@ export function resetProgress(): void {
   localStorage.removeItem(QUIZ_KEY)
 }
 
+function isPrereqMet(prereqId: string, completedSet: Set<string>): boolean {
+  if (prereqId.includes("|")) {
+    return prereqId.split("|").some((id) => completedSet.has(id))
+  }
+  return completedSet.has(prereqId)
+}
+
 export function isNodeAvailable(node: MapNode, completedSet: Set<string>): boolean {
   if (node.prereqs.length === 0) return true
-  return node.prereqs.every((prereqId) => completedSet.has(prereqId))
+  return node.prereqs.every((prereqId) => isPrereqMet(prereqId, completedSet))
 }
 
 export function getNodeStatus(node: MapNode, completedSet: Set<string>): "locked" | "available" | "completed" {
@@ -122,6 +129,7 @@ export function getPhaseProgress(phase: Phase, completedSet: Set<string>): { com
 export function getCurrentPhase(completedSet: Set<string>): Phase {
   const foundationsProgress = getPhaseProgress("foundations", completedSet)
   const executionProgress = getPhaseProgress("execution", completedSet)
+  const orderFlowProgress = getPhaseProgress("order-flow", completedSet)
 
   if (foundationsProgress.total > 0 && foundationsProgress.completed / foundationsProgress.total < 0.5) {
     return "foundations"
@@ -129,6 +137,10 @@ export function getCurrentPhase(completedSet: Set<string>): Phase {
 
   if (executionProgress.total > 0 && executionProgress.completed / executionProgress.total < 0.5) {
     return "execution"
+  }
+
+  if (orderFlowProgress.total > 0 && orderFlowProgress.completed / orderFlowProgress.total < 0.5) {
+    return "order-flow"
   }
 
   return "mastery"

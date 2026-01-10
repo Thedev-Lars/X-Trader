@@ -2,7 +2,7 @@ export type NodeLevel = "Beginner" | "Intermediate" | "Advanced"
 
 export type NodeTag = "Execution" | "Risk" | "Psychology" | "Structure" | "Journaling" | "Order Flow"
 
-export type Phase = "foundations" | "execution" | "mastery"
+export type Phase = "foundations" | "execution" | "order-flow" | "mastery"
 
 export interface PhaseInfo {
   id: Phase
@@ -13,17 +13,22 @@ export interface PhaseInfo {
 export const phases: PhaseInfo[] = [
   {
     id: "foundations",
-    title: "Foundations",
+    title: "Foundations (Survival)",
     description: "Protect capital first. Learn what actually moves futures price.",
   },
   {
     id: "execution",
-    title: "Execution",
+    title: "Execution (Consistency)",
     description: "Take fewer, higher-quality trades with a repeatable process.",
   },
   {
+    id: "order-flow",
+    title: "Order Flow (Advanced Execution)",
+    description: "Read aggressive vs passive participation to refine entries.",
+  },
+  {
     id: "mastery",
-    title: "Mastery",
+    title: "Mastery (Self-Control)",
     description: "Reduce emotional mistakes. Trade the plan, not the moment.",
   },
 ]

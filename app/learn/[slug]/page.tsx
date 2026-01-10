@@ -100,12 +100,24 @@ export default function LearnPage() {
     const nextSlug = ORDER_FLOW_SEQUENCE[currentIndex + 1]
     const nextNode = getNodeBySlug(nextSlug)
     if (nextNode) {
-      const missingPrereqs = nextNode.prereqs.filter((prereq) => !completedSet.has(prereq))
+      const missingPrereqs = nextNode.prereqs.filter((prereq) => {
+        if (prereq.includes("|")) {
+          return !prereq.split("|").some((id) => completedSet.has(id))
+        }
+        return !completedSet.has(prereq)
+      })
+      const missingPrereqTitle = missingPrereqs.length
+        ? missingPrereqs[0]
+            .split("|")
+            .map((id) => mapNodes.find((n) => n.id === id)?.title)
+            .filter(Boolean)
+            .join(" or ")
+        : undefined
       nextOrderFlowLesson = {
         slug: nextSlug,
         title: nextNode.title,
         isLocked: missingPrereqs.length > 0,
-        missingPrereq: missingPrereqs.length > 0 ? mapNodes.find((n) => n.id === missingPrereqs[0])?.title : undefined,
+        missingPrereq: missingPrereqTitle,
       }
     }
   }

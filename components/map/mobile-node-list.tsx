@@ -15,6 +15,7 @@ interface MobileNodeListProps {
   bookmarkedIds: Set<string>
   onToggleBookmark: (nodeId: string) => void
   searchQuery: string
+  nextNode: MapNode | null
 }
 
 export function MobileNodeList({
@@ -23,6 +24,7 @@ export function MobileNodeList({
   bookmarkedIds,
   onToggleBookmark,
   searchQuery,
+  nextNode,
 }: MobileNodeListProps) {
   // Filter nodes based on search
   const filteredNodes = useMemo(() => {
@@ -58,6 +60,23 @@ export function MobileNodeList({
   return (
     <div className="flex-1 overflow-y-auto pb-20">
       <div className="divide-y divide-border">
+        {nextNode && (
+          <div className="px-4 py-3 bg-primary/5 border-b border-primary/20">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-primary uppercase tracking-wide">Next Recommended</p>
+                <p className="text-sm font-semibold text-foreground truncate">{nextNode.title}</p>
+                <p className="text-xs text-muted-foreground truncate">{nextNode.summary}</p>
+              </div>
+              <Link href={`/learn/${nextNode.slug}`} className="flex-shrink-0">
+                <Button size="sm" className="h-8 px-3 text-xs">
+                  Start
+                  <ChevronRight className="w-3 h-3 ml-1" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
         {phases.map((phase) => {
           const phaseNodes = groupedByPhase[phase.id]
           if (!phaseNodes || phaseNodes.length === 0) return null

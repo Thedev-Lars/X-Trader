@@ -25,7 +25,7 @@ import {
 } from "@/lib/progress/progress"
 import { getBookmarkedNodeIds, toggleBookmark } from "@/lib/bookmarks/bookmarks"
 import { Button } from "@/components/ui/button"
-import { Play, Filter, Bookmark, Map, Clock, Lock, ChevronRight, Sparkles, ArrowRight, X } from "lucide-react"
+import { Play, Filter, Bookmark, Map, Clock, Lock, ChevronRight, Sparkles, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -68,7 +68,6 @@ export default function MapPage() {
   const [mobileViewMode, setMobileViewMode] = useState<"list" | "map">("list")
   const [selectedPhase, setSelectedPhase] = useState<Phase | null>(null)
   const [glowingNodeId, setGlowingNodeId] = useState<string | null>(null)
-  const [showMobileNextStep, setShowMobileNextStep] = useState(true)
 
   const initialTab = searchParams.get("tab") === "bookmarks" ? "bookmarks" : "map"
   const [activeTab, setActiveTab] = useState(initialTab)
@@ -105,6 +104,7 @@ export default function MapPage() {
   const phaseProgress: Record<Phase, { completed: number; total: number }> = {
     foundations: getPhaseProgress("foundations", completedSet),
     execution: getPhaseProgress("execution", completedSet),
+    "order-flow": getPhaseProgress("order-flow", completedSet),
     mastery: getPhaseProgress("mastery", completedSet),
   }
 
@@ -233,35 +233,6 @@ export default function MapPage() {
             </Sheet>
           </div>
         </div>
-
-        {/* Dismissible next step card - only show if there's a next node and not dismissed */}
-        {nextNode && showMobileNextStep && (
-          <div className="px-3 py-2 bg-gradient-to-r from-primary/10 to-transparent border-b border-primary/20">
-            <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-md bg-primary/20 flex-shrink-0">
-                <Sparkles className="w-4 h-4 text-primary" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-primary font-medium">Next up</p>
-                <p className="text-sm font-semibold text-foreground truncate">{nextNode.title}</p>
-              </div>
-              <Link href={`/learn/${nextNode.slug}`}>
-                <Button size="sm" className="h-8 px-3 text-xs">
-                  Start
-                  <ArrowRight className="w-3 h-3 ml-1" />
-                </Button>
-              </Link>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 flex-shrink-0 text-muted-foreground"
-                onClick={() => setShowMobileNextStep(false)}
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        )}
 
         {/* Scrollable phase filter pills */}
         <div className="px-3 py-2 border-b border-border overflow-x-auto scrollbar-hide">
@@ -451,6 +422,7 @@ export default function MapPage() {
                   bookmarkedIds={bookmarkedSet}
                   onToggleBookmark={handleToggleBookmark}
                   searchQuery={searchQuery}
+                  nextNode={nextNode}
                 />
               </div>
               <div className="hidden md:block h-full">
@@ -468,7 +440,7 @@ export default function MapPage() {
                   onToggleBookmark={handleToggleBookmark}
                   highlightedPath={highlightedPath}
                   highlightedNodeId={highlightedNodeId}
-                  glowingNodeId={glowingNodeId}
+                  glowingNodeId={glowingNodeId ?? nextNode?.id ?? null}
                 />
               </div>
             </TabsContent>
