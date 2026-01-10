@@ -3,1663 +3,1821 @@ import type { Lesson } from "@/lib/map/types"
 export const lessons: Record<string, Lesson> = {
   "futures-basics": {
     title: "Futures Basics",
+    overview:
+      "Futures are standardized agreements to buy or sell an asset at a set price on a future date, and traders use them to speculate on price movement. ES and NQ index futures are highly liquid, which makes execution and risk control easier for newer traders. Futures trade in ticks and are margined, so small price moves can have big account impact. The same risk logic applies to forex even though the contract structure differs.",
+    objectives: [
+      "Define what a futures contract is and why it trades like a derivative.",
+      "Identify the core traits of ES/NQ contracts that matter to day traders.",
+      "Explain how leverage and margin change risk compared to spot markets.",
+      "Choose an appropriate contract size for practice trading.",
+    ],
     sections: [
       {
-        heading: "What Are Futures Contracts?",
+        heading: "Concept",
         content: [
-          "A futures contract is a legal agreement to buy or sell an asset at a predetermined price at a specified time in the future.",
-          "Unlike stocks, futures are derivatives - their value is derived from an underlying asset like crude oil, gold, or stock indices.",
-          "As a retail trader, you are speculating on price movement, not taking delivery of the actual commodity.",
+          "Futures are exchange-traded contracts tied to an underlying index, commodity, or rate.",
+          "They are standardized, which keeps liquidity concentrated and spreads tight in products like ES and NQ.",
+          "You can go long or short with the same mechanics, making them flexible for trend or mean-reversion setups.",
         ],
       },
       {
-        heading: "Key Characteristics",
+        heading: "Setup",
         content: [
-          "Standardized: Contract specifications (size, expiration) are set by the exchange.",
-          "Leverage: You only need to put up a fraction of the contract value (margin).",
-          "Two-sided: You can go long (buy) or short (sell) with equal ease.",
-          "Expiration: Contracts have expiration dates, though most day traders close positions same-day.",
+          "Pick one contract and learn its tick size, tick value, and margin requirements.",
+          "Use micros (MES/MNQ) to match risk to account size while keeping the same price behavior.",
+          "Know the active contract month and avoid trading the old front month near rollover.",
         ],
       },
       {
-        heading: "Popular Futures Markets",
+        heading: "Execution",
         content: [
-          "ES (E-mini S&P 500): Most liquid equity index future.",
-          "NQ (E-mini Nasdaq 100): Tech-heavy index future.",
-          "CL (Crude Oil): High volatility commodity.",
-          "GC (Gold): Safe-haven metal future.",
+          "Plan entries around liquid windows like the cash open to reduce slippage.",
+          "Use limit orders for precise entries and market orders only when speed matters.",
+          "Always log your contract, entry, stop, and target in points and dollars.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Margin lets you control large notional size, but losses still hit your account dollar-for-dollar.",
+          "A small ES move can be larger than your planned risk if you size too big.",
+          "Treat futures like leveraged forex: define a hard stop before entry.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Assuming futures are like stocks and ignoring the leverage effect.",
+          "Trading thin contracts or expired months where spreads widen and fills slip.",
+          "Skipping contract specs and guessing P&L after the fact.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When you cannot state the tick value and point value from memory.",
+      "During contract rollover if you do not know which month is most active.",
+      "When your margin buffer is tight and a single loss could trigger liquidation.",
+    ],
+    diagram: "Futures Contract Snapshot\nUnderlying → Contract Size → Tick Size → Tick Value → Margin",
     takeaways: [
-      "Futures are standardized contracts to buy/sell assets at future dates",
-      "They offer leverage, liquidity, and the ability to go short easily",
-      "Most retail traders focus on index futures like ES and NQ",
+      "Futures are standardized derivatives with centralized liquidity.",
+      "ES and NQ offer tight spreads and fast fills for day trading.",
+      "Leverage magnifies outcomes, so position size must be intentional.",
+      "Micros let you practice the same market behavior at lower risk.",
+      "Always know specs before you place the first order.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "Do not confuse futures with options - futures obligate you to the trade, while options give you the right but not the obligation.",
+          "Treating a futures contract like a stock share hides the leverage risk and leads to outsized drawdowns even when your entry is correct.",
       },
       {
         type: "tip",
-        content: "Start with micro contracts (MES, MNQ) which are 1/10th the size of standard E-mini contracts.",
+        content:
+          "Start with MES or MNQ and graduate to ES/NQ only after you can follow your stop rules for 20 consecutive trades.",
       },
     ],
     quiz: [
       {
         id: "fb-q1",
-        question: "What makes futures a derivative instrument?",
+        question: "Why are futures considered derivatives?",
         options: [
-          "They are traded on exchanges",
-          "Their value is derived from an underlying asset",
-          "They require margin to trade",
-          "They can be traded 24 hours",
+          "They trade only during cash hours",
+          "Their value is linked to an underlying asset",
+          "They do not use margin",
+          "They are only for hedgers",
         ],
         correctIndex: 1,
+        explanation: "A futures price is derived from the underlying asset (like the S&P 500 for ES), which is the definition of a derivative.",
       },
       {
         id: "fb-q2",
-        question: "Which of these is NOT a characteristic of futures contracts?",
-        options: [
-          "Standardized specifications",
-          "Built-in leverage",
-          "Unlimited loss protection",
-          "Ability to go short easily",
-        ],
-        correctIndex: 2,
+        question: "What is the main practical advantage of micros (MES/MNQ)?",
+        options: ["They move less", "They require smaller risk per trade", "They are only for swing trades", "They have no margin"],
+        correctIndex: 1,
+        explanation: "Micros track the same price movement as standard contracts but with 1/10th the dollar value, making risk control easier.",
       },
       {
         id: "fb-q3",
-        question: "What is ES in futures trading?",
-        options: ["European Stock futures", "E-mini S&P 500 futures", "Energy Sector futures", "Exchange Settlement"],
+        question: "What should you confirm before trading a futures contract month?",
+        options: ["Broker name", "Active front month", "News headlines", "Indicator settings"],
         correctIndex: 1,
+        explanation: "Liquidity concentrates in the front month, so you should trade the most active contract to avoid poor fills.",
       },
     ],
   },
   "tick-values": {
     title: "Tick Values & Contract Specs",
+    overview:
+      "Ticks are the minimum price changes for a contract, and their dollar value determines your real risk. ES and NQ move in 0.25-point ticks, which is why a small chart move can still be a meaningful dollar swing. Understanding ticks lets you size trades and targets precisely. This logic maps directly to forex pip values when you convert to account currency.",
+    objectives: [
+      "Calculate tick value and point value for common contracts.",
+      "Convert price movement into dollar P&L quickly.",
+      "Use tick math to size positions responsibly.",
+    ],
     sections: [
       {
-        heading: "Understanding Ticks",
+        heading: "Concept",
         content: [
-          "A tick is the minimum price movement for a futures contract.",
-          "Different contracts have different tick sizes and values.",
-          "Knowing your tick value is essential for calculating risk and P&L.",
+          "A tick is the smallest price increment allowed by the exchange.",
+          "Tick value tells you how much one tick is worth per contract.",
+          "Point value is the dollar move for a full point in ES or NQ.",
         ],
       },
       {
-        heading: "Common Contract Specifications",
+        heading: "Setup",
         content: [
-          "ES: Tick size = 0.25 points, Tick value = $12.50, Point value = $50",
-          "NQ: Tick size = 0.25 points, Tick value = $5.00, Point value = $20",
-          "CL: Tick size = 0.01, Tick value = $10.00",
-          "MES (Micro): Tick value = $1.25 (1/10th of ES)",
+          "Memorize ES and NQ tick values before you trade live.",
+          "Know the micro equivalents so you can scale risk without changing the setup.",
+          "Check contract specs when you add a new market like CL or GC.",
         ],
       },
       {
-        heading: "Calculating P&L",
+        heading: "Execution",
         content: [
-          "P&L = (Exit Price - Entry Price) x Point Value x Number of Contracts",
-          "For ES: A 10-point move = $500 per contract",
-          "For NQ: A 10-point move = $200 per contract",
-          "Always know your dollar risk before entering a trade.",
+          "Translate your stop distance into ticks, then into dollars.",
+          "Set targets in points or ticks, not in vague dollar goals.",
+          "Log P&L by ticks to spot execution drift over time.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "If the dollar risk per contract is too high, reduce size or skip the trade.",
+          "Wide stops on NQ can exceed risk limits fast; calculate first.",
+          "Pip value in forex is the same concept—calculate it in your account currency.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Mixing ticks and points and underestimating true risk.",
+          "Rounding tick value or stop distance to make a trade seem affordable.",
+          "Ignoring contract specs after a rollover or product switch.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When you cannot convert your stop distance into dollars within a few seconds.",
+      "When switching to a new market without confirming tick size and value.",
+      "When your broker margin hides the true risk per contract.",
+    ],
+    diagram: "Tick Math\nStop (ticks) × Tick Value × Contracts = Dollar Risk",
     takeaways: [
-      "Each futures contract has specific tick sizes and values",
-      "Tick value determines your dollar risk per price movement",
-      "Micro contracts allow you to trade with smaller position sizes",
-    ],
-    callouts: [
-      {
-        type: "mistake",
-        content: "Confusing tick size with tick value leads to incorrect risk calculations.",
-      },
-      {
-        type: "tip",
-        content: "Memorize the tick values for your primary markets before trading live.",
-      },
-    ],
-    quiz: [
-      {
-        id: "tv-q1",
-        question: "What is the tick value for ES (E-mini S&P 500)?",
-        options: ["$5.00", "$10.00", "$12.50", "$50.00"],
-        correctIndex: 2,
-      },
-      {
-        id: "tv-q2",
-        question: "If ES moves 4 points, what is your P&L on 1 contract?",
-        options: ["$50", "$100", "$200", "$400"],
-        correctIndex: 2,
-      },
-      {
-        id: "tv-q3",
-        question: "How does MES tick value compare to ES?",
-        options: ["Same value", "Half the value", "1/10th the value", "Double the value"],
-        correctIndex: 2,
-      },
-    ],
-  },
-  "margin-leverage": {
-    title: "Margin & Leverage",
-    sections: [
-      {
-        heading: "Understanding Margin",
-        content: [
-          "Margin is the deposit required to open and maintain a futures position.",
-          "Initial margin is required to open a position; maintenance margin keeps it open.",
-          "If your account drops below maintenance margin, you will receive a margin call.",
-        ],
-      },
-      {
-        heading: "Types of Margin",
-        content: [
-          "Initial Margin: Required to open a new position (set by exchange).",
-          "Maintenance Margin: Minimum required to keep position open.",
-          "Day Trading Margin: Often lower than overnight margin requirements.",
-          "Intraday margins can be as low as $500 for ES with some brokers.",
-        ],
-      },
-      {
-        heading: "Leverage Double-Edged Sword",
-        content: [
-          "Leverage amplifies both gains AND losses.",
-          "A small price move can result in large percentage gains or losses on your margin.",
-          "New traders should use smaller position sizes until they understand the leverage impact.",
-        ],
-      },
-    ],
-    takeaways: [
-      "Margin is a good-faith deposit, not a down payment",
-      "Leverage magnifies both profits and losses",
-      "Always maintain adequate margin to avoid forced liquidation",
-    ],
-    callouts: [
-      {
-        type: "mistake",
-        content: "Using maximum leverage because you can is the fastest way to blow up an account.",
-      },
-      {
-        type: "tip",
-        content: "Trade as if you have 2-3x the margin requirement to give yourself a buffer.",
-      },
-    ],
-    quiz: [
-      {
-        id: "ml-q1",
-        question: "What happens when your account falls below maintenance margin?",
-        options: ["Nothing", "You receive a margin call", "Your position automatically profits", "Leverage increases"],
-        correctIndex: 1,
-      },
-      {
-        id: "ml-q2",
-        question: "Why is leverage described as a double-edged sword?",
-        options: [
-          "It only works on certain contracts",
-          "It amplifies both gains and losses",
-          "It requires two accounts",
-          "It only works during market hours",
-        ],
-        correctIndex: 1,
-      },
-      {
-        id: "ml-q3",
-        question: "What is day trading margin typically compared to overnight margin?",
-        options: ["Higher", "Lower", "The same", "Not applicable"],
-        correctIndex: 1,
-      },
-    ],
-  },
-  "market-structure": {
-    title: "Market Structure Basics",
-    sections: [
-      {
-        heading: "Understanding Trends",
-        content: [
-          "An uptrend consists of higher highs and higher lows.",
-          "A downtrend consists of lower highs and lower lows.",
-          "Identifying the trend is the first step in any trading decision.",
-        ],
-      },
-      {
-        heading: "Support and Resistance",
-        content: [
-          "Support is a price level where buying pressure tends to overcome selling pressure.",
-          "Resistance is a price level where selling pressure tends to overcome buying pressure.",
-          "These levels become more significant the more times they are tested.",
-        ],
-      },
-      {
-        heading: "Key Price Levels",
-        content: [
-          "Previous day high/low are important reference points.",
-          "Opening range often sets the tone for the day.",
-          "Round numbers (4000, 4500) often act as psychological levels.",
-        ],
-      },
-    ],
-    takeaways: [
-      "Trends are defined by the pattern of highs and lows",
-      "Support and resistance are key decision points",
-      "Context from higher timeframes helps inform lower timeframe decisions",
-    ],
-    callouts: [
-      {
-        type: "mistake",
-        content: "Fighting a strong trend by constantly looking for reversals is a losing strategy.",
-      },
-      {
-        type: "tip",
-        content: "Mark the previous day high, low, and close on your chart before the session starts.",
-      },
-    ],
-    quiz: [
-      {
-        id: "ms-q1",
-        question: "What defines an uptrend?",
-        options: [
-          "Price is going up",
-          "Higher highs and higher lows",
-          "Volume is increasing",
-          "Moving averages are green",
-        ],
-        correctIndex: 1,
-      },
-      {
-        id: "ms-q2",
-        question: "What is support?",
-        options: [
-          "A price level where selling overcomes buying",
-          "A price level where buying overcomes selling",
-          "The highest price of the day",
-          "The opening price",
-        ],
-        correctIndex: 1,
-      },
-      {
-        id: "ms-q3",
-        question: "Why are round numbers significant?",
-        options: [
-          "They are easier to calculate",
-          "They act as psychological levels",
-          "Exchanges prefer them",
-          "They have lower fees",
-        ],
-        correctIndex: 1,
-      },
-    ],
-  },
-  "session-timing": {
-    title: "Session Timing & Market Hours",
-    sections: [
-      {
-        heading: "Understanding Trading Sessions",
-        content: [
-          "Futures trade nearly 24 hours, but not all hours are equal.",
-          "The US session (9:30 AM - 4:00 PM ET) has the highest volume for index futures.",
-          "Different sessions have different characteristics and volatility profiles.",
-        ],
-      },
-      {
-        heading: "Key Time Periods",
-        content: [
-          "Pre-market (4:00 AM - 9:30 AM ET): Lower volume, can set up the day.",
-          "Market Open (9:30 AM - 10:30 AM ET): Highest volatility, most opportunity.",
-          "Midday (11:30 AM - 1:30 PM ET): Often choppy, lower volume.",
-          "Power Hour (3:00 PM - 4:00 PM ET): Increased activity as traders close positions.",
-        ],
-      },
-      {
-        heading: "Economic Events",
-        content: [
-          "Major economic releases can cause significant volatility.",
-          "FOMC announcements, jobs reports, and CPI are major market movers.",
-          "Check the economic calendar before trading each day.",
-        ],
-      },
-    ],
-    takeaways: [
-      "Different sessions have different characteristics",
-      "The first and last hours tend to have more opportunity",
-      "Be aware of the economic calendar",
+      "Tick value determines your true dollar exposure.",
+      "Point value is just tick value multiplied by ticks per point.",
+      "Micros allow precise sizing without changing the chart behavior.",
+      "Always calculate risk before you click buy or sell.",
+      "Pips in forex are the same concept—convert them to dollars.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "Trading during midday chop expecting trending conditions is a common way to give back morning profits.",
+          "Confusing tick size with tick value leads to trades that are twice the risk you intended, even if the setup looks perfect.",
       },
       {
         type: "tip",
-        content: "Create a schedule for when you will trade based on your strategy and the sessions that suit it.",
+        content:
+          "Keep a one-line cheat sheet next to your monitor with ES, NQ, MES, and MNQ tick values.",
+      },
+    ],
+    quiz: [
+      {
+        id: "tv-q1",
+        question: "What does tick value tell you?",
+        options: ["The time between trades", "The dollar value of one tick", "The margin required", "The contract expiration"],
+        correctIndex: 1,
+        explanation: "Tick value is the dollar amount gained or lost for a one-tick move per contract.",
+      },
+      {
+        id: "tv-q2",
+        question: "If ES moves 4 points, what is the P&L per ES contract?",
+        options: ["$100", "$200", "$400", "$800"],
+        correctIndex: 2,
+        explanation: "ES is $50 per point, so 4 points × $50 = $200.",
+      },
+      {
+        id: "tv-q3",
+        question: "Why are micro contracts useful for new traders?",
+        options: ["They have no commissions", "They allow smaller dollar risk", "They trade only in Asia", "They are less volatile"],
+        correctIndex: 1,
+        explanation: "Micros reduce dollar exposure while keeping the same price movement as the standard contract.",
+      },
+    ],
+  },
+  "margin-leverage": {
+    title: "Margin & Leverage",
+    overview:
+      "Margin is the deposit required to control a futures contract, and it creates leverage. Leverage lets small price moves translate into meaningful gains or losses, which is why a tight risk plan matters. Brokers often advertise low intraday margin, but that does not reduce actual risk. The same leverage mindset applies to forex, where position size drives exposure.",
+    objectives: [
+      "Explain the difference between initial, maintenance, and intraday margin.",
+      "Identify how leverage affects real dollar risk.",
+      "Choose position size that fits your account without relying on margin limits.",
+    ],
+    sections: [
+      {
+        heading: "Concept",
+        content: [
+          "Margin is not a down payment; it is a performance bond on the full contract value.",
+          "Leverage magnifies outcomes because you control more notional than you deposit.",
+          "Your P&L still moves tick-for-tick regardless of margin discounts.",
+        ],
+      },
+      {
+        heading: "Setup",
+        content: [
+          "Know your broker’s initial and maintenance margin for ES and NQ.",
+          "Decide a personal max risk that is independent of broker margin offers.",
+          "Use micros if your risk plan does not fit the standard contract.",
+        ],
+      },
+      {
+        heading: "Execution",
+        content: [
+          "Calculate risk by stop distance, not by the margin shown on the ticket.",
+          "Avoid holding positions overnight unless you can meet the higher margin.",
+          "Treat leverage like a tool, not a free pass to size up.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "A small adverse move can exceed your daily loss limit if you oversize.",
+          "Margin calls are forced risk management—don’t wait for them.",
+          "Forex traders face the same issue when using high lot sizes.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Sizing trades to max margin instead of max risk.",
+          "Confusing low intraday margin with low volatility.",
+          "Holding a day trade overnight without enough capital.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When you are tempted to size up just because margin allows it.",
+      "When you cannot cover overnight margin but are considering holding.",
+      "When volatility is elevated and your normal stop distance doubles.",
+    ],
+    diagram: "Leverage Flow\nNotional Size → Margin Posted → Tick Moves → Account P&L",
+    takeaways: [
+      "Margin is a deposit, not a limit on losses.",
+      "Leverage increases both upside and downside equally.",
+      "Your stop distance defines real risk, not broker margin.",
+      "Use micros to align leverage with account size.",
+      "Avoid overnight holds unless your margin buffer is large.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Sizing to the maximum margin available is how traders survive a good day and then blow out on the first fast reversal.",
+      },
+      {
+        type: "tip",
+        content:
+          "Set a personal leverage cap (like 5x) and never exceed it, even if your broker allows more.",
+      },
+    ],
+    quiz: [
+      {
+        id: "ml-q1",
+        question: "What does margin represent in futures trading?",
+        options: ["The total contract value", "A performance bond", "Guaranteed profit", "A stop-loss"],
+        correctIndex: 1,
+        explanation: "Margin is a deposit that secures the position; you still control the full contract value.",
+      },
+      {
+        id: "ml-q2",
+        question: "Why is leverage called a double-edged sword?",
+        options: ["It lowers commissions", "It magnifies gains and losses", "It guarantees fills", "It fixes bad entries"],
+        correctIndex: 1,
+        explanation: "Leverage amplifies outcomes in both directions, which increases risk if you oversize.",
+      },
+      {
+        id: "ml-q3",
+        question: "What should determine your position size?",
+        options: ["Broker margin", "Stop-based dollar risk", "Yesterday’s P&L", "Current news"],
+        correctIndex: 1,
+        explanation: "Your stop distance and planned dollar risk should drive size, not the margin shown by the broker.",
+      },
+    ],
+  },
+  "market-structure": {
+    title: "Market Structure Basics",
+    overview:
+      "Market structure is the sequence of highs and lows that defines trend, range, or transition. Understanding structure keeps you trading with context instead of reacting to every candle. ES and NQ are clean examples because their liquidity creates clearer swings, but the same structure logic applies to forex pairs. Structure tells you where trades make sense and where they do not.",
+    objectives: [
+      "Identify higher highs, higher lows, lower highs, and lower lows.",
+      "Distinguish trending, ranging, and transitioning markets.",
+      "Use structure to place entries and stops at logical levels.",
+      "Avoid trading into obvious structural support or resistance.",
+    ],
+    sections: [
+      {
+        heading: "Concept",
+        content: [
+          "Trends are defined by higher highs and higher lows (uptrend) or lower highs and lower lows (downtrend).",
+          "Ranges form when price fails to make progress beyond a clear ceiling and floor.",
+          "Transitions show up as a break of structure followed by a retest.",
+        ],
+      },
+      {
+        heading: "Setup",
+        content: [
+          "Mark the most recent swing high and swing low on your execution timeframe.",
+          "Align your trade direction with the higher timeframe structure first.",
+          "Use a simple swing definition (e.g., two-bar confirmation) to stay consistent.",
+        ],
+      },
+      {
+        heading: "Execution",
+        content: [
+          "In an uptrend, look for buys at higher low zones or break-and-retest areas.",
+          "In a range, trade edges with tighter targets or stand aside.",
+          "Let structure guide where you take profit rather than arbitrary numbers.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Stops should sit beyond the structural level that invalidates your thesis.",
+          "Do not add size into a structure break without confirmation.",
+          "Forex pairs can have wider noise bands, so adjust stops accordingly.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Calling a trend after one higher high without a higher low.",
+          "Trading a breakout directly into a higher timeframe level.",
+          "Ignoring context and scalping in the middle of a range.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When the market is in the middle of a well-defined range.",
+      "When a major higher timeframe level is one or two ticks away.",
+      "When you cannot identify a clear swing structure on your chart.",
+    ],
+    diagram: "Structure Map\nHH/HL → Uptrend | LH/LL → Downtrend | Equal highs/lows → Range",
+    takeaways: [
+      "Structure defines whether the market is trending or ranging.",
+      "Trade direction should align with higher timeframe structure.",
+      "Stops belong beyond structure, not inside it.",
+      "Clear structure reduces random trades.",
+      "The same swing logic applies to forex charts.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Labeling every push as a trend leads to chasing moves that are already exhausted and sitting at resistance.",
+      },
+      {
+        type: "tip",
+        content:
+          "Use one consistent swing rule and stick to it so you’re not redrawing structure every candle.",
+      },
+    ],
+    quiz: [
+      {
+        id: "ms-q1",
+        question: "What defines an uptrend in market structure?",
+        options: ["Lower highs and lower lows", "Higher highs and higher lows", "Equal highs only", "Random swings"],
+        correctIndex: 1,
+        explanation: "An uptrend requires both higher highs and higher lows.",
+      },
+      {
+        id: "ms-q2",
+        question: "Where should you place a stop in a trend trade?",
+        options: ["Inside the structure", "Beyond the invalidation level", "At a random dollar value", "At the entry"],
+        correctIndex: 1,
+        explanation: "Stops should be placed beyond the structural level that invalidates your trade thesis.",
+      },
+      {
+        id: "ms-q3",
+        question: "What is a common sign of a range?",
+        options: ["Consistent higher lows", "Price trapped between clear highs and lows", "Steady higher highs", "Only one swing"],
+        correctIndex: 1,
+        explanation: "Ranges are defined by repeated tests of a ceiling and floor without follow-through.",
+      },
+    ],
+  },
+  "session-timing": {
+    title: "Session Timing",
+    overview:
+      "Trading results are heavily influenced by when you trade. ES and NQ have their best liquidity during the US morning, while forex often moves most during the London and New York overlap. Timing determines volatility, spread, and follow-through. If you trade the wrong window for your strategy, you are fighting the market instead of working with it.",
+    objectives: [
+      "Identify the most liquid windows for ES/NQ and forex pairs.",
+      "Match your strategy to the volatility profile of the session.",
+      "Avoid low-volume periods that produce choppy price action.",
+    ],
+    sections: [
+      {
+        heading: "Concept",
+        content: [
+          "Liquidity clusters around session opens and overlap periods.",
+          "Higher volume usually means tighter spreads and better follow-through.",
+          "Low-volume hours can be slow and mean-reverting.",
+        ],
+      },
+      {
+        heading: "Setup",
+        content: [
+          "For futures, focus on the US cash open and first two hours.",
+          "For forex, prioritize London open and the London/New York overlap.",
+          "Mark major economic releases that can override normal session behavior.",
+        ],
+      },
+      {
+        heading: "Execution",
+        content: [
+          "Plan your trades around a defined time block to reduce fatigue.",
+          "Adjust targets and stops based on expected session volatility.",
+          "If the session is slow, trade less or reduce size.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Choppy sessions increase stop-outs, so reduce frequency or stand aside.",
+          "News events can widen spreads and cause slippage.",
+          "Overtrading outside your best hours erodes your edge.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Trading the lunch hour and expecting trend strength.",
+          "Ignoring the economic calendar and getting hit by sudden volatility.",
+          "Assuming all sessions behave the same across ES and forex.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "During thin lunchtime ranges if your strategy needs momentum.",
+      "Minutes before high-impact news if you have not planned for volatility.",
+      "When your session does not align with your strategy’s average move.",
+    ],
+    diagram: "Session Flow\nAsia → London → NY Open → NY Midday → Close",
+    takeaways: [
+      "Liquidity and volatility are session-dependent.",
+      "Trade the window that matches your strategy’s rhythm.",
+      "US mornings are best for ES/NQ; London/NY overlap is best for forex.",
+      "Avoid low-volume chop when possible.",
+      "Use the economic calendar every day.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Trading midday chop as if it were a trend session is a reliable way to grind your account down slowly.",
+      },
+      {
+        type: "tip",
+        content:
+          "Define a hard trading window and stop when it ends—consistency beats screen time.",
       },
     ],
     quiz: [
       {
         id: "st-q1",
-        question: "Which session typically has the highest volume for index futures?",
-        options: ["Asian", "European", "US", "All equally"],
-        correctIndex: 2,
+        question: "When is ES/NQ typically most liquid?",
+        options: ["Asian session", "US cash open and early morning", "Late US afternoon", "Sunday evening"],
+        correctIndex: 1,
+        explanation: "US cash open and the first two hours have the highest participation and volume for ES/NQ.",
       },
       {
         id: "st-q2",
-        question: "What time period is often described as choppy for day traders?",
-        options: ["Market open", "Midday (11:30 AM - 1:30 PM ET)", "Last hour", "After hours"],
+        question: "Why is the London/NY overlap important for forex?",
+        options: ["It has the lowest volume", "It often has the highest liquidity and movement", "It is always a range", "It closes markets"],
         correctIndex: 1,
+        explanation: "The overlap brings the most global participation, which increases liquidity and movement.",
       },
       {
         id: "st-q3",
-        question: "Why should you check the economic calendar?",
-        options: [
-          "To find holidays",
-          "Major releases can cause significant volatility",
-          "To see what stocks to buy",
-          "It is not important for futures",
-        ],
+        question: "What is a common risk of trading during low-volume periods?",
+        options: ["Tighter spreads", "Choppy price action", "More trend strength", "Guaranteed fills"],
         correctIndex: 1,
+        explanation: "Low volume often leads to chop and false moves, which increases stop-outs.",
       },
     ],
   },
   "risk-fundamentals": {
     title: "Risk Fundamentals",
     isRiskCritical: true,
+    overview:
+      "Risk control is the only reason you get to trade tomorrow. Your edge can be small, but it will survive if your losses are capped and consistent. ES and NQ move fast, so a single oversized trade can erase a week of progress. Forex is no different—size and stops decide your survival.",
+    objectives: [
+      "Set a maximum risk per trade and per day.",
+      "Use risk-to-reward to evaluate trades before entry.",
+      "Avoid emotional changes to stops and size.",
+      "Track drawdown limits and enforce them.",
+    ],
     sections: [
       {
-        heading: "The First Rule of Trading",
+        heading: "Concept",
         content: [
-          "Protecting capital is more important than making money.",
-          "You cannot make money if you have no capital to trade with.",
-          "Risk management is not optional - it is the foundation of longevity.",
+          "Your job is to control loss size, not predict every move.",
+          "Risk rules keep you in the game during inevitable losing streaks.",
+          "Consistency in risk builds confidence and clearer decision-making.",
         ],
       },
       {
-        heading: "The 1-2% Rule",
+        heading: "Setup",
         content: [
-          "Never risk more than 1-2% of your account on a single trade.",
-          "For a $10,000 account, max risk per trade = $100-$200.",
-          "This ensures you can survive a string of losses without significant damage.",
+          "Define max risk per trade (often 1% or less) and a daily loss limit.",
+          "Calculate dollar risk before every entry using your stop distance.",
+          "Write the rule down and keep it visible during the session.",
         ],
       },
       {
-        heading: "Risk-Reward Ratio",
+        heading: "Execution",
         content: [
-          "Always aim for trades where potential reward exceeds potential risk.",
-          "A 2:1 ratio means you target $2 profit for every $1 risked.",
-          "With a 2:1 ratio, you can be profitable winning only 40% of trades.",
+          "If the setup requires more risk than allowed, skip it.",
+          "Target at least a 2:1 reward-to-risk when the market structure supports it.",
+          "Do not widen stops after entry—accept the loss and move on.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "A 2:1 reward-to-risk can be profitable even with a lower win rate.",
+          "Large losses break the math; small losses keep your edge alive.",
+          "Use a daily loss limit to prevent emotional overtrading.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Increasing risk after a win to make more instead of following your plan.",
+          "Ignoring the daily loss limit because the next trade looks perfect.",
+          "Averaging down to avoid taking a planned stop.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "After hitting your daily loss limit.",
+      "When a single trade would exceed your max risk per trade.",
+      "When you are trying to win back losses quickly.",
+    ],
+    diagram: "Risk Ladder\nMax Trade Risk → Max Daily Loss → Weekly Drawdown",
     takeaways: [
-      "Capital preservation is the number one priority",
-      "Risk 1-2% maximum per trade",
-      "Aim for at least 2:1 reward-to-risk ratio",
+      "Risk control is the foundation of longevity.",
+      "Set risk per trade and enforce it every time.",
+      "Use reward-to-risk to filter low-quality trades.",
+      "Small losses protect your edge over time.",
+      "Daily loss limits stop emotional spirals.",
     ],
     callouts: [
       {
         type: "mistake",
-        content: "Risking 5% or more because you feel confident is how disciplined traders become gamblers.",
+        content:
+          "Letting one oversized trade slip through your rules is how a good week turns into a blown account.",
       },
       {
         type: "tip",
-        content: "Write your risk limits on a sticky note and place it on your monitor before every session.",
+        content:
+          "Decide your max loss before the session and stop trading once it is hit, no exceptions.",
       },
     ],
     quiz: [
       {
         id: "rf-q1",
-        question: "What is the recommended max risk per trade?",
-        options: ["5-10%", "3-5%", "1-2%", "As much as you can afford"],
-        correctIndex: 2,
+        question: "Why is a daily loss limit important?",
+        options: ["It guarantees profit", "It prevents emotional overtrading", "It increases leverage", "It avoids taxes"],
+        correctIndex: 1,
+        explanation: "A daily loss limit stops you from chasing losses when decision quality drops.",
       },
       {
         id: "rf-q2",
-        question: "With a 2:1 risk-reward ratio, what win rate makes you profitable?",
-        options: ["60%", "50%", "40%", "33%"],
-        correctIndex: 2,
+        question: "What does a 2:1 reward-to-risk ratio mean?",
+        options: ["Risk is twice reward", "Reward is twice the risk", "Risk equals reward", "Risk is zero"],
+        correctIndex: 1,
+        explanation: "A 2:1 ratio targets two units of reward for every one unit of risk.",
       },
       {
         id: "rf-q3",
-        question: "Why is capital preservation the top priority?",
-        options: [
-          "It impresses other traders",
-          "You cannot make money without capital",
-          "It is required by regulations",
-          "It is not actually that important",
-        ],
+        question: "What should you do if a trade requires more risk than allowed?",
+        options: ["Take it anyway", "Reduce size or skip the trade", "Move your stop wider", "Add to the position"],
         correctIndex: 1,
+        explanation: "Proper risk management requires you to size down or pass if the trade breaks your risk rule.",
       },
     ],
   },
   "trading-psychology-intro": {
-    title: "Trading Psychology Introduction",
+    title: "Trading Psychology Intro",
+    overview:
+      "Most traders lose not because their strategy is bad, but because they break it under pressure. Emotions show up as overtrading, revenge trades, and moving stops. ES and NQ move fast, which exposes weak discipline quickly. The same emotional traps exist in forex when trades move against you.",
+    objectives: [
+      "Identify the most common psychological errors in trading.",
+      "Build a pre-trade routine that reduces impulsive decisions.",
+      "Recognize emotional triggers and step away when needed.",
+    ],
     sections: [
       {
-        heading: "The Mental Game",
+        heading: "Concept",
         content: [
-          "Trading is 80% psychology and 20% strategy.",
-          "Your biggest enemy in trading is yourself.",
-          "Emotions like fear and greed can override logical decision-making.",
+          "Trading decisions are a mix of strategy and emotional control.",
+          "Fear and greed typically show up as missed entries or oversized trades.",
+          "Awareness is the first step to correcting bad behavior.",
         ],
       },
       {
-        heading: "Common Psychological Pitfalls",
+        heading: "Setup",
         content: [
-          "Fear of Missing Out (FOMO): Chasing trades after they have moved.",
-          "Revenge Trading: Trying to make back losses immediately.",
-          "Overconfidence: Increasing size after a winning streak.",
-          "Analysis Paralysis: Unable to pull the trigger on valid setups.",
+          "Create a short checklist you must complete before placing any trade.",
+          "Define what a valid setup looks like and what it does not.",
+          "Track your emotional state in your journal after each session.",
         ],
       },
       {
-        heading: "Building Mental Discipline",
+        heading: "Execution",
         content: [
-          "Follow your trading plan without exception.",
-          "Accept that losses are part of the game.",
-          "Take breaks when emotionally compromised.",
+          "Take only the trades that meet your written criteria.",
+          "If you feel urgency, pause and re-check your plan before clicking.",
+          "Keep position size consistent so emotions do not spike.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Emotional trading often leads to bigger losses than technical errors.",
+          "A pre-defined stop reduces the temptation to bail out early.",
+          "If your mind is not calm, your risk is higher regardless of setup.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Revenge trading after a loss instead of resetting.",
+          "Skipping the checklist because you feel a strong hunch.",
+          "Changing strategy mid-trade due to fear or hope.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "After a loss that triggers anger or urgency.",
+      "When you are tired, distracted, or rushing.",
+      "When you feel the need to make back money quickly.",
+    ],
+    diagram: "Decision Cycle\nPlan → Execute → Review → Reset",
     takeaways: [
-      "Psychology is the most underrated aspect of trading",
-      "Self-awareness is the first step to improvement",
-      "A trading plan helps remove emotion from decisions",
+      "Discipline is what makes a strategy work over time.",
+      "A checklist reduces impulsive mistakes.",
+      "Emotional trades usually violate your rules first.",
+      "Consistency in size keeps emotions stable.",
+      "Step away when your mindset is compromised.",
     ],
     callouts: [
       {
         type: "mistake",
-        content: "Thinking you are immune to psychological biases is the first sign you are not.",
+        content:
+          "Thinking you are immune to trading psychology is a fast way to ignore the behaviors that are draining your account.",
       },
       {
         type: "tip",
-        content: "Keep a psychological journal alongside your trade journal to track your emotional state.",
+        content:
+          "Add one sentence to your journal after every session: “What emotion showed up most today?”",
       },
     ],
     quiz: [
       {
         id: "tp-q1",
-        question: "What percentage of trading success is attributed to psychology?",
-        options: ["20%", "40%", "60%", "80%"],
-        correctIndex: 3,
+        question: "What is revenge trading?",
+        options: ["Trading only at night", "Trying to win back losses immediately", "Trading the trend", "Using limit orders"],
+        correctIndex: 1,
+        explanation: "Revenge trading is the impulse to get back losses quickly, often by breaking your plan.",
       },
       {
         id: "tp-q2",
-        question: "What is revenge trading?",
-        options: [
-          "Trading against a specific person",
-          "Trying to make back losses immediately",
-          "A profitable strategy",
-          "Trading during news events",
-        ],
+        question: "Why use a pre-trade checklist?",
+        options: ["It guarantees profit", "It reduces impulsive decisions", "It changes the market", "It increases leverage"],
         correctIndex: 1,
+        explanation: "Checklists help you slow down and verify the setup before entering.",
       },
       {
         id: "tp-q3",
-        question: "What helps remove emotion from trading decisions?",
-        options: ["Trading more", "Following a trading plan", "Ignoring losses", "Using more leverage"],
+        question: "What should you do if you feel emotionally compromised?",
+        options: ["Increase size", "Take a break", "Ignore the feeling", "Trade more"],
         correctIndex: 1,
+        explanation: "Stepping away protects you from decisions that are driven by emotion rather than process.",
       },
     ],
   },
   "position-sizing": {
     title: "Position Sizing",
     isRiskCritical: true,
+    overview:
+      "Position sizing turns a good setup into a survivable trade. The same ES move can be a small loss or a large drawdown depending on size. Proper sizing keeps you aligned with your risk rules and prevents emotional swings. This is identical to choosing lot size in forex.",
+    objectives: [
+      "Calculate position size using account risk and stop distance.",
+      "Apply micro contracts to fit smaller accounts.",
+      "Avoid rounding up size just to take a trade.",
+    ],
     sections: [
       {
-        heading: "The Position Sizing Formula",
+        heading: "Concept",
         content: [
-          "Position Size = (Account Risk) / (Trade Risk per Contract)",
-          "Account Risk = Account Size x Risk Percentage (1-2%)",
-          "Trade Risk = Stop Distance in Points x Point Value",
+          "Position size should be driven by risk per trade, not by potential profit.",
+          "Size is determined by stop distance and dollar risk allowed.",
+          "Consistent sizing makes performance data reliable.",
         ],
       },
       {
-        heading: "Worked Example",
+        heading: "Setup",
         content: [
-          "Account: $10,000, Risk: 1% = $100 max risk",
-          "ES trade with 4-point stop: 4 x $50 = $200 risk per contract",
-          "$100 / $200 = 0.5 contracts - so trade 0 contracts (cannot take this trade)",
-          "With MES: 4 x $5 = $20 per contract, $100 / $20 = 5 micro contracts",
+          "Decide your max risk per trade in dollars.",
+          "Calculate stop distance in points or ticks.",
+          "Divide dollar risk by risk per contract to get your size.",
         ],
       },
       {
-        heading: "Key Principles",
+        heading: "Execution",
         content: [
-          "Always round DOWN, never up.",
-          "If the math says you cannot take the trade, do not take it.",
-          "Micro contracts allow proper position sizing with smaller accounts.",
+          "Round down to the nearest whole contract, never up.",
+          "If size is zero, skip the trade or use a micro contract.",
+          "Keep size consistent across similar setups for clean data.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Oversizing makes small errors fatal.",
+          "Sizing down is a strength, not a weakness.",
+          "In forex, lot size works the same way—convert pip value to dollars.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Rounding up because the setup “looks good.”",
+          "Changing size randomly based on mood or recent wins.",
+          "Ignoring stop distance and sizing based on account balance alone.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When the math says the correct size is zero contracts.",
+      "When you cannot calculate risk per contract quickly.",
+      "When you feel tempted to increase size to recover losses.",
+    ],
+    diagram: "Sizing Formula\nAccount Risk ÷ (Stop Distance × Point Value) = Contracts",
     takeaways: [
-      "Position size is calculated from risk, not from how much you want to make",
-      "Always round down on position size",
-      "Use micro contracts if standard contracts create too much risk",
+      "Position size is a risk calculation, not a confidence vote.",
+      "Round down to protect your account.",
+      "Micros help align size with smaller balances.",
+      "Consistent sizing makes your results measurable.",
+      "Forex lot sizing follows the same logic.",
     ],
     callouts: [
       {
         type: "mistake",
-        content: "Rounding up position size because it is close enough is how disciplined traders become gamblers.",
+        content:
+          "Rounding up size because you are close to the next contract converts a controlled plan into a guess.",
       },
       {
         type: "tip",
-        content: "Create a position sizing calculator in a spreadsheet to remove mental math errors.",
+        content:
+          "Build a simple spreadsheet or calculator that outputs size after you enter stop distance and risk.",
       },
     ],
     quiz: [
       {
         id: "ps-q1",
         question: "What determines your position size?",
-        options: ["How confident you feel", "Your risk parameters", "The current price", "Time of day"],
+        options: ["Confidence level", "Stop-based dollar risk", "Time of day", "Last trade"],
         correctIndex: 1,
+        explanation: "Position size should be derived from your allowed dollar risk and the stop distance.",
       },
       {
         id: "ps-q2",
-        question: "Should you round position size up or down?",
-        options: ["Up", "Down", "To nearest whole number", "It does not matter"],
+        question: "How should you round your position size?",
+        options: ["Round up", "Round down", "Round to nearest", "Never round"],
         correctIndex: 1,
+        explanation: "Rounding down keeps you within your risk limits.",
       },
       {
         id: "ps-q3",
-        question: "Why are micro contracts useful for smaller accounts?",
-        options: [
-          "They are easier to understand",
-          "They allow proper position sizing with less capital",
-          "They have better fills",
-          "They are more liquid",
-        ],
+        question: "What do micro contracts help you do?",
+        options: ["Increase leverage", "Reduce dollar risk per trade", "Avoid stops", "Trade only overnight"],
         correctIndex: 1,
+        explanation: "Micros let you take the same setup with less dollar exposure.",
       },
     ],
   },
   "stop-placement": {
     title: "Stop-Loss Placement",
     isRiskCritical: true,
+    overview:
+      "A stop-loss defines where your trade idea is proven wrong. Without it, you cannot measure risk or size properly. ES and NQ move fast, so a well-placed stop protects you from sudden spikes. This same logic applies to forex, where spreads and volatility can widen.",
+    objectives: [
+      "Place stops at structural invalidation levels.",
+      "Avoid using arbitrary dollar stops with no chart logic.",
+      "Keep stops consistent with your risk plan.",
+    ],
     sections: [
       {
-        heading: "Why Stops Matter",
+        heading: "Concept",
         content: [
-          "A stop-loss is your predefined exit point if the trade goes against you.",
-          "It limits your loss to a known amount before you enter.",
-          "Trading without stops is gambling, not trading.",
+          "A stop is the price where your trade thesis is invalidated.",
+          "Stops allow you to define risk before you enter.",
+          "The stop location is more important than the entry precision.",
         ],
       },
       {
-        heading: "Where to Place Stops",
+        heading: "Setup",
         content: [
-          "Place stops at a level where your trade thesis is invalidated.",
-          "Behind support for long trades, above resistance for shorts.",
-          "Give enough room to avoid getting stopped out by normal noise.",
+          "Identify the structural level that proves your idea wrong.",
+          "Measure the stop distance in points or ticks.",
+          "Confirm the stop fits your dollar risk limits.",
         ],
       },
       {
-        heading: "Stop Placement Methods",
+        heading: "Execution",
         content: [
-          "Structure-based: Below swing lows or above swing highs.",
-          "ATR-based: 1-2x Average True Range from entry.",
-          "Fixed dollar: Based on maximum acceptable loss.",
+          "Place the stop immediately after entry or use a bracket order.",
+          "Avoid moving the stop further away once in the trade.",
+          "Use wider stops only when the structure justifies it.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Tight stops reduce loss size but increase stop-outs if placed in noise.",
+          "Wide stops increase risk and reduce size; adjust accordingly.",
+          "In forex, spreads can widen during news, so buffer your stop location.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Placing a stop at a round number with no structural reason.",
+          "Moving the stop to avoid taking a loss.",
+          "Using the same stop distance for every setup.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When the required stop distance exceeds your risk limit.",
+      "When volatility is so high that structure is unclear.",
+      "When you are tempted to trade without a stop.",
+    ],
+    diagram: "Stop Logic\nEntry → Invalidation Level → Stop Placement",
     takeaways: [
-      "Every trade must have a predefined stop-loss",
-      "Stops should be placed at logical invalidation points",
-      "Never move a stop further away from your entry",
+      "Stops must be placed where the trade thesis fails.",
+      "Define stops before entry to measure risk accurately.",
+      "Never move a stop further away to avoid a loss.",
+      "Stop distance drives position size.",
+      "Buffer for volatility and spreads when needed.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "Moving your stop further away when price approaches it is emotional trading disguised as flexibility.",
+          "Moving your stop further away turns a planned loss into a hope trade, which usually ends worse.",
       },
       {
         type: "tip",
-        content: "Decide your stop location BEFORE entering, not after.",
+        content:
+          "Use a bracket order so your stop and target are in place the moment you enter.",
       },
     ],
     quiz: [
       {
         id: "sp-q1",
-        question: "What determines where your stop should be placed?",
-        options: [
-          "How much you want to make",
-          "Where your trade thesis is invalidated",
-          "A random number",
-          "Your broker's recommendation",
-        ],
+        question: "What should a stop-loss represent?",
+        options: ["A random dollar amount", "The invalidation level of your idea", "Your profit target", "A trailing indicator"],
         correctIndex: 1,
+        explanation: "A stop belongs where the trade thesis is no longer valid.",
       },
       {
         id: "sp-q2",
-        question: "Should you move your stop further from entry if price approaches it?",
-        options: [
-          "Yes, to give it more room",
-          "No, that is emotional trading",
-          "Only on winning trades",
-          "Only on Fridays",
-        ],
+        question: "What is a common stop-loss mistake?",
+        options: ["Using a bracket order", "Moving a stop further away", "Calculating stop distance", "Sizing down"],
         correctIndex: 1,
+        explanation: "Moving a stop further away increases risk and usually breaks your plan.",
       },
       {
         id: "sp-q3",
-        question: "When should you decide your stop location?",
-        options: ["After entering", "Before entering", "When in profit", "At end of day"],
+        question: "How should stop distance affect position size?",
+        options: ["It should not", "Wider stops mean smaller size", "Wider stops mean larger size", "Stops are optional"],
         correctIndex: 1,
+        explanation: "Larger stop distances increase per-contract risk, so size should be reduced.",
       },
     ],
   },
   "order-flow-fundamentals": {
     title: "Order Flow Fundamentals",
+    overview:
+      "Order flow looks at how buyers and sellers interact in real time. In futures, tools like DOM and footprint charts make this visible, while in forex you infer it through price reaction at liquidity zones. The goal is to understand who is in control and where aggressive orders are failing. Done correctly, order flow is a confirmation tool, not a prediction tool.",
+    objectives: [
+      "Differentiate between aggressive and passive orders.",
+      "Identify areas where liquidity is likely to sit.",
+      "Use order flow as confirmation rather than a standalone signal.",
+    ],
     sections: [
       {
-        heading: "What is Order Flow?",
+        heading: "Concept",
         content: [
-          "Order flow is the study of actual buying and selling activity in real-time.",
-          "It shows you WHO is trading (aggressive buyers/sellers) not just price movement.",
-          "Understanding order flow gives you insight into supply and demand dynamics.",
+          "Aggressive orders cross the spread and move price; passive orders provide liquidity.",
+          "Order flow helps you see absorption, exhaustion, and initiative buying or selling.",
+          "The best read combines order flow with structure and context.",
         ],
       },
       {
-        heading: "Aggressive vs Passive Orders",
+        heading: "Setup",
         content: [
-          "Aggressive orders: Market orders that cross the spread to get filled immediately.",
-          "Passive orders: Limit orders that rest on the order book waiting to be filled.",
-          "Aggressive buying lifts the offer; aggressive selling hits the bid.",
+          "Define key levels where orders are likely to cluster (prior highs/lows, value areas).",
+          "Prepare a bias from structure before checking order flow.",
+          "Use ES or NQ during liquid hours for cleaner order flow signals.",
         ],
       },
       {
-        heading: "Why Order Flow Matters",
+        heading: "Execution",
         content: [
-          "Price can move on low volume (weak move) or high volume (strong move).",
-          "Order flow helps you distinguish between real breakouts and false ones.",
-          "It provides context that price charts alone cannot show.",
+          "Wait for aggressive buying or selling to fail at your level.",
+          "Use the order flow shift as confirmation, not the sole reason to enter.",
+          "Keep entries simple: level → confirmation → trigger.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Order flow can be noisy in thin markets; reduce size or skip those periods.",
+          "Use structural stops even when order flow looks strong.",
+          "Forex traders can apply the same principles with price reaction to liquidity pools.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Treating every footprint imbalance as a trade signal.",
+          "Ignoring structure and trading order flow in the middle of a range.",
+          "Forcing entries when the tape is fast and unclear.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When liquidity is thin and the tape is erratic.",
+      "When you have no structural level to anchor the read.",
+      "When order flow contradicts your higher timeframe bias.",
+    ],
+    diagram: "Flow Read\nLevel → Aggressive Push → Absorption/Failure → Entry",
     takeaways: [
-      "Order flow reveals the actual buying and selling activity",
-      "Aggressive orders move price; passive orders absorb it",
-      "Volume context helps validate price movements",
+      "Order flow shows who is aggressive and who is absorbing.",
+      "Structure comes first; order flow confirms.",
+      "Best reads happen at obvious liquidity zones.",
+      "Thin markets reduce signal quality.",
+      "Forex traders can apply the same logic with price reaction.",
     ],
     callouts: [
       {
         type: "mistake",
-        content: "Relying solely on price charts without understanding volume context leads to false signals.",
+        content:
+          "Chasing every footprint signal without a structural level turns order flow into noise instead of edge.",
       },
       {
         type: "tip",
-        content: "Start by simply watching time and sales to get a feel for order flow before using advanced tools.",
+        content:
+          "Pick one or two order flow signals and master them instead of collecting more tools.",
       },
     ],
     quiz: [
       {
         id: "of-q1",
-        question: "What is order flow?",
-        options: [
-          "A type of chart pattern",
-          "The study of actual buying and selling activity",
-          "A moving average indicator",
-          "A trading platform",
-        ],
+        question: "What do aggressive orders do?",
+        options: ["Provide liquidity", "Cross the spread and move price", "Settle contracts", "Reduce volatility"],
         correctIndex: 1,
+        explanation: "Aggressive orders cross the spread to take liquidity, which is what moves price.",
       },
       {
         id: "of-q2",
-        question: "What is an aggressive order?",
-        options: [
-          "A limit order on the book",
-          "A market order that crosses the spread",
-          "A canceled order",
-          "An order with a long duration",
-        ],
+        question: "What should come first: structure or order flow?",
+        options: ["Order flow", "Structure", "Indicators", "News"],
         correctIndex: 1,
+        explanation: "Structure provides context; order flow is best used as confirmation.",
       },
       {
         id: "of-q3",
-        question: "Why does volume context matter?",
-        options: [
-          "It determines commission rates",
-          "It helps distinguish real moves from false ones",
-          "It is required by regulators",
-          "It only matters for stocks",
-        ],
+        question: "When is order flow least reliable?",
+        options: ["During liquid hours", "In thin markets", "Near key levels", "After a trend"],
         correctIndex: 1,
+        explanation: "Thin markets produce noisy order flow that is harder to interpret.",
       },
     ],
   },
   "mindset-discipline": {
     title: "Mindset & Discipline",
+    overview:
+      "A simple strategy fails without disciplined execution. Mindset is about staying consistent through wins and losses and following your plan without exceptions. ES and NQ can move fast, which makes discipline easier to break when emotions spike. Strong routines create stability across futures and forex alike.",
+    objectives: [
+      "Build routines that reduce emotional decision-making.",
+      "Recognize the behaviors that lead to rule-breaking.",
+      "Maintain consistency across different market conditions.",
+    ],
     sections: [
       {
-        heading: "The Disciplined Trader",
+        heading: "Concept",
         content: [
-          "Discipline is doing what your plan says, even when you do not feel like it.",
-          "Consistency in execution is more important than being right.",
-          "Every deviation from your plan is a data point about your psychology.",
+          "Discipline is the ability to execute the plan regardless of recent outcomes.",
+          "Mindset is trained through routines, not motivation.",
+          "Consistency produces the data you need to improve.",
         ],
       },
       {
-        heading: "Building Good Habits",
+        heading: "Setup",
         content: [
-          "Create a pre-trade checklist and use it every single time.",
-          "Review your trades daily - wins and losses.",
-          "Set process goals (follow the plan) not outcome goals (make $X).",
+          "Create a short pre-market routine that sets your bias and risk limits.",
+          "Define your maximum number of trades per session.",
+          "Write down the specific setups you are allowed to trade.",
         ],
       },
       {
-        heading: "Handling Drawdowns",
+        heading: "Execution",
         content: [
-          "Drawdowns are inevitable - even the best traders have them.",
-          "Reduce size during drawdowns, do not increase it.",
-          "Focus on execution quality, not P&L, during difficult periods.",
+          "Follow the plan even after a loss; do not change it mid-session.",
+          "Stop trading when your rules say you are done.",
+          "Review each trade to reinforce process, not just outcome.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Discipline reduces variance by preventing unplanned trades.",
+          "Breaking rules often leads to oversized losses.",
+          "Mindset slips compound faster in fast markets like NQ.",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Changing strategies after a single loss.",
+          "Trading outside your plan because you feel bored.",
+          "Ignoring your daily stop because the market is moving.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When you have already broken your rules once during the session.",
+      "When boredom or fear is driving your decision-making.",
+      "When you are outside your planned trading window.",
+    ],
+    diagram: "Discipline Loop\nRoutine → Execute → Review → Adjust",
     takeaways: [
-      "Discipline means following your plan regardless of feelings",
-      "Process goals are more controllable than outcome goals",
-      "Reduce size during drawdowns to protect capital",
+      "Discipline is trained through routine, not willpower.",
+      "Consistency builds reliable performance data.",
+      "Rule-breaking increases drawdown more than a bad setup.",
+      "Fast markets demand stronger discipline.",
+      "Stop trading when your plan says stop.",
     ],
     callouts: [
       {
         type: "mistake",
-        content: "Increasing position size during a drawdown to make back losses faster usually makes things worse.",
+        content:
+          "Breaking your rules once makes it easier to break them again, which is how small mistakes turn into a pattern.",
       },
       {
         type: "tip",
-        content: "Judge your trading by whether you followed your plan, not by whether you made money.",
+        content:
+          "Create a simple “hard stop” rule like: two rule breaks equals the session is over.",
       },
     ],
     quiz: [
       {
         id: "md-q1",
-        question: "What is discipline in trading?",
-        options: [
-          "Making money every day",
-          "Following your plan even when you do not feel like it",
-          "Trading without stops",
-          "Never taking losses",
-        ],
+        question: "What is the main benefit of disciplined execution?",
+        options: ["More trades", "Lower variance", "Guaranteed wins", "No losses"],
         correctIndex: 1,
+        explanation: "Discipline reduces random, unplanned trades that increase variance and drawdown.",
       },
       {
         id: "md-q2",
-        question: "What should you do during a drawdown?",
-        options: ["Increase size", "Reduce size", "Stop trading forever", "Change strategies immediately"],
+        question: "What should you do after a rule break?",
+        options: ["Double size", "Pause and reset or stop trading", "Ignore it", "Change strategy"],
         correctIndex: 1,
+        explanation: "Pausing or ending the session prevents one mistake from cascading into more.",
       },
       {
         id: "md-q3",
-        question: "Which goal type is more controllable?",
-        options: ["Outcome goals", "Process goals", "Profit goals", "Random goals"],
+        question: "Why are routines useful?",
+        options: ["They make you trade more", "They reduce emotional decisions", "They add indicators", "They predict price"],
         correctIndex: 1,
+        explanation: "Routines standardize your process so emotions have less room to interfere.",
       },
     ],
   },
   "order-flow-basics": {
     title: "Order Flow Basics",
-    diagrams: ["AggressiveVsRestingDiagram"],
+    overview:
+      "Order flow basics focus on how aggressive buying and selling move price. In ES and NQ, this is visible on a DOM or footprint chart, while in forex you infer it from fast price response at liquidity. The goal is to understand which side is driving and whether they are getting follow-through. This lesson builds a foundation for more advanced order flow concepts.",
+    objectives: [
+      "Explain the difference between aggressive and passive orders.",
+      "Spot simple signs of initiative buying or selling.",
+      "Use order flow to time entries around key levels.",
+    ],
     sections: [
       {
-        heading: "What Problem This Solves",
+        heading: "Concept",
         content: [
-          "Price charts show you WHAT happened but not WHY it happened. Order flow reveals the underlying cause of price movement.",
-          "Without order flow, you cannot distinguish between a weak breakout driven by a few retail traders and a strong move backed by institutional buying.",
-          "Order flow helps you understand the intent behind price action, turning reactive trading into proactive decision-making.",
-          "Many traders lose money chasing moves that look strong on a chart but have no real buying or selling pressure behind them.",
+          "Aggressive buyers lift offers; aggressive sellers hit bids.",
+          "Passive orders create liquidity and can absorb aggressive flow.",
+          "Price moves when aggressive orders overwhelm passive liquidity.",
         ],
       },
       {
-        heading: "What Traders Are Actually Doing",
+        heading: "Setup",
         content: [
-          "Every price movement requires one side to be aggressive - willing to pay the spread to get filled immediately via market orders.",
-          "Aggressive buyers hit the ask (offer) price, lifting price up. Aggressive sellers hit the bid, pushing price down.",
-          "Passive traders place limit orders that sit on the order book, waiting for aggressive traders to trade with them.",
-          "The battle between aggressive and passive orders determines whether price breaks through a level or reverses.",
-          "Large institutions often use passive orders to accumulate positions without moving price, then aggressive orders to trigger momentum.",
+          "Identify a key level using structure first.",
+          "Watch the tape or footprint for signs of initiative at that level.",
+          "In forex, look for fast rejection or continuation from liquidity zones.",
         ],
       },
       {
-        heading: "What You See on the Chart",
+        heading: "Execution",
         content: [
-          "On a footprint chart, you see the actual number of contracts traded at each price level.",
-          "Green numbers typically show buying activity at the ask; red numbers show selling activity at the bid.",
-          "Large imbalances (one side significantly larger) indicate strong directional pressure at that price.",
-          "Volume at price shows where the most trading activity occurred - these levels often become future support or resistance.",
+          "Enter when aggressive flow aligns with your level and bias.",
+          "Avoid entering mid-swing without context.",
+          "Keep the entry trigger simple and repeatable.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Order flow is most reliable during liquid sessions.",
+          "Avoid oversized trades just because the tape looks strong.",
+          "Stops should still be placed at structural invalidation.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "Assuming all volume is equal - volume during consolidation means something different than volume during a breakout.",
-          "Ignoring context - high volume selling in an uptrend might be profit-taking, not a reversal signal.",
-          "Over-complicating the analysis - start with simple concepts before adding advanced indicators.",
-          "Trading order flow signals without confirming structure and context from higher timeframes.",
-        ],
-      },
-      {
-        heading: "When NOT to Use This",
-        content: [
-          "In overnight sessions or low-liquidity periods when volume is too thin to be meaningful.",
-          "During major news events when order flow becomes chaotic and unpredictable.",
-          "If you do not have access to proper order flow tools - guessing at order flow is worse than not using it.",
-          "When you are a complete beginner - master basic price action and risk management first.",
+          "Trading the tape without a level or bias.",
+          "Confusing speed with strength.",
+          "Entering because you see one big print.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When the tape is fast but directionless.",
+      "When you have no structural level to anchor the trade.",
+      "When you are trading outside liquid hours.",
+    ],
+    diagram: "Order Flow Basics\nAggressive Flow + Level = Entry",
+    diagrams: ["AggressiveVsRestingDiagram"],
     takeaways: [
-      "Order flow shows WHO is trading (aggressive vs passive) not just price movement",
-      "Aggressive orders cross the spread and move price; passive orders absorb and defend levels",
-      "Volume context distinguishes strong moves from weak ones that are likely to fail",
-      "Always combine order flow with structure - neither works well in isolation",
-      "Start simple: watch time and sales before using advanced footprint tools",
+      "Aggressive orders move price; passive orders absorb.",
+      "Use order flow to confirm trades at key levels.",
+      "Context matters more than raw speed.",
+      "Liquid sessions provide cleaner signals.",
+      "Stops remain structural even with order flow entries.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "Jumping into order flow analysis without first mastering basic market structure is like trying to read a foreign language without learning the alphabet. The signals will overwhelm you and lead to worse decisions than simpler approaches.",
+          "Jumping in because the tape looks fast usually means you are late rather than early.",
       },
       {
         type: "tip",
         content:
-          "Begin by watching time and sales for 15 minutes at the open without trading. Notice how aggressive buying clusters look different from passive absorption. This observation builds intuition faster than any course.",
+          "Combine one clean level with one clear order flow signal and ignore everything else.",
       },
     ],
     quiz: [
       {
         id: "ofb-q1",
-        question: "What does order flow reveal that price charts cannot?",
-        options: [
-          "Future price targets",
-          "Whether moves are driven by aggressive or passive orders",
-          "Which stocks to buy",
-          "The best time to trade",
-        ],
+        question: "What moves price in order flow terms?",
+        options: ["Passive orders", "Aggressive orders", "Indicators", "News only"],
         correctIndex: 1,
+        explanation: "Aggressive orders take liquidity, which moves price.",
       },
       {
         id: "ofb-q2",
-        question: "What happens when aggressive buyers hit the ask?",
-        options: ["Price drops", "Price rises as they lift the offer", "Nothing happens", "Volume decreases"],
+        question: "What should come before an order flow entry?",
+        options: ["A random print", "A structural level", "A big candle", "A news headline"],
         correctIndex: 1,
+        explanation: "A structural level provides context; order flow confirms the entry.",
       },
       {
         id: "ofb-q3",
-        question: "When should you NOT rely on order flow signals?",
-        options: [
-          "During the market open",
-          "In low-liquidity overnight sessions",
-          "When price is trending",
-          "At support and resistance levels",
-        ],
+        question: "When is order flow signal quality highest?",
+        options: ["Thin markets", "High-liquidity sessions", "Holiday trading", "End of day"],
         correctIndex: 1,
+        explanation: "High liquidity creates cleaner, more reliable order flow signals.",
       },
     ],
   },
   "absorption-rejection": {
-    title: "Absorption and Rejection",
-    diagrams: ["AbsorptionPatternDiagram"],
+    title: "Absorption & Rejection",
+    overview:
+      "Absorption happens when aggressive orders hit a level but price fails to move, signaling strong passive interest. Rejection is the quick response away from that level, often starting a reversal or continuation. ES and NQ show this clearly on footprint or DOM, and forex traders see it as sharp wicks at liquidity zones. Understanding these patterns helps you avoid chasing failed moves.",
+    objectives: [
+      "Define absorption and rejection in practical terms.",
+      "Identify absorption at key levels before entering.",
+      "Use rejection as an entry trigger with structure.",
+    ],
     sections: [
       {
-        heading: "What Problem This Solves",
+        heading: "Concept",
         content: [
-          "Traditional support and resistance levels break all the time - absorption patterns tell you when a level is actually being defended.",
-          "Without understanding absorption, you cannot distinguish between a level that is about to break and one where large players are accumulating.",
-          "This concept prevents you from getting trapped in false breakouts that immediately reverse.",
-          "Absorption reveals institutional activity that is invisible on standard price charts.",
+          "Absorption is heavy aggressive flow that does not move price through a level.",
+          "Rejection is the immediate move away after absorption is confirmed.",
+          "These patterns show who is defending a level.",
         ],
       },
       {
-        heading: "What Traders Are Actually Doing",
+        heading: "Setup",
         content: [
-          "At key levels, large traders place massive limit orders that absorb aggressive selling or buying without price moving much.",
-          "When you see high volume but minimal price progress, someone is actively defending that level with passive orders.",
-          "These defenders are often institutions building positions - they WANT price to stay at that level while they accumulate.",
-          "Rejection occurs when the defenders have absorbed all the aggression and aggressive traders on the other side take over.",
-          "The shift from absorption to rejection is often marked by a sudden increase in opposite-direction aggressive orders.",
+          "Mark a key level (prior high/low, value area, or session extreme).",
+          "Wait for aggressive flow to push into the level.",
+          "Look for stalled price and a quick rejection back inside the range.",
         ],
       },
       {
-        heading: "What You See on the Chart",
+        heading: "Execution",
         content: [
-          "High volume bars with small bodies or long wicks - lots of trading but little price movement.",
-          "On footprint charts: large numbers on one side being matched by equally large numbers on the other side at the same price.",
-          "Multiple attempts to break a level that keep getting pushed back - each failure shows absorption at work.",
-          "The rejection candle: after absorption, a strong candle in the opposite direction signals the level held.",
+          "Enter after rejection confirms the level is holding.",
+          "Keep the stop just beyond the defended level.",
+          "Target the opposite side of the range or next structure level.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Absorption can fail—always respect the stop.",
+          "Trade this setup only at meaningful levels, not mid-range.",
+          "Forex wicks can be deceptive during news, so avoid those periods.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "Confusing low volume consolidation with high volume absorption - they look similar on price charts but mean opposite things.",
-          "Trading the first sign of absorption instead of waiting for the rejection confirmation.",
-          "Ignoring the trend context - absorption in a strong trend may just pause price temporarily before continuation.",
-          "Setting stops too tight at absorption levels - price often tests the level multiple times before rejection.",
-        ],
-      },
-      {
-        heading: "When NOT to Use This",
-        content: [
-          "In strongly trending markets where levels break easily regardless of absorption attempts.",
-          "At minor levels with no historical significance - absorption at random prices is not meaningful.",
-          "When volume is thin - you need sufficient activity to identify real absorption patterns.",
-          "If you cannot see time and sales or footprint data - standard candle charts do not show absorption clearly.",
+          "Calling absorption without enough evidence of stalled price.",
+          "Entering before rejection confirms the defense.",
+          "Trading absorption in illiquid times with unreliable signals.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When the level has already broken cleanly once.",
+      "When absorption appears in the middle of a range with no context.",
+      "During high-impact news when liquidity is chaotic.",
+    ],
+    diagram: "Absorption Pattern\nAggressive Push → Stalled Price → Rejection",
+    diagrams: ["AbsorptionPatternDiagram"],
     takeaways: [
-      "Absorption occurs when limit orders defend a level by absorbing aggressive orders without price moving",
-      "High volume with minimal price progress signals someone is actively defending that level",
-      "Wait for the rejection candle to confirm absorption before entering trades",
-      "Absorption at key levels often precedes significant reversals",
-      "Never trade absorption patterns without volume data to confirm the signal",
+      "Absorption shows passive strength at a level.",
+      "Rejection is the trigger, not the first sign of pressure.",
+      "Best signals occur at key structural levels.",
+      "Stops belong just beyond the defended level.",
+      "Avoid noisy periods where absorption is unreliable.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "Trading the moment you see absorption without waiting for the rejection signal is premature. Absorption can continue for extended periods, and you will get stopped out multiple times before the actual reversal occurs.",
+          "Seeing a single stalled candle and calling it absorption leads to premature entries without real confirmation.",
       },
       {
         type: "tip",
         content:
-          "Mark levels where you see absorption on your chart. Even if you do not trade them immediately, tracking how they resolve over time builds pattern recognition that becomes invaluable.",
+          "Wait for a clear rejection back inside the range before entering; it keeps you on the right side of the defense.",
       },
     ],
     quiz: [
       {
         id: "ar-q1",
-        question: "What characterizes absorption at a price level?",
-        options: [
-          "Low volume and big price moves",
-          "High volume with minimal price progress",
-          "Price breaking through cleanly",
-          "No trading activity",
-        ],
+        question: "What is absorption?",
+        options: ["Price moving quickly through a level", "Aggressive flow fails to move price through a level", "A strong breakout", "A stop run"],
         correctIndex: 1,
+        explanation: "Absorption occurs when aggressive orders hit a level but price does not move through it.",
       },
       {
         id: "ar-q2",
-        question: "What should you wait for before trading an absorption pattern?",
-        options: ["A news event", "The market open", "Rejection confirmation", "More absorption"],
-        correctIndex: 2,
+        question: "What is the confirmation for an absorption trade?",
+        options: ["A news spike", "Rejection away from the level", "A random tick", "A moving average"],
+        correctIndex: 1,
+        explanation: "Rejection away from the level confirms the absorption and provides the entry trigger.",
       },
       {
         id: "ar-q3",
-        question: "Who is typically responsible for absorption at key levels?",
-        options: [
-          "Retail day traders",
-          "Institutions building positions",
-          "Market makers only",
-          "Algorithmic traders exclusively",
-        ],
+        question: "Where should your stop be placed?",
+        options: ["At the middle of the range", "Just beyond the defended level", "At a fixed dollar amount", "No stop needed"],
         correctIndex: 1,
+        explanation: "A stop should sit just beyond the level that invalidates the absorption thesis.",
       },
     ],
   },
   "delta-imbalance": {
-    title: "Delta and Imbalance",
-    diagrams: ["DeltaDivergenceDiagram"],
+    title: "Delta Imbalance",
+    overview:
+      "Delta measures the difference between aggressive buying and selling at each price. A delta imbalance shows where one side is overwhelming the other. In ES and NQ, this is visible on footprint charts; in forex you infer it through rapid directional pushes and failed pullbacks. Use delta to confirm a move, not to predict one.",
+    objectives: [
+      "Define delta and delta imbalance in trading terms.",
+      "Use delta as confirmation at key levels.",
+      "Avoid trading delta signals in isolation.",
+    ],
     sections: [
       {
-        heading: "What Problem This Solves",
+        heading: "Concept",
         content: [
-          "Volume alone does not tell you direction - delta shows you the net aggression (buyers minus sellers) at each bar or price level.",
-          "Price can make new highs while delta is declining, warning of exhaustion before the reversal appears on the chart.",
-          "Without delta analysis, you cannot see when a move is running out of aggressive participation.",
-          "Delta divergence catches trend exhaustion often 2-5 bars before price confirms the reversal.",
+          "Delta is the net difference between aggressive buys and sells.",
+          "Imbalance shows one side is in control at a specific price level.",
+          "Strong delta without follow-through can signal exhaustion.",
         ],
       },
       {
-        heading: "What Traders Are Actually Doing",
+        heading: "Setup",
         content: [
-          "Delta measures aggressive buying volume minus aggressive selling volume for a period.",
-          "Positive delta means more aggressive buyers; negative delta means more aggressive sellers dominated.",
-          "Cumulative delta tracks the running total over time, showing the overall bias of aggressive activity.",
-          "When price rises but delta is flat or declining, buyers are losing conviction - late longs are getting trapped.",
-          "Imbalances occur when one side significantly dominates at a specific price - these become footprints of institutional activity.",
+          "Mark a structural level where a response is likely.",
+          "Watch for delta to surge as price approaches the level.",
+          "Look for confirmation: follow-through or failure.",
         ],
       },
       {
-        heading: "What You See on the Chart",
+        heading: "Execution",
         content: [
-          "Delta bars below price: green bars show net buying, red bars show net selling for each candle.",
-          "Divergence: price making higher highs while delta makes lower highs - a warning sign.",
-          "Stacked imbalances on footprint: multiple consecutive price levels where one side dominates by 3:1 or more.",
-          "Delta spikes often mark the end of moves - when everyone is aggressively buying, there is no one left to buy.",
+          "Enter only when delta aligns with structure and price follows through.",
+          "If delta spikes but price stalls, prepare for a reversal setup.",
+          "Keep your entry trigger simple and repeatable.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "Delta can be misleading in thin markets or during news spikes.",
+          "Use structural stops, not delta-based stops.",
+          "Forex traders can mirror this by watching for failed aggressive pushes.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "Using delta as a standalone signal without price structure confirmation.",
-          "Expecting divergence to work immediately - it is a warning sign, not a precise timing signal.",
-          "Ignoring cumulative delta context - a single bar delta can be misleading without the bigger picture.",
-          "Looking for divergence in every move instead of focusing on key levels and extended trends.",
-        ],
-      },
-      {
-        heading: "When NOT to Use This",
-        content: [
-          "In choppy, range-bound markets where delta oscillates without meaningful trends.",
-          "During news events when delta readings become erratic and unreliable.",
-          "On higher timeframes where delta aggregation loses its precision and usefulness.",
-          "If your platform calculates delta incorrectly - verify your tools before relying on them.",
+          "Trading every delta spike without context.",
+          "Assuming large delta guarantees continuation.",
+          "Ignoring price response at key levels.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When delta spikes in the middle of a range.",
+      "When liquidity is thin and prints are noisy.",
+      "When price is already extended far from structure.",
+    ],
+    diagram: "Delta Read\nImbalance → Price Response → Confirm or Fade",
+    diagrams: ["DeltaDivergenceDiagram"],
     takeaways: [
-      "Delta shows net aggression: aggressive buying minus aggressive selling",
-      "Price making new highs with declining delta warns of exhaustion",
-      "Stacked imbalances on footprint charts reveal institutional activity",
-      "Delta divergence is a warning sign, not a precise entry signal",
-      "Combine delta with structure - divergence at resistance is more significant than divergence mid-trend",
+      "Delta shows aggressive order dominance.",
+      "Use delta as confirmation, not prediction.",
+      "Watch for follow-through or failure at structure.",
+      "Thin markets distort delta signals.",
+      "Stops should still be structural.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "Shorting every time you see bearish delta divergence will destroy your account. Divergence can persist for many bars in strong trends. Always require a structure break or other confirmation before acting on divergence signals.",
+          "Assuming a big delta print equals a guaranteed trend keeps you buying tops and selling bottoms.",
       },
       {
         type: "tip",
         content:
-          "Pay special attention to delta divergence when price approaches a key level from your pre-market analysis. The combination of structure and order flow divergence is more powerful than either signal alone.",
+          "If delta surges but price does not move, treat it as a warning rather than a green light.",
       },
     ],
     quiz: [
       {
         id: "di-q1",
-        question: "What does positive delta indicate?",
-        options: [
-          "Price is going up",
-          "More aggressive buying than selling",
-          "The market is bullish long-term",
-          "Volume is increasing",
-        ],
+        question: "What does delta measure?",
+        options: ["Volatility", "Net aggressive buying versus selling", "Time of day", "Open interest"],
         correctIndex: 1,
+        explanation: "Delta is the difference between aggressive buys and sells at a price level.",
       },
       {
         id: "di-q2",
-        question: "What is delta divergence?",
-        options: [
-          "Delta and volume moving together",
-          "Price making new highs while delta makes lower highs",
-          "Delta spiking on news",
-          "Two charts showing different data",
-        ],
+        question: "How should delta be used in a trade?",
+        options: ["As the only entry signal", "As confirmation with structure", "As a stop level", "As a profit target"],
         correctIndex: 1,
+        explanation: "Delta is most useful as confirmation when aligned with structure.",
       },
       {
         id: "di-q3",
-        question: "How should you treat delta divergence signals?",
-        options: [
-          "As immediate entry signals",
-          "As warning signs requiring confirmation",
-          "As signals to exit all positions",
-          "As signs to double your position",
-        ],
+        question: "What can a delta spike without price movement indicate?",
+        options: ["Guaranteed continuation", "Potential exhaustion or absorption", "No meaningful info", "A forced breakout"],
         correctIndex: 1,
+        explanation: "If price does not follow the delta, it can signal absorption or exhaustion.",
       },
     ],
   },
   "when-not-order-flow": {
-    title: "When Not to Trade Order Flow",
-    diagrams: ["WhenNotToTradeDiagram"],
+    title: "When NOT to Trade Order Flow",
+    overview:
+      "Order flow is powerful, but it is not always the right tool. Thin liquidity, choppy ranges, and news spikes can produce misleading signals. ES and NQ are clean during peak hours, while off-hours often distort the tape. This lesson teaches you when to step back and rely on simpler structure-based trading.",
+    objectives: [
+      "Recognize market conditions where order flow loses reliability.",
+      "Avoid trading order flow during news-driven volatility.",
+      "Use simple structure or skip trades when signals are noisy.",
+    ],
     sections: [
       {
-        heading: "What Problem This Solves",
+        heading: "Concept",
         content: [
-          "Order flow analysis is powerful but not universal - using it in the wrong conditions leads to false signals and losses.",
-          "Many traders lose money by applying order flow concepts during conditions where the data is unreliable or meaningless.",
-          "Knowing when NOT to use a tool is as important as knowing how to use it.",
-          "This lesson protects you from over-relying on order flow in conditions where simpler approaches work better.",
+          "Order flow is information about participation, not a guarantee of direction.",
+          "Signal quality depends on liquidity and context.",
+          "Sometimes the best trade is no trade.",
         ],
       },
       {
-        heading: "What Traders Are Actually Doing",
+        heading: "Setup",
         content: [
-          "During low liquidity sessions, the small orders that move price do not represent meaningful institutional activity.",
-          "During major news events, order flow becomes chaotic as algorithms react and liquidity disappears briefly.",
-          "In choppy, range-bound conditions, order flow signals constantly whipsaw because there is no directional conviction.",
-          "Smart traders recognize these conditions and either sit out or switch to simpler price-based approaches.",
-          "The best order flow traders are often not trading - they wait for conditions where their edge actually exists.",
+          "Check the session for liquidity: avoid thin hours and holidays.",
+          "Identify if the market is range-bound and unresponsive to flow.",
+          "Know the economic calendar and plan around high-impact events.",
         ],
       },
       {
-        heading: "What You See on the Chart",
+        heading: "Execution",
         content: [
-          "Low liquidity: thin order books, wide spreads, erratic price jumps on small volume.",
-          "News spikes: massive volume bars with large wicks, immediate reversal of moves.",
-          "Chop zones: price oscillating in a tight range with no follow-through on any move.",
-          "Holiday or pre-holiday sessions: reduced volume, unusual patterns as major players are absent.",
+          "If the tape is noisy, shift to structure-based levels or stand aside.",
+          "Avoid chasing prints during fast, erratic spikes.",
+          "Keep entries only when flow aligns with higher timeframe bias.",
+        ],
+      },
+      {
+        heading: "Risk",
+        content: [
+          "False signals are more frequent in low-liquidity conditions.",
+          "News events can override normal order flow dynamics.",
+          "Overtrading order flow increases costs without improving accuracy.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "Trading order flow signals in the overnight session when volume is a fraction of the regular session.",
-          "Trying to read order flow during FOMC announcements or NFP releases when the data is noise.",
-          "Forcing order flow analysis on choppy days when there is no directional bias to exploit.",
-          "Not adjusting expectations for reduced liquidity around holidays.",
-        ],
-      },
-      {
-        heading: "When NOT to Use This",
-        content: [
-          "This lesson IS about when not to trade order flow, so apply it always as a filter.",
-          "If you find yourself trying to trade order flow in these conditions, step back and reassess.",
-          "The discipline to NOT trade is often more profitable than forcing trades in poor conditions.",
-          "Your journal should track conditions as much as it tracks setups.",
+          "Forcing order flow trades when liquidity is low.",
+          "Using order flow to justify trades that lack structure.",
+          "Ignoring higher timeframe context during fast markets.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "During thin overnight sessions or holiday markets.",
+      "Minutes before major economic releases.",
+      "When price is trapped in a tight range with no response to flow.",
+    ],
+    diagram: "Order Flow Filter\nLiquidity Check → News Check → Structure Check",
+    diagrams: ["WhenNotToTradeDiagram"],
     takeaways: [
-      "Order flow is unreliable during low liquidity sessions like overnight or pre-market",
-      "Major news events make order flow chaotic and unpredictable - sit out or use tight stops",
-      "Choppy, range-bound conditions produce constant false signals from order flow",
-      "The best order flow traders know when NOT to trade",
-      "Track market conditions in your journal to recognize when your edge disappears",
+      "Order flow is unreliable in thin markets.",
+      "News spikes can invalidate flow signals.",
+      "Structure should still anchor every trade.",
+      "Skipping bad conditions preserves capital and focus.",
+      "Use order flow selectively, not constantly.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "Trading order flow signals during major economic releases like FOMC or NFP is gambling. The market moves 20+ points in seconds, order flow data lags, and you are competing against algorithms designed for these moments. Step aside.",
+          "Using order flow during low-liquidity hours creates false confidence because the signals look strong but are easily reversed.",
       },
       {
         type: "tip",
         content:
-          "Create a simple checklist before each session: Is it a major news day? Is volume at normal levels? Is price trending or chopping? If two or more conditions are unfavorable, either skip order flow analysis or reduce size significantly.",
+          "If the tape feels chaotic, step back and trade clean structure later or skip the session.",
       },
     ],
     quiz: [
       {
         id: "wnof-q1",
-        question: "Why is order flow unreliable during overnight sessions?",
-        options: [
-          "The exchanges are closed",
-          "Volume is too thin to be meaningful",
-          "Prices do not move",
-          "Charts are not available",
-        ],
+        question: "When is order flow least reliable?",
+        options: ["During liquid hours", "During thin or holiday markets", "At key levels", "During trends"],
         correctIndex: 1,
+        explanation: "Low-liquidity conditions distort order flow and create false signals.",
       },
       {
         id: "wnof-q2",
-        question: "What should you do during major news events?",
-        options: [
-          "Double your position size for the volatility",
-          "Sit out or use much tighter risk management",
-          "Only trade order flow signals",
-          "Ignore the news and trade normally",
-        ],
+        question: "How should you handle major news events?",
+        options: ["Trade aggressively", "Avoid or plan specifically for them", "Ignore them", "Increase size"],
         correctIndex: 1,
+        explanation: "High-impact news can override normal order flow, so you should avoid or plan carefully.",
       },
       {
         id: "wnof-q3",
-        question: "What characterizes choppy market conditions?",
-        options: [
-          "Strong trending moves",
-          "Price oscillating without follow-through",
-          "Very low volume",
-          "Clear support and resistance",
-        ],
+        question: "What should anchor an order flow trade?",
+        options: ["A random footprint", "Structure and context", "A moving average", "A gut feeling"],
         correctIndex: 1,
+        explanation: "Structure provides the context that makes order flow meaningful.",
       },
     ],
   },
   "breakout-entries": {
     title: "Breakout Entries",
+    overview:
+      "Breakouts work when price moves beyond a level and holds, not when it spikes and reverses. ES and NQ breakouts often show clear follow-through during high volume, while forex breakouts need confirmation from session momentum. The goal is to filter false breaks and enter when continuation is likely. This lesson covers two practical breakout models.",
+    objectives: [
+      "Identify high-quality breakout levels.",
+      "Use break-and-hold and break-pullback-continue models.",
+      "Avoid chasing false breakout spikes.",
+    ],
     sections: [
       {
-        heading: "Overview",
+        heading: "Concept",
         content: [
-          "Most traders lose money on breakouts because they chase the first candle through a level.",
-          "A valid breakout is not just price crossing a line - it requires compression, expansion, and acceptance.",
-          "This lesson teaches you two breakout models that filter out false moves: Break-and-Hold and Break-Pullback-Continue.",
-          "You will learn specific entry rules, stop placement logic, and when to avoid breakouts entirely.",
+          "A true breakout clears a level and holds above or below it.",
+          "False breakouts usually fail quickly and return to the range.",
+          "Volume and context increase breakout reliability.",
         ],
       },
       {
-        heading: "Learning Objectives",
+        heading: "Setup",
         content: [
-          "Define what makes a breakout 'valid' using market structure language.",
-          "Execute two breakout models: Break-and-Hold (acceptance) and Break-Pullback-Continue (retest).",
-          "Place stops logically below structure rather than arbitrary tick distances.",
-          "Identify conditions when breakouts are likely to fail.",
-          "Apply a pre-trade checklist before every breakout attempt.",
+          "Define the level clearly (range high/low, previous day high/low).",
+          "Check for compression or multiple tests of the level.",
+          "Confirm the session has enough volume for follow-through.",
         ],
       },
       {
-        heading: "Concept: What Is a Valid Breakout?",
+        heading: "Execution",
         content: [
-          "A valid breakout has three phases: Compression (price coils in a tight range), Expansion (price breaks through the level with momentum), and Acceptance (price holds above/below the level).",
-          "Compression signals building pressure - buyers and sellers are in equilibrium. Without compression, breakouts lack the fuel for follow-through.",
-          "Expansion is the actual break - a strong candle through resistance or support, ideally with above-average volume.",
-          "Acceptance is the confirmation - price must hold above the breakout level for 2-3 candles minimum. Quick re-entry into the range invalidates the trade.",
-          "In ES terms: If 4520 is resistance and price breaks to 4525 but immediately falls to 4518, that is NOT acceptance. Wait for price to hold 4522+ for several candles.",
+          "Break-and-hold: enter after price clears and holds above the level.",
+          "Break-pullback-continue: wait for a retest before entry.",
+          "Use the level as your stop reference.",
         ],
       },
       {
-        heading: "Setup: Two Breakout Models",
+        heading: "Risk",
         content: [
-          "Model A - Break-and-Hold (Acceptance): Enter after the breakout candle closes AND the next candle holds above the level. Entry is at the close of the confirmation candle or a small pullback to the breakout level.",
-          "Model B - Break-Pullback-Continue: Wait for breakout, then wait for price to pull back and retest the broken level as new support/resistance. Enter when price rejects off that level and shows continuation.",
-          "Break-and-Hold is faster but has more false signals. Break-Pullback-Continue is slower but higher probability.",
-          "Entry Checklist (5 items): 1) Is there prior compression? 2) Is volume above average on the break? 3) Is there acceptance (holding above/below)? 4) Is stop placement logical? 5) Is R:R at least 1.5:1?",
-          "Pre-Trade Checklist (5 items): 1) No major news in next 30 min? 2) Not during lunch chop (11:30-1:30 ET)? 3) Volume is normal for this session? 4) Not breaking into a liquidity void? 5) Trend context supports direction?",
-        ],
-      },
-      {
-        heading: "Execution: ES Example",
-        content: [
-          "Scenario: ES has been consolidating between 4500-4520 for 45 minutes (compression). You are watching for a breakout above 4520.",
-          "The 9:45 AM candle closes at 4524 with strong delta (+800 contracts). This is the expansion phase - your trigger.",
-          "For Break-and-Hold: Wait for the next candle. It opens at 4523, dips to 4521, then closes at 4526. Price is holding above 4520 - this is acceptance. Enter long at 4526.",
-          "Stop placement: Below the breakout level structure at 4518 (8 ticks below the 4520 level). Not arbitrary - based on the level that must hold.",
-          "Target: Measured move equals the range width (20 pts), so target is 4540. Risk is 8 pts, reward is 14 pts = 1.75R.",
-          "For Break-Pullback-Continue: After the breakout to 4524, wait for pullback. Price dips to 4521-4522, finds buyers, and bounces. Enter on the rejection candle at 4523. Stop at 4518, same target.",
-        ],
-      },
-      {
-        heading: "Risk: Stop Placement and R:R",
-        content: [
-          "Stop placement on breakouts must be below structure, not arbitrary ticks. The level that broke is your reference point.",
-          "For long breakouts: Stop goes below the breakout level minus a buffer (2-4 ticks for ES). If 4520 broke, stop at 4516-4518.",
-          "For short breakdowns: Stop goes above the breakdown level plus buffer. If 4500 broke down, stop at 4502-4504.",
-          "Minimum R:R policy: Never take a breakout trade below 1.5:1 R:R. Breakouts have maybe 50-60% win rate at best - you need good R:R to be profitable.",
-          "If the math does not work (target too close, stop too far), skip the trade. Not every breakout is tradeable.",
+          "Breakouts fail often; keep stops tight and position size appropriate.",
+          "Avoid breakouts directly into higher timeframe resistance.",
+          "Forex breakouts need session momentum—avoid dead hours.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "Chasing the first candle: Entering the moment price crosses the level without waiting for acceptance. This is how you get trapped in false breakouts.",
-          "No compression = no fuel: Trading breakouts from levels without prior compression. These have low follow-through because there is no pent-up energy.",
-          "Arbitrary stops: Placing stops 10 ticks away because that feels right rather than below actual structure.",
-          "Ignoring context: Taking long breakouts when the higher timeframe is in a downtrend. You are fighting the tide.",
-          "Overtrading breakouts: Not every range produces a tradeable breakout. Many just expand slightly and chop. Selectivity matters.",
-        ],
-      },
-      {
-        heading: "When NOT to Trade This",
-        content: [
-          "Choppy ranges without clear compression: If price is sloppy and overlapping, there is no clean level to break.",
-          "Lunch hours (11:30 AM - 1:30 PM ET): Volume dies, breakouts fail constantly. Wait for afternoon session.",
-          "Low volume sessions: Overnight, pre-market, or holiday trading. Breakouts need volume to sustain.",
-          "Breaking into a liquidity void: If there is no price history above the breakout level (gap up situation), targets are unclear and moves can reverse sharply.",
-          "Major news within 30 minutes: FOMC, NFP, CPI days - breakouts before news are gambling. Wait for the dust to settle.",
-          "When you have already lost 2+ breakout trades today: Stop. The market may be in chop mode. Reassess.",
+          "Chasing the first spike without confirmation.",
+          "Ignoring context and trading breakouts in low volume.",
+          "Using stops that are too tight for the breakout structure.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When the breakout occurs during low-volume sessions.",
+      "When the level sits directly under a higher timeframe barrier.",
+      "When price is already extended far beyond the breakout point.",
+    ],
+    diagram: "Breakout Models\nBreak + Hold | Break + Pullback + Continue",
+    diagrams: ["BreakoutDiagram"],
     takeaways: [
-      "Valid breakouts require compression, expansion, and acceptance - not just price crossing a line.",
-      "Two models: Break-and-Hold (faster, riskier) and Break-Pullback-Continue (slower, higher probability).",
-      "Stops go below structure (the breakout level), not arbitrary tick distances.",
-      "Minimum 1.5:1 R:R required. If the math does not work, skip the trade.",
-      "Avoid breakouts during lunch hours, low volume, news events, and into liquidity voids.",
-      "Use both entry checklist and pre-trade checklist before every breakout attempt.",
-      "Most breakouts fail because traders chase - patience for acceptance is the edge.",
+      "A breakout is valid only if price holds beyond the level.",
+      "Use the level as both confirmation and stop reference.",
+      "Break-pullback-continue reduces false entry risk.",
+      "Context and volume are essential for breakouts.",
+      "Avoid chasing extended moves.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "The most common breakout mistake is entering the instant price crosses the level. You see green, you click buy, and 30 seconds later price is back inside the range. This is not trading - it is reacting. Wait for the breakout candle to CLOSE, then watch the NEXT candle for acceptance. If price holds above the level for 2-3 candles, NOW you have something. Patience on breakouts is not optional.",
+          "Entering the first spike is how you end up buying the top of a failed breakout.",
       },
       {
         type: "tip",
         content:
-          "The best breakouts come from extended compression. If ES has been grinding in a 10-point range for 2+ hours with decreasing volatility (smaller candles), that is pressure building. When it finally breaks, the move tends to be explosive and sustained. Short, sloppy ranges produce short, sloppy breakouts. Look for the coil.",
+          "Wait for a hold or a pullback; if you miss the move, there will be another setup tomorrow.",
       },
     ],
     quiz: [
       {
         id: "be-q1",
-        question: "What are the three phases of a valid breakout?",
-        options: [
-          "Entry, Stop, Target",
-          "Compression, Expansion, Acceptance",
-          "Support, Resistance, Breakout",
-          "Volume, Price, Time",
-        ],
+        question: "What confirms a true breakout?",
+        options: ["A quick spike", "A move and hold beyond the level", "A large candle only", "A moving average cross"],
         correctIndex: 1,
+        explanation: "A breakout is confirmed when price clears a level and holds beyond it.",
       },
       {
         id: "be-q2",
-        question: "Where should you place your stop on a long breakout above 4520?",
-        options: [
-          "10 ticks below entry",
-          "Below the breakout level structure (4516-4518)",
-          "At the previous day low",
-          "Wherever your risk tolerance allows",
-        ],
+        question: "What is a break-pullback-continue entry?",
+        options: ["Entry before the break", "Entry after a retest of the level", "Entry at the session close", "Entry on a random tick"],
         correctIndex: 1,
+        explanation: "This model waits for a breakout and then a pullback to the level before entering.",
       },
       {
         id: "be-q3",
-        question: "Which condition makes breakout trading unreliable?",
-        options: [
-          "High volume expansion",
-          "Extended compression before the move",
-          "Lunch hour low liquidity",
-          "Price holding above the breakout level",
-        ],
-        correctIndex: 2,
+        question: "Why avoid breakouts in low volume?",
+        options: ["They move too fast", "They have higher false-break risk", "They are illegal", "They have tighter spreads"],
+        correctIndex: 1,
+        explanation: "Low volume increases the chance of false breaks without follow-through.",
       },
     ],
-    diagrams: ["BreakoutDiagram"],
   },
   "pullback-entries": {
     title: "Pullback Entries",
+    overview:
+      "Pullbacks offer entries in the direction of the trend after price pauses. ES and NQ trends often give clean pullbacks to prior structure, and forex pairs do the same during active sessions. The key is to define where a pullback ends and continuation begins. This lesson covers two practical pullback models and how to manage them.",
+    objectives: [
+      "Identify high-quality pullback areas in a trend.",
+      "Use structure to define the pullback end.",
+      "Avoid chasing price after the move has already resumed.",
+    ],
     sections: [
       {
-        heading: "Overview",
+        heading: "Concept",
         content: [
-          "Pullback trading is joining a trend after an expansion move - buying the dip in an uptrend or selling the rally in a downtrend.",
-          "Unlike breakouts, pullbacks work WITH momentum rather than anticipating it. The trend has already shown its hand.",
-          "This lesson covers two pullback models, quality assessment rules, and precise entry mechanics without indicator dependency.",
-          "You will learn when pullbacks are high-probability and when they are traps.",
+          "A pullback is a temporary counter-move within a larger trend.",
+          "The best pullbacks return to prior structure or value zones.",
+          "Entries should align with the dominant trend.",
         ],
       },
       {
-        heading: "Learning Objectives",
+        heading: "Setup",
         content: [
-          "Understand pullbacks as trend continuation opportunities, not reversal bets.",
-          "Execute two pullback models: Shallow Pullback (trend strength) and Deep Pullback (S/R flip).",
-          "Assess pullback quality using depth, speed, and overlap criteria.",
-          "Enter pullbacks at structure reclaim or swing failure without requiring indicators.",
-          "Identify when pullbacks are traps rather than opportunities.",
+          "Identify the trend direction using higher highs/lows.",
+          "Mark the last broken structure or demand/supply zone.",
+          "Wait for price to pull back into that area.",
         ],
       },
       {
-        heading: "Concept: What Is a Pullback?",
+        heading: "Execution",
         content: [
-          "A pullback is a temporary retracement against the prevailing trend. In an uptrend, price dips before continuing higher. In a downtrend, price bounces before continuing lower.",
-          "Pullbacks occur because traders take profits and counter-trend players try to fade the move. A healthy pullback shows the trend is intact but needs to breathe.",
-          "Key insight: You are not predicting the trend - it has already shown you direction. You are waiting for a better entry price.",
-          "The impulse leg (the strong move) shows trend direction. The pullback (the weak move) offers your entry. The continuation (the next impulse) is your profit.",
-          "Example: ES rallies from 4500 to 4540 (impulse), then pulls back to 4520 (pullback). If the uptrend is intact, price will continue toward 4560+ (continuation).",
+          "Enter on confirmation: a rejection candle, absorption, or higher low.",
+          "Place stops beyond the pullback low/high that invalidates the trend.",
+          "Target the prior swing high/low or measured move.",
         ],
       },
       {
-        heading: "Setup: Two Pullback Models",
+        heading: "Risk",
         content: [
-          "Model A - Shallow Pullback (38-50% retracement): Price retraces less than half of the impulse leg. This signals strong trend and aggressive buyers/sellers. Entry is on the first sign of trend resumption.",
-          "Model B - Deep Pullback (61-78% retracement): Price retraces into a prior support/resistance level. This is a support/resistance flip setup. Entry is on the bounce/rejection from that level.",
-          "Shallow pullbacks are higher probability but give less room for stops. Deep pullbacks offer better R:R but may indicate trend weakness.",
-          "Pullback Quality Assessment: Depth (how far), Speed (how fast), Overlap (how clean). Ideal: Shallow depth, slow speed, minimal overlap with impulse candles.",
-          "A fast, deep, overlapping pullback often signals trend exhaustion rather than healthy retracement. Be cautious.",
-        ],
-      },
-      {
-        heading: "Execution: Entry Mechanics",
-        content: [
-          "Entry Option 1 - Structure Reclaim: Wait for price to pull back, then watch for a candle that closes back above a minor structure level (prior swing low in uptrend). This is your trigger.",
-          "Entry Option 2 - Swing Failure: Price makes a lower low in the pullback but immediately reverses. The failure to continue lower signals trapped sellers. Enter on the reversal candle.",
-          "Entry Option 3 - Confirmation Candle: After pullback reaches your zone, wait for a strong candle in the trend direction (engulfing, strong close). Enter at close or on small retrace.",
-          "ES Example: Price rallied 4500 → 4540. Pullback to 4518 (55% retrace). 4520 was prior resistance, now should be support (S/R flip). Price dips to 4517, then a strong green candle closes at 4524. Enter 4524, stop 4514, target 4550.",
-          "No indicators required. You are reading price structure: prior levels, swing points, and candle behavior.",
-        ],
-      },
-      {
-        heading: "Risk: Stop Placement and Position Management",
-        content: [
-          "Stop placement: Below the pullback low (for longs) or above the pullback high (for shorts). The pullback low is your invalidation point.",
-          "Buffer your stop: Do not put it exactly at the low. Add 2-4 ticks buffer for ES. If pullback low is 4517, stop at 4514-4515.",
-          "Partials vs full exits: Consider taking 50% off at 1R and letting the rest run with a trailing stop below swing lows.",
-          "Do NOT move stop to breakeven too early. Give the trade room to work. Only move stop after price has made a clear new swing in your direction.",
-          "If price makes a new higher low (in uptrend) after your entry, you can trail stop below that new higher low.",
+          "Pullbacks can deepen into reversals; keep stops logical.",
+          "Avoid taking pullbacks into major higher timeframe resistance.",
+          "Forex pullbacks can be deeper during low liquidity—size down if needed.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "Catching falling knives: Entering pullbacks in the middle of the move rather than waiting for signs of reversal. Pullbacks can extend further than expected.",
-          "Ignoring trend quality: Taking pullback entries in weak, sloppy trends. If the impulse leg was weak, the pullback is not worth trading.",
-          "Entering on depth alone: Just because price pulled back 50% does not mean it will bounce. You need a trigger (reclaim, rejection, confirmation candle).",
-          "Fighting higher timeframe: Taking long pullbacks when the daily chart is in a clear downtrend. The higher timeframe usually wins.",
-          "Moving stops too early: Price wiggles after entry and you panic-move your stop to breakeven. Then get stopped out right before the move happens.",
-        ],
-      },
-      {
-        heading: "When NOT to Trade This",
-        content: [
-          "Weak or unclear trend: If you cannot clearly identify an impulse leg, there is no trend to join. Skip it.",
-          "Sloppy, overlapping pullback: If the pullback is as volatile as the impulse, the trend may be over. Clean pullbacks are smaller and slower than impulses.",
-          "Pullback during macro news: FOMC, NFP, CPI - pullbacks before news are unreliable. Wait for after.",
-          "Pullback into higher timeframe resistance/support: If the pullback entry puts you long right into daily resistance, you are fighting a wall. Check the bigger picture.",
-          "Third or fourth pullback in a move: Trends exhaust. The first and second pullbacks are usually best. By the third or fourth, the move is often tired.",
-          "When you are trying to call the bottom/top: Pullback trading is about joining trends, not picking reversals. If you are hoping this is THE bottom, you are doing it wrong.",
+          "Entering before the pullback completes.",
+          "Taking pullbacks against a higher timeframe trend.",
+          "Chasing after the trend already resumed.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When the pullback violates the prior swing structure.",
+      "When the market is ranging rather than trending.",
+      "When the pullback forms during a low-liquidity session.",
+    ],
+    diagram: "Pullback Model\nTrend → Pullback → Confirmation → Continuation",
+    diagrams: ["PullbackDiagram"],
     takeaways: [
-      "Pullbacks let you join a trend at a better price after the direction is established.",
-      "Two models: Shallow (38-50%, strong trend) and Deep (61-78%, S/R flip).",
-      "Assess quality: ideal pullback is shallow, slow, and has minimal overlap.",
-      "Enter on structure reclaim, swing failure, or confirmation candle - no indicators needed.",
-      "Stop goes below the pullback low with a buffer. Do not move to breakeven too early.",
-      "Skip pullbacks in weak trends, during news, into HTF walls, or on the 3rd+ pullback.",
-      "The best pullbacks feel boring - a slow grind against the trend before continuation.",
+      "Pullbacks are trend entries, not countertrend trades.",
+      "Use structure to define pullback zones.",
+      "Wait for confirmation before entering.",
+      "Stops belong beyond the pullback extreme.",
+      "Avoid pullbacks in non-trending markets.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "The biggest pullback mistake is entering in the middle of the move. You see price pulling back and think 'discount!' so you buy. But the pullback extends another 20 ticks and stops you out. Then it reverses. You were right on direction but wrong on timing. Always wait for a trigger: a reclaim, a rejection candle, something that says the pullback is DONE. Patience is the difference between catching the move and catching a falling knife.",
+          "Entering before the pullback is complete is how you get trapped in a deeper reversal.",
       },
       {
         type: "tip",
         content:
-          "The best pullbacks are boring. They grind slowly against the trend with small candles and decreasing volume. This shows sellers (in an uptrend) are exhausted and not aggressive. When you see a fast, volatile pullback with big red candles, that is not profit-taking - that is real selling. Be very selective with those. The slow grind pullback into a prior S/R level is your bread and butter setup.",
+          "If the pullback does not show a clear rejection signal, skip it and wait for the next one.",
       },
     ],
     quiz: [
       {
         id: "pe-q1",
-        question: "What characterizes a healthy pullback in an uptrend?",
-        options: [
-          "Fast, deep, high volume",
-          "Slow, shallow, decreasing volume",
-          "Equal size to the impulse leg",
-          "Breaking below the prior swing low",
-        ],
+        question: "What is the core idea of a pullback entry?",
+        options: ["Trade against the trend", "Enter with the trend after a pause", "Trade during low volume", "Only trade news"],
         correctIndex: 1,
+        explanation: "Pullback entries aim to join the trend after a temporary retracement.",
       },
       {
         id: "pe-q2",
-        question: "What is the key difference between shallow and deep pullback models?",
-        options: [
-          "Shallow is for beginners, deep is for experts",
-          "Shallow retraces 38-50% (trend strength), deep retraces 61-78% (S/R flip)",
-          "Shallow uses indicators, deep uses price action",
-          "Shallow is for longs, deep is for shorts",
-        ],
+        question: "Where should a pullback stop be placed?",
+        options: ["Inside the pullback", "Beyond the pullback extreme", "At a random number", "No stop needed"],
         correctIndex: 1,
+        explanation: "The stop should sit beyond the pullback extreme that invalidates the trend.",
       },
       {
         id: "pe-q3",
-        question: "When should you NOT trade a pullback entry?",
-        options: [
-          "When the impulse leg was strong and clear",
-          "When price reaches a prior support/resistance flip level",
-          "When it is the third or fourth pullback in an extended move",
-          "When the pullback is slow and orderly",
-        ],
-        correctIndex: 2,
+        question: "When should you avoid pullback trades?",
+        options: ["During a trend", "In a range", "After confirmation", "When volume is strong"],
+        correctIndex: 1,
+        explanation: "Pullbacks are trend strategies and are less effective in choppy ranges.",
       },
     ],
-    diagrams: ["PullbackDiagram"],
   },
   "trade-management": {
     title: "Trade Management",
+    overview:
+      "Trade management determines how you exit, protect profits, and control risk after entry. Even a good entry can turn into a bad trade without a clear plan. ES and NQ move quickly, so decisions must be predefined. The same principles apply to forex: manage the trade or it will manage you.",
+    objectives: [
+      "Plan exits before entry, including targets and stops.",
+      "Use partials and trailing stops responsibly.",
+      "Avoid emotional exits and premature profit taking.",
+    ],
     sections: [
       {
-        heading: "Overview",
+        heading: "Concept",
         content: [
-          "Trade management is everything that happens between entry and exit - and it is where most traders lose their edge.",
-          "A good entry with poor management becomes a losing trade. A mediocre entry with excellent management can still be profitable.",
-          "This lesson teaches you a systematic approach to exits, partials, trailing stops, and emotional control mid-trade.",
-          "You will also learn what NOT to do - the management mistakes that turn winners into losers.",
+          "Trade management is about controlling outcomes after the entry.",
+          "You need a plan for partials, trailing stops, and full exits.",
+          "Consistency in management builds reliable performance data.",
         ],
       },
       {
-        heading: "Learning Objectives",
+        heading: "Setup",
         content: [
-          "Implement a risk-first, plan-first trade management system.",
-          "Execute three exit styles: fixed targets, scaling/partials, and structure-based trailing.",
-          "Apply a simple partial-taking rule that locks in profit while allowing runners.",
-          "Manage emotions during trade wiggles without panic-adjusting.",
-          "Document trades immediately in a post-trade review loop.",
+          "Define your initial target based on structure or measured moves.",
+          "Decide if and where you will take partial profits.",
+          "Set rules for when you will trail your stop.",
         ],
       },
       {
-        heading: "Concept: Risk-First, Plan-First",
+        heading: "Execution",
         content: [
-          "Before entering any trade, you must know: Where is my stop? Where is my target? How will I manage partials? Write it down before clicking.",
-          "Risk-first means your stop is non-negotiable. It is set based on structure and your maximum dollar risk. You do not move it wider.",
-          "Plan-first means you have a management script before the trade. 'I will take 50% at 1R, move stop to breakeven, and trail the rest.' No improvising.",
-          "The market will try to make you deviate from your plan. Price wiggles, you feel fear, you want to do something. Having a pre-written plan removes emotion from decisions.",
-          "Your trade plan is your contract with yourself. Breaking it is the fastest way to destroy consistency.",
+          "Follow your management plan without changing it mid-trade.",
+          "Move stops only based on predefined rules, not fear.",
+          "Let strong trades run when the market confirms continuation.",
         ],
       },
       {
-        heading: "Setup: Three Exit Styles",
+        heading: "Risk",
         content: [
-          "Style 1 - Fixed Targets: Set a target at a specific level (prior high, measured move) and exit 100% there. Simple, clear, no decisions needed. Best for beginners.",
-          "Style 2 - Scaling/Partials: Take partial profit at 1R (or a structure level), then manage the rest. Example: 50% off at 1R, remaining 50% trails to 2-3R or gets stopped at breakeven.",
-          "Style 3 - Trailing Stop (Structure-Based): No fixed target. Trail your stop below each new swing low (longs) or above each new swing high (shorts). Let the market tell you when the move is done.",
-          "The partial system (Style 2) is recommended for most traders. It locks profit, reduces stress, and still captures runners.",
-          "Key rule for partials: 50% off at 1R, move stop to breakeven (or small profit) on remainder. This makes the trade 'risk-free' while keeping upside.",
-        ],
-      },
-      {
-        heading: "Execution: The Management Sequence",
-        content: [
-          "Step 1 - Entry Executed: Immediately set your stop loss at the pre-planned level. Do not negotiate with yourself.",
-          "Step 2 - Price Moves to 1R: Take off 50% of position. This is profit in the bank. Set alert for remaining position.",
-          "Step 3 - Move Stop: After partial, move stop to breakeven (entry price) or 2-3 ticks in profit. Worst case now is a small win or scratch.",
-          "Step 4 - Trail the Runner: As price makes new swings in your direction, trail stop below each new swing low (longs). Give it room - do not trail too tight.",
-          "Step 5 - Final Exit: Either hit your ultimate target, get stopped out on trail, or exit at end of session. Document the trade.",
-          "ES Example: Long entry 4500, stop 4492 (8 pts = 1R). Price hits 4508 (+1R) → take 50% off, move stop to 4500. Price continues to 4520 → trail stop to 4512. Price reverses, stopped at 4512. Result: 50% at +8 pts, 50% at +12 pts.",
-        ],
-      },
-      {
-        heading: "Risk: What NOT to Do",
-        content: [
-          "Do NOT move your stop randomly: If your plan says stop at 4492, keep it at 4492 until the trade hits 1R. Moving it because price is wiggling is fear-based, not logic-based.",
-          "Do NOT widen your stop: 'I will give it more room' is how small losses become big losses. Your initial stop was based on structure. Respect it.",
-          "Do NOT revenge re-entry: You got stopped out and price immediately moves in your direction. Do NOT just jump back in. That is revenge trading. Reassess, find a new setup if there is one.",
-          "Do NOT move stop to breakeven too early: Wait until price has clearly moved in your favor (1R minimum). Moving stop too early gets you stopped on normal wiggles.",
-          "Do NOT average down: Adding to a losing position is how traders blow up. If your stop is hit, you were wrong. Accept it.",
+          "Taking profits too early can ruin the reward side of the equation.",
+          "Not protecting profits can give back large gains quickly.",
+          "Balance risk by scaling out or trailing in logical increments.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "No plan before entry: Deciding what to do while in the trade. This leads to emotional, inconsistent decisions.",
-          "Closing winners too early: Price moves 5 ticks in your favor and you grab profit because you are scared of giving it back. This destroys R:R.",
-          "Holding losers too long: The opposite - you give losers 'room to work' but cut winners short. This is how you lose slowly.",
-          "Trail too tight: Moving your trailing stop after every tick. You get stopped on normal retracements that would have continued.",
-          "Trail too loose: Never trailing at all and watching a 3R winner turn into a 0.5R winner. Use structure, not hope.",
-        ],
-      },
-      {
-        heading: "Managing Emotions Mid-Trade",
-        content: [
-          "The trade is on. Price is wiggling. You feel the urge to DO something. Here is what to do instead:",
-          "Step 1 - Breathe: Seriously. Take 3 slow breaths. Your body is in fight-or-flight mode. Calm the nervous system first.",
-          "Step 2 - Check your plan: Read what you wrote before entry. Does price action invalidate your thesis? If no, do nothing.",
-          "Step 3 - Zoom out: Switch to a higher timeframe. The wiggle on 1-minute is often invisible on 15-minute. Perspective matters.",
-          "Step 4 - Walk away: If you cannot stop watching, leave the screen. Set alerts for your key levels. The trade does not need you to stare at it.",
-          "Rule: If your stop is not hit and your plan is intact, DO NOTHING. Most mid-trade mistakes come from doing something when nothing was required.",
-        ],
-      },
-      {
-        heading: "Post-Trade Review Loop",
-        content: [
-          "Immediately after closing a trade (win or lose), document it. Not at the end of the day - right now, while it is fresh.",
-          "What to record: Entry reason, entry price, stop level, target level, actual exit, P&L, screenshot of chart at entry and exit.",
-          "Questions to answer: Did I follow my plan? What grade would I give execution (A-F)? What would I do differently?",
-          "The goal is pattern recognition. After 20-30 documented trades, you will see your tendencies: where you deviate, where you excel.",
-          "A trade journal is not about tracking P&L - it is about tracking behavior. The P&L is a result; the behavior is the cause.",
-        ],
-      },
-      {
-        heading: "When NOT to Trail",
-        content: [
-          "Choppy conditions: If price is oscillating without clear direction, trailing gets you whipsawed. Use fixed targets or exit at resistance.",
-          "Low liquidity: Overnight or pre-market, spreads widen and stops can get run. Use wider stops or avoid trailing entirely.",
-          "Mean-reverting markets: If the market is range-bound and mean-reverting, trailing makes no sense. Price will pull back to the middle. Take profits at range edges.",
-          "After news: Post-FOMC, post-NFP - the market is chaotic. Trailing in chaos is gambling. Take what the market gives and step away.",
-          "When you are already at a solid target: If you are at 2R and your original target was 2R, take it. Do not get greedy and trail for more unless there is a clear reason.",
+          "Taking profit at the first green tick without a plan.",
+          "Moving stops to break-even too early.",
+          "Closing winners because of fear instead of a rule.",
         ],
       },
     ],
+    whenNotToTrade: [
+      "When you have no exit plan before entering.",
+      "When you feel the urge to micro-manage every tick.",
+      "When volatility is so high that targets are unclear.",
+    ],
+    diagram: "Management Plan\nEntry → Partial → Trail → Final Exit",
+    diagrams: ["TradeManagementDiagram"],
     takeaways: [
-      "Trade management is where most traders destroy their edge - even with good entries.",
-      "Risk-first, plan-first: Know your stop, target, and partial plan BEFORE entering.",
-      "Three exit styles: Fixed targets (simple), partials (recommended), trailing (advanced).",
-      "Partial rule: 50% off at 1R, move stop to breakeven, trail the runner below structure.",
-      "Do NOT move stops randomly, widen stops, revenge re-enter, or average down.",
-      "When price wiggles: Breathe, check plan, zoom out, walk away. Do nothing if plan is intact.",
-      "Document every trade immediately in a post-trade review loop. Track behavior, not just P&L.",
+      "A management plan is part of the trade, not optional.",
+      "Define targets and stop rules before entry.",
+      "Partials and trailing stops should follow clear rules.",
+      "Emotional exits reduce reward-to-risk.",
+      "Consistent management builds long-term edge.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "The deadliest trade management mistake is moving your stop wider. The trade goes against you, and instead of accepting the loss, you think 'I will give it more room.' Now your 1R loss is a 2R loss. And if it keeps going? 3R, 4R. This is how traders blow up. Your initial stop was set based on structure and logic. If that level is hit, you were wrong - period. Accept it, learn from it, move on. The small loss you take now saves you from the catastrophic loss you take later.",
+          "Closing winners out of fear usually cuts off the very trades that make your month profitable.",
       },
       {
         type: "tip",
         content:
-          "The partial system (50% at 1R, trail the rest) solves most management problems. At 1R, you have locked in profit and the trade is now 'free' from a risk perspective. Psychologically, this changes everything. You can hold the runner without fear because you have already won. The worst case is a small win. This simple rule has saved more traders than any indicator ever invented.",
+          "Write a simple exit plan (target, partial, trail) and stick to it for at least 20 trades before changing it.",
       },
     ],
     quiz: [
       {
         id: "tm-q1",
-        question: "When should you move your stop to breakeven?",
-        options: [
-          "Immediately after entry",
-          "After price moves 5 ticks in your favor",
-          "After taking partial profit at 1R",
-          "Never - always hold original stop",
-        ],
-        correctIndex: 2,
+        question: "When should you plan your exits?",
+        options: ["After you enter", "Before you enter", "Only after profit", "Never"],
+        correctIndex: 1,
+        explanation: "Exit planning should be done before entry so decisions are not emotional.",
       },
       {
         id: "tm-q2",
-        question: "What is the biggest trade management mistake?",
-        options: [
-          "Taking profits too early",
-          "Widening your stop as the trade goes against you",
-          "Using a trailing stop",
-          "Trading with a fixed target",
-        ],
+        question: "Why can moving to break-even too early be a mistake?",
+        options: ["It increases risk", "It can stop you out before the move continues", "It guarantees profit", "It reduces slippage"],
         correctIndex: 1,
+        explanation: "Early break-even moves often get you stopped out by normal noise before the trend plays out.",
       },
       {
         id: "tm-q3",
-        question: "When should you NOT trail your stop?",
-        options: [
-          "In a strong trending market",
-          "When price is making new highs/lows",
-          "In choppy, mean-reverting conditions",
-          "After taking a partial profit",
-        ],
-        correctIndex: 2,
+        question: "What is the main goal of trade management?",
+        options: ["Predict the market", "Control outcomes after entry", "Avoid stops", "Trade more"],
+        correctIndex: 1,
+        explanation: "Trade management is about controlling risk and reward after you are in the trade.",
       },
     ],
-    diagrams: ["TradeManagementDiagram"],
   },
 }
 

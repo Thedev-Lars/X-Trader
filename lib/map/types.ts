@@ -53,6 +53,7 @@ export interface QuizQuestion {
   question: string
   options: string[]
   correctIndex: number
+  explanation: string
 }
 
 export interface LessonSection {
@@ -67,7 +68,11 @@ export interface Callout {
 
 export interface Lesson {
   title: string
+  overview: string
+  objectives: string[]
   sections: LessonSection[]
+  whenNotToTrade: string[]
+  diagram: string
   takeaways: string[]
   callouts: Callout[]
   quiz: QuizQuestion[]
