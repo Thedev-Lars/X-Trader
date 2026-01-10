@@ -3,9 +3,11 @@ import { mapNodes } from "./nodes"
 
 // Generate edges from prereqs
 export const mapEdges: MapEdge[] = mapNodes.flatMap((node) =>
-  node.prereqs.map((prereqId) => ({
-    id: `${prereqId}-${node.id}`,
-    source: prereqId,
-    target: node.id,
-  })),
+  node.prereqs.flatMap((prereqId) =>
+    prereqId.split("|").map((resolvedId) => ({
+      id: `${resolvedId}-${node.id}`,
+      source: resolvedId,
+      target: node.id,
+    })),
+  ),
 )

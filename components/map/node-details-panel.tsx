@@ -30,8 +30,16 @@ export function NodeDetailsPanel({
   currentPhase,
   phaseProgress,
 }: NodeDetailsPanelProps) {
-  const missingPrereqs = node.prereqs.filter((id) => !completedSet.has(id))
-  const prereqNodes = node.prereqs.map((id) => mapNodes.find((n) => n.id === id)).filter(Boolean) as MapNode[]
+  const prereqGroups = node.prereqs.map((id) => id.split("|"))
+  const prereqDetails = prereqGroups.map((group) => {
+    const nodes = group.map((id) => mapNodes.find((n) => n.id === id)).filter(Boolean) as MapNode[]
+    const met = group.some((id) => completedSet.has(id))
+    return { nodes, met }
+  })
+  const missingPrereqTitles = prereqDetails
+    .filter((prereq) => !prereq.met)
+    .map((prereq) => prereq.nodes.map((node) => node.title).join(" or "))
+    .join(", ")
 
   const foundationsProgressPercent =
     phaseProgress && phaseProgress.total > 0 ? (phaseProgress.completed / phaseProgress.total) * 100 : 0
@@ -39,7 +47,7 @@ export function NodeDetailsPanel({
   const showPeekWarning =
     currentPhase === "foundations" &&
     foundationsProgressPercent < 50 &&
-    (node.phase === "execution" || node.phase === "mastery") &&
+    (node.phase === "execution" || node.phase === "order-flow" || node.phase === "mastery") &&
     status !== "locked"
 
   const nodePhaseInfo = phases.find((p) => p.id === node.phase)
@@ -101,21 +109,21 @@ export function NodeDetailsPanel({
         </div>
       )}
 
-      {prereqNodes.length > 0 && (
+      {prereqDetails.length > 0 && (
         <div className="mb-6">
           <h3 className="text-sm font-semibold text-foreground mb-2">Prerequisites</h3>
           <ul className="space-y-1">
-            {prereqNodes.map((prereq) => (
-              <li key={prereq.id} className="flex items-center gap-2 text-sm">
-                {completedSet.has(prereq.id) ? (
+            {prereqDetails.map((prereq) => (
+              <li key={prereq.nodes.map((node) => node.id).join("|")} className="flex items-center gap-2 text-sm">
+                {prereq.met ? (
                   <span className="w-4 h-4 rounded-full bg-completed flex items-center justify-center">
                     <span className="w-2 h-2 bg-completed-foreground rounded-full" />
                   </span>
                 ) : (
                   <span className="w-4 h-4 rounded-full border border-muted-foreground" />
                 )}
-                <span className={completedSet.has(prereq.id) ? "text-muted-foreground" : "text-foreground"}>
-                  {prereq.title}
+                <span className={prereq.met ? "text-muted-foreground" : "text-foreground"}>
+                  {prereq.nodes.map((node) => node.title).join(" or ")}
                 </span>
               </li>
             ))}
@@ -130,8 +138,7 @@ export function NodeDetailsPanel({
             <span className="font-medium text-sm">Locked</span>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Complete the following to unlock:{" "}
-            {missingPrereqs.map((id) => mapNodes.find((n) => n.id === id)?.title).join(", ")}
+            Complete the following to unlock: {missingPrereqTitles}
           </p>
         </div>
       ) : (

@@ -3,7 +3,8 @@
 import type React from "react"
 
 import { useRef, useState, useCallback, useEffect } from "react"
-import type { MapNode, MapEdge, NodeLevel, NodeTag } from "@/lib/map/types"
+import type { MapNode, MapEdge, NodeLevel, NodeTag, Phase } from "@/lib/map/types"
+import { phases } from "@/lib/map/types"
 import { MapNodeCard } from "./map-node-card"
 import { getNodeStatus } from "@/lib/progress/progress"
 import { learningPaths } from "@/lib/paths/paths"
@@ -23,6 +24,16 @@ interface MapCanvasProps {
   highlightedPath: string | null
   highlightedNodeId: string | null
   glowingNodeId?: string | null
+}
+
+const MAP_WIDTH = 1300
+const MAP_HEIGHT = 1000
+const LANE_WIDTH = 260
+const lanePositions: Record<Phase, number> = {
+  foundations: 150,
+  execution: 450,
+  "order-flow": 750,
+  mastery: 1050,
 }
 
 export function MapCanvas({
@@ -188,7 +199,30 @@ export function MapCanvas({
           transformOrigin: "center center",
         }}
       >
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ width: 1300, height: 1000 }}>
+        <div className="absolute inset-0 pointer-events-none" style={{ width: MAP_WIDTH, height: MAP_HEIGHT }}>
+          {phases.map((phase) => {
+            const laneX = lanePositions[phase.id]
+            return (
+              <div key={phase.id}>
+                <div
+                  className="absolute top-0 h-full border-r border-border/40 bg-muted/20"
+                  style={{ left: laneX - LANE_WIDTH / 2, width: LANE_WIDTH }}
+                />
+                <div
+                  className="absolute top-4 px-3 py-1 rounded-full bg-background/80 border border-border text-xs font-semibold text-foreground shadow-sm"
+                  style={{ left: laneX - 80 }}
+                >
+                  {phase.title}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          style={{ width: MAP_WIDTH, height: MAP_HEIGHT }}
+        >
           <defs>
             <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
               <polygon points="0 0, 6 3, 0 6" fill="oklch(0.5 0 0)" />

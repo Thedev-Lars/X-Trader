@@ -26,13 +26,16 @@ const levelStyles: Record<NodeLevel, string> = {
 const phaseStyles: Record<Phase, string> = {
   foundations: "border-l-primary",
   execution: "border-l-amber-500",
+  "order-flow": "border-l-emerald-500",
   mastery: "border-l-purple-500",
 }
 
 export function CurriculumContent() {
   const [completedIds, setCompletedIds] = useState<string[]>([])
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([])
-  const [expandedPhases, setExpandedPhases] = useState<Set<Phase>>(new Set(["foundations", "execution", "mastery"]))
+  const [expandedPhases, setExpandedPhases] = useState<Set<Phase>>(
+    new Set(["foundations", "execution", "order-flow", "mastery"]),
+  )
   const [expandedLevels, setExpandedLevels] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<Set<NodeTag>>(new Set())
@@ -84,6 +87,7 @@ export function CurriculumContent() {
     const result: Record<Phase, Record<NodeLevel, MapNode[]>> = {
       foundations: { Beginner: [], Intermediate: [], Advanced: [] },
       execution: { Beginner: [], Intermediate: [], Advanced: [] },
+      "order-flow": { Beginner: [], Intermediate: [], Advanced: [] },
       mastery: { Beginner: [], Intermediate: [], Advanced: [] },
     }
 
