@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { Map, DollarSign, Users } from "lucide-react"
+import { Map, Lightbulb, GraduationCap, Wrench } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function MobileBottomNav() {
@@ -10,13 +10,14 @@ export function MobileBottomNav() {
 
   const navItems = [
     { href: "/map", label: "Map", icon: Map },
-    { href: "/funding", label: "Funding", icon: DollarSign },
-    { href: "/community", label: "Community", icon: Users },
+    { href: "/why-this-works", label: "Why", icon: Lightbulb },
+    { href: "/mentorship", label: "Mentor", icon: GraduationCap },
+    { href: "/tools", label: "Tools", icon: Wrench },
   ]
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur border-t border-border md:hidden safe-area-inset-bottom">
-      <div className="grid grid-cols-3 h-16">
+      <div className="grid grid-cols-4 h-16">
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href
