@@ -912,6 +912,356 @@ export const lessons: Record<string, Lesson> = {
       },
     ],
   },
+  "diversification-position-sizing": {
+    title: "Diversification & Position Sizing",
+    isRiskCritical: true,
+    overview:
+      "Sizing is not just math; it is how you keep risk consistent while avoiding overexposure. The same ES move can be survivable or account-ending depending on size, and stacking correlated positions (like ES + NQ) silently multiplies risk. This lesson covers fixed-dollar and fixed-percent sizing methods, plus how to avoid correlation traps.",
+    objectives: [
+      "Calculate size using fixed-dollar risk and fixed-percent risk methods.",
+      "Work through an ES sizing example using the $12.50 tick value.",
+      "Apply diversification logic to avoid correlated overexposure.",
+      "Use quick sizing references without breaking risk rules.",
+    ],
+    sections: [
+      {
+        heading: "Concept",
+        content: [
+          "Fixed $ risk keeps losses consistent by capping each trade at a set dollar amount.",
+          "Fixed % risk scales with your account size by risking the same percentage each trade.",
+          "Diversification means you avoid stacking correlated exposure (ES + NQ often move together).",
+        ],
+      },
+      {
+        heading: "Fixed $ Risk Method",
+        content: [
+          "Choose a dollar amount you are willing to lose per trade (ex: $50).",
+          "Calculate risk per contract using stop ticks × tick value.",
+          "Contracts = Fixed $ Risk ÷ Risk per Contract (round down).",
+        ],
+      },
+      {
+        heading: "Fixed % Risk Method",
+        content: [
+          "Pick a percentage of account size to risk (ex: 1%).",
+          "Dollar Risk = Account Balance × Risk %. Example: $2,000 × 1% = $20.",
+          "Contracts = Dollar Risk ÷ Risk per Contract (round down).",
+        ],
+      },
+      {
+        heading: "ES Example (Tick Value = $12.50)",
+        content: [
+          "Assume a stop of 8 ticks (2 points). Risk per ES contract = 8 × $12.50 = $100.",
+          "Account A ($2,000 at 1% risk): $2,000 × 1% = $20 → $20 ÷ $100 = 0.2 → 0 ES contracts (use a micro instead).",
+          "Account B ($10,000 at 1% risk): $10,000 × 1% = $100 → $100 ÷ $100 = 1 ES contract.",
+        ],
+      },
+      {
+        heading: "Sizing Cheat Sheet (Example)",
+        content: [
+          "Assume fixed $100 risk per trade on ES.",
+          "| Stop (ticks) | Risk/Contract | Max ES Contracts |",
+          "| 4 | $50 | 2 |",
+          "| 8 | $100 | 1 |",
+          "| 12 | $150 | 0 |",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Taking ES and NQ at the same time and doubling correlated risk.",
+          "Sizing by account balance alone without stop distance.",
+          "Rounding up because you are close to another contract.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When the correct size is zero and you refuse to downshift to a micro contract.",
+      "When you already have correlated exposure (ex: ES + NQ) and the total risk exceeds plan.",
+      "When you cannot calculate risk per contract quickly.",
+    ],
+    diagram: "Sizing Stack\nAccount Risk → Stop Ticks → $/Contract → Contracts → Correlation Check",
+    takeaways: [
+      "Fixed $ risk keeps losses consistent across trades.",
+      "Fixed % risk scales with account size while keeping discipline.",
+      "ES sizing depends on stop ticks × $12.50 tick value.",
+      "Round down and use micros when necessary.",
+      "Avoid stacking correlated exposure like ES + NQ.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Taking ES and NQ simultaneously without reducing size doubles your exposure to the same market move.",
+      },
+      {
+        type: "tip",
+        content:
+          "Build a quick sizing calculator that lets you toggle between fixed-$ and fixed-% methods.",
+      },
+    ],
+    quiz: [
+      {
+        id: "dps-q1",
+        question: "What is the primary advantage of fixed % risk sizing?",
+        options: [
+          "It ignores account size changes",
+          "It automatically scales risk as your account grows or shrinks",
+          "It guarantees profits",
+          "It removes the need for stop-losses",
+        ],
+        correctIndex: 1,
+        explanation: "Fixed % risk keeps your risk proportional to your account size, so it adjusts as your balance changes.",
+      },
+      {
+        id: "dps-q2",
+        question: "If your ES stop is 8 ticks, what is the risk per ES contract?",
+        options: ["$50", "$80", "$100", "$125"],
+        correctIndex: 2,
+        explanation: "8 ticks × $12.50 per tick = $100 risk per ES contract.",
+      },
+      {
+        id: "dps-q3",
+        question: "Why is holding ES and NQ simultaneously risky?",
+        options: [
+          "They are uncorrelated and cancel each other out",
+          "They often move together, increasing total exposure",
+          "They are illegal to trade together",
+          "They trade at different times",
+        ],
+        correctIndex: 1,
+        explanation: "ES and NQ are highly correlated, so holding both can double exposure to the same market move.",
+      },
+    ],
+  },
+  "stop-loss-risk-reward": {
+    title: "Stop-Loss & Risk-Reward",
+    isRiskCritical: true,
+    overview:
+      "Stops are not about pain tolerance; they define where your idea is invalid. Pairing a clean invalidation stop with a realistic target creates a repeatable risk-reward framework. This lesson covers structure-based stops, volatility-aware placement, and how R multiples drive expectancy.",
+    objectives: [
+      "Place stops at invalidation levels, not at random dollar amounts.",
+      "Use structure and volatility to determine stop distance.",
+      "Calculate R multiples and expectancy with a simple example.",
+      "Apply a minimum R:R policy and know when to skip a trade.",
+    ],
+    sections: [
+      {
+        heading: "Stops = Invalidation",
+        content: [
+          "A stop marks the price where your setup is proven wrong, not where you feel discomfort.",
+          "If the stop does not invalidate the idea, it is a random number.",
+          "Structure should come first, then sizing adjusts to fit the risk.",
+        ],
+      },
+      {
+        heading: "Structure + Volatility Placement",
+        content: [
+          "Place stops below a meaningful swing, range edge, or structural level.",
+          "Use a volatility buffer (like a few extra ticks) to avoid noise stops.",
+          "If volatility makes the stop too wide, reduce size or skip the trade.",
+        ],
+      },
+      {
+        heading: "R Multiples & Expectancy",
+        content: [
+          "R is your unit of risk. If you risk $100, then 1R = $100.",
+          "Example: Target 2R ($200) with a 40% win rate → expectancy = (0.4 × 2R) - (0.6 × 1R) = +0.2R.",
+          "Positive expectancy comes from combining edge with consistent R multiples.",
+        ],
+      },
+      {
+        heading: "Minimum R:R Policy",
+        content: [
+          "Set a minimum R:R (ex: 2R) before you enter.",
+          "If the next structure target cannot reach your minimum R:R, skip the trade.",
+          "Higher R:R does not fix a weak setup—quality still matters.",
+        ],
+      },
+      {
+        heading: "Common Stop Mistakes",
+        content: [
+          "Placing stops too tight in noise zones.",
+          "Moving a stop wider after entry to avoid taking a loss.",
+          "Using obvious levels where liquidity hunts often occur.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When you cannot define a clear invalidation level.",
+      "When the setup does not offer your minimum R:R.",
+      "When you feel tempted to widen the stop after entry.",
+    ],
+    diagram: "Risk-Reward Map\nEntry → Stop (1R) → Target (2R+)",
+    takeaways: [
+      "Stops should reflect invalidation, not pain tolerance.",
+      "Structure and volatility determine stop distance.",
+      "R multiples make reward-to-risk measurable.",
+      "Minimum R:R rules keep low-quality trades out.",
+      "Avoid common stop mistakes that quietly increase risk.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Moving a stop wider after entry turns a defined risk trade into an undefined loss.",
+      },
+      {
+        type: "tip",
+        content:
+          "Define your stop and target before you click—if the math is not there, pass.",
+      },
+    ],
+    quiz: [
+      {
+        id: "srr-q1",
+        question: "What should a stop-loss represent?",
+        options: [
+          "A random dollar amount",
+          "The invalidation level of your trade idea",
+          "Your profit target",
+          "The bid-ask spread",
+        ],
+        correctIndex: 1,
+        explanation: "Stops belong where the setup fails, not where you feel uncomfortable.",
+      },
+      {
+        id: "srr-q2",
+        question: "What does 1R mean if you risk $100 on a trade?",
+        options: ["$50", "$100", "$150", "$200"],
+        correctIndex: 1,
+        explanation: "R is the unit of risk, so 1R equals the amount you risk ($100 in this example).",
+      },
+      {
+        id: "srr-q3",
+        question: "When should you skip a trade based on R:R policy?",
+        options: [
+          "When the target cannot reach your minimum R:R",
+          "When the setup looks perfect",
+          "When the market is trending",
+          "When your stop is under structure",
+        ],
+        correctIndex: 0,
+        explanation: "If the trade cannot hit your minimum R:R at a realistic target, the math is not in your favor.",
+      },
+    ],
+  },
+  "risk-management-tools": {
+    title: "Risk Management Tools",
+    isRiskCritical: true,
+    overview:
+      "Risk tools are your guardrails: they prevent a bad day from becoming a blown account. Daily max loss limits, trade caps, and cooldown rules keep decision quality high. This lesson also covers a practical daily checklist and how prop-style drawdown limits work.",
+    objectives: [
+      "Set daily max loss, max trades per day, and cooldown rules.",
+      "Use a daily risk checklist before trading.",
+      "Understand prop-style drawdown limits conceptually.",
+      "Know when not to trade based on risk triggers.",
+    ],
+    sections: [
+      {
+        heading: "Daily Guardrails",
+        content: [
+          "Set a daily max loss that stops trading for the day once hit.",
+          "Cap the number of trades per day to avoid overtrading (ex: 3–5 trades).",
+          "Use a cooldown rule after a loss streak (ex: stop for 30 minutes after two losses).",
+        ],
+      },
+      {
+        heading: "Prop-Style Drawdown (Concept)",
+        content: [
+          "Some accounts enforce a drawdown line that moves up with profits or stays static.",
+          "The idea is simple: stay above the drawdown line or the account is closed.",
+          "Treat drawdown like a hard floor—do not let a bad day erase the buffer.",
+        ],
+      },
+      {
+        heading: "Daily Risk Checklist (10 Items)",
+        content: [
+          "Did I sleep enough to make clear decisions?",
+          "Do I know my max loss for today in dollars?",
+          "Do I know my max trades for today?",
+          "Is my per-trade risk defined and written down?",
+          "Have I checked the high-impact news calendar?",
+          "Is my bias and top-level plan written?",
+          "Is the market liquid (session window confirmed)?",
+          "Have I confirmed stop and target placement rules?",
+          "Have I checked for correlated exposure (ES + NQ, etc.)?",
+          "Is my journal ready for entries after each trade?",
+        ],
+      },
+      {
+        heading: "Common Mistakes",
+        content: [
+          "Ignoring daily max loss because the next setup looks perfect.",
+          "Taking more trades to “make back” a loss.",
+          "Skipping cooldown and trading while emotions are high.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "After hitting your daily max loss.",
+      "When you are sleep deprived or mentally foggy.",
+      "When you feel a revenge impulse after a loss.",
+    ],
+    diagram: "Daily Guardrails\nMax Loss → Max Trades → Cooldown → Checklist",
+    takeaways: [
+      "Daily max loss stops bad days from spiraling.",
+      "Trade caps protect against impulsive overtrading.",
+      "Cooldown rules reset decision quality after losses.",
+      "Prop-style drawdowns are hard floors—protect the buffer.",
+      "A consistent checklist reduces preventable mistakes.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Ignoring a max loss rule is the fastest way to turn a small drawdown into a blown account.",
+      },
+      {
+        type: "tip",
+        content:
+          "Set an alarm or platform lockout after max loss to remove the temptation to keep trading.",
+      },
+    ],
+    quiz: [
+      {
+        id: "rmt-q1",
+        question: "What is the purpose of a daily max loss limit?",
+        options: [
+          "To guarantee profits",
+          "To stop trading when decision quality drops",
+          "To increase leverage",
+          "To avoid paying commissions",
+        ],
+        correctIndex: 1,
+        explanation: "A daily max loss protects you from emotional overtrading after losses.",
+      },
+      {
+        id: "rmt-q2",
+        question: "What is a cooldown rule intended to do?",
+        options: [
+          "Force more trades",
+          "Give the market time to move",
+          "Pause trading after losses to reset focus",
+          "Increase your target size",
+        ],
+        correctIndex: 2,
+        explanation: "Cooldowns create a pause after losses so you do not trade while emotional.",
+      },
+      {
+        id: "rmt-q3",
+        question: "How should you treat drawdown limits?",
+        options: [
+          "As a suggestion",
+          "As a hard floor you must stay above",
+          "As a profit target",
+          "As a trailing stop only for winners",
+        ],
+        correctIndex: 1,
+        explanation: "Drawdown limits are hard floors—crossing them usually ends the account.",
+      },
+    ],
+  },
   "order-flow-fundamentals": {
     title: "Order Flow Fundamentals",
     overview:
