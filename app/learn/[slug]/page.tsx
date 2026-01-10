@@ -149,6 +149,14 @@ export default function LearnPage() {
 
           {/* Lesson Header */}
           <header className="mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <Link href="/map" className="w-full sm:w-auto">
+                <Button variant="outline" className="gap-2 w-full sm:w-auto h-11 bg-transparent">
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Map
+                </Button>
+              </Link>
+            </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
               <span
                 className={`text-sm font-medium px-3 py-1.5 rounded-full ${
