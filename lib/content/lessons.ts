@@ -710,6 +710,409 @@ export const lessons: Record<string, Lesson> = {
       },
     ],
   },
+  "overtrading-revenge": {
+    title: "Overtrading vs Revenge Trading",
+    overview:
+      "Overtrading is taking too many trades or too much size beyond your plan, while revenge trading is a reactive burst of rule-breaking after a loss. Both feel urgent, but overtrading is volume-driven and revenge trading is emotion-driven. This lesson clarifies the difference, maps the trigger chain that causes it, and installs simple rules to stop the spiral.",
+    objectives: [
+      "Define overtrading and revenge trading in practical terms.",
+      "Recognize the trigger chain from loss to rule break.",
+      "Apply prevention rules and a 2-loss protocol to stop escalation.",
+    ],
+    sections: [
+      {
+        heading: "Definitions",
+        content: [
+          "Overtrading = too many trades or too much size beyond your plan or time window.",
+          "Revenge trading = trading to “get it back” right after a loss, usually by breaking rules.",
+          "Overtrading can happen after wins or boredom; revenge trading is usually loss-driven.",
+        ],
+      },
+      {
+        heading: "Trigger Chain",
+        content: [
+          "Loss → emotion spike (anger, urgency).",
+          "Emotion → impulse (must trade now).",
+          "Impulse → rule break (size up, skip stop, trade B setups).",
+        ],
+      },
+      {
+        heading: "Prevention Rules (5)",
+        content: [
+          "Cap trades per session and stop when the cap is hit.",
+          "Trade only your A+ setup; everything else is a pass.",
+          "Keep size fixed for the entire session—no scaling up.",
+          "Hard stop after a rule break; reset before next trade.",
+          "Use a 2-loss protocol to force a pause and review.",
+        ],
+      },
+      {
+        heading: "2-Loss Protocol Checklist",
+        content: [
+          "Stop trading immediately after the second loss.",
+          "Screenshot and tag both trades in your journal.",
+          "Write one sentence: “Was the plan followed?”",
+          "Step away for 20 minutes or until calm.",
+          "Return only if your checklist is fully met.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "After two losses in a row.",
+      "When you feel an urgent need to trade to feel better.",
+      "When you are tempted to “make up” for a slow day.",
+    ],
+    diagram: "Spiral Trigger\nLoss → Emotion → Impulse → Rule Break",
+    takeaways: [
+      "Overtrading is volume-based; revenge trading is loss-triggered.",
+      "Most spirals follow a predictable trigger chain.",
+      "Prevention rules remove discretion when emotions spike.",
+      "A 2-loss protocol protects you from escalation.",
+      "Fewer, higher-quality trades preserve edge.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Treating “one more trade” as harmless is how overtrading turns a small loss into a large drawdown.",
+      },
+      {
+        type: "tip",
+        content:
+          "Write your 2-loss protocol on a sticky note and place it on your monitor.",
+      },
+    ],
+    quiz: [
+      {
+        id: "ot-q1",
+        question: "What best defines revenge trading?",
+        options: [
+          "Taking many trades in a choppy market",
+          "Trading to win back losses immediately",
+          "Switching from micros to minis",
+          "Trading only one setup",
+        ],
+        correctIndex: 1,
+        explanation: "Revenge trading is the urge to get losses back quickly, often by breaking rules.",
+      },
+      {
+        id: "ot-q2",
+        question: "Which sequence describes the trigger chain for emotional spirals?",
+        options: [
+          "Win → confidence → patience → rule adherence",
+          "Loss → emotion → impulse → rule break",
+          "News → volatility → profit → rest",
+          "Setup → entry → target → exit",
+        ],
+        correctIndex: 1,
+        explanation: "Loss triggers emotion, which creates impulse, which then leads to rule breaking.",
+      },
+      {
+        id: "ot-q3",
+        question: "What is the purpose of a 2-loss protocol?",
+        options: [
+          "To increase size after two losses",
+          "To force a pause and review after consecutive losses",
+          "To skip journaling",
+          "To trade only during lunch",
+        ],
+        correctIndex: 1,
+        explanation: "A 2-loss protocol prevents escalation by enforcing a pause and review.",
+      },
+    ],
+  },
+  "revenge-trading": {
+    title: "Revenge Trading Reset",
+    overview:
+      "Revenge trading is a response to an identity threat: “I need it back now.” It feels like urgency, but it is actually a loss of process control. This lesson shows the chart behaviors that reveal revenge trading and gives you an interruption script plus a five-minute reset routine to break the pattern.",
+    objectives: [
+      "Explain why revenge trading is tied to identity threat.",
+      "Spot revenge trading behaviors directly on the chart.",
+      "Use a script and reset routine to interrupt the impulse.",
+    ],
+    sections: [
+      {
+        heading: "Concept",
+        content: [
+          "Revenge trading is the urge to restore identity after a loss—“I need it back now.”",
+          "It is less about money and more about proving competence.",
+          "The faster you act, the more likely you ignore your plan.",
+        ],
+      },
+      {
+        heading: "How It Shows on Charts",
+        content: [
+          "Chasing price after the move already happened.",
+          "Increasing size to “make it back faster.”",
+          "Skipping or widening stops because “it has to work.”",
+        ],
+      },
+      {
+        heading: "Interruption Script",
+        content: [
+          "Say out loud: “This is a recovery trade. My job is to follow process, not fix the loss.”",
+          "Repeat: “One good trade > one fast trade.”",
+          "Ask: “Would I take this trade if I were flat today?”",
+        ],
+      },
+      {
+        heading: "5-Minute Hard Reset Routine",
+        content: [
+          "Step away from the screen and stand up.",
+          "Do 10 slow breaths: 4 seconds in, 6 seconds out.",
+          "Review your checklist and mark yes/no quickly.",
+          "Set a 1-trade limit for the next attempt.",
+          "Return only if you can explain the setup in one sentence.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When you feel the urge to win it back immediately.",
+      "When you are increasing size to recover losses.",
+      "When you are skipping or widening stops.",
+    ],
+    diagram: "Revenge Loop\nLoss → Threat → Urgency → Chase → Bigger Loss",
+    takeaways: [
+      "Revenge trading is an identity threat, not a strategy.",
+      "Chasing, bigger size, and no stop are the warning signs.",
+      "A short script interrupts the impulse.",
+      "A five-minute reset lowers urgency and restores process.",
+      "You only need one clean trade, not a fast one.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Trying to “fix” a loss with the next trade often creates a second, larger loss.",
+      },
+      {
+        type: "tip",
+        content:
+          "Write your interruption script on a note and read it before every new trade after a loss.",
+      },
+    ],
+    quiz: [
+      {
+        id: "rt-q1",
+        question: "What is the core driver of revenge trading?",
+        options: ["Boredom", "Identity threat after a loss", "News volatility", "Too many indicators"],
+        correctIndex: 1,
+        explanation: "Revenge trading is a response to feeling threatened or wrong after a loss.",
+      },
+      {
+        id: "rt-q2",
+        question: "Which chart behavior most clearly signals revenge trading?",
+        options: ["Waiting for a pullback", "Chasing price with bigger size", "Taking profits early", "Using a stop"],
+        correctIndex: 1,
+        explanation: "Chasing price with larger size shows urgency and is a classic revenge behavior.",
+      },
+      {
+        id: "rt-q3",
+        question: "What is the goal of a 5-minute hard reset routine?",
+        options: ["Enter faster", "Lower urgency and return to process", "Find a new strategy", "Increase win rate immediately"],
+        correctIndex: 1,
+        explanation: "The reset routine reduces emotional intensity so you can follow your plan again.",
+      },
+    ],
+  },
+  "drawdown-recovery": {
+    title: "Drawdown Recovery Plan",
+    overview:
+      "Drawdowns require a recovery mode that protects capital and rebuilds confidence through process. The goal is not to “make it back fast,” but to stabilize execution so your edge can reappear. This lesson gives a simple recovery framework and a two-week checklist.",
+    objectives: [
+      "Apply the recovery framework to reduce risk and mistakes.",
+      "Focus on process goals instead of P&L.",
+      "Use a structured two-week plan to reset performance.",
+    ],
+    sections: [
+      {
+        heading: "Recovery Framework",
+        content: [
+          "Reduce size immediately to lower emotional pressure.",
+          "Trade only one setup that you can explain clearly.",
+          "Stop after one loss to prevent compounding.",
+          "Set process goals (checklist, execution, journaling) over profit goals.",
+        ],
+      },
+      {
+        heading: "2-Week Recovery Plan Checklist",
+        content: [
+          "Week 1: Trade micros or half size only.",
+          "Week 1: One setup, max 2 trades per day.",
+          "Week 1: Stop after the first loss each day.",
+          "Week 2: Keep size reduced; add a second trade only if Week 1 was clean.",
+          "Week 2: Review rule breaks daily and fix one issue at a time.",
+        ],
+      },
+      {
+        heading: "Process Goals Examples",
+        content: [
+          "Complete pre-trade checklist before every entry.",
+          "Log emotions after each trade in one sentence.",
+          "Follow stop placement rules 100% of the time.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When you are increasing size to recover losses.",
+      "When you cannot define your one allowed setup.",
+      "When you are ignoring your stop-after-one-loss rule.",
+    ],
+    diagram: "Recovery Ladder\nReduce Size → One Setup → One Loss Stop → Process Goals",
+    takeaways: [
+      "Recovery is about stabilizing process, not racing for profit.",
+      "Reduced size lowers emotional load and improves discipline.",
+      "Limiting setups and losses prevents further damage.",
+      "Process goals rebuild confidence faster than P&L goals.",
+      "Two-week structure keeps recovery measurable and calm.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Trying to earn back a drawdown quickly usually deepens it because it forces impulsive trades.",
+      },
+      {
+        type: "tip",
+        content:
+          "Print your two-week checklist and check off each day to track recovery discipline.",
+      },
+    ],
+    quiz: [
+      {
+        id: "dr-q1",
+        question: "What is the first step in the recovery framework?",
+        options: ["Increase size", "Reduce size", "Add more setups", "Trade more hours"],
+        correctIndex: 1,
+        explanation: "Reducing size lowers pressure and stabilizes decision-making.",
+      },
+      {
+        id: "dr-q2",
+        question: "Why use process goals during recovery?",
+        options: [
+          "They guarantee profits",
+          "They keep focus on controllable actions",
+          "They remove the need for a stop",
+          "They increase leverage",
+        ],
+        correctIndex: 1,
+        explanation: "Process goals are controllable and help rebuild discipline without chasing P&L.",
+      },
+      {
+        id: "dr-q3",
+        question: "What is the rule about losses during the recovery phase?",
+        options: ["Stop after one loss", "Double down after two losses", "Ignore losses", "Trade until green"],
+        correctIndex: 0,
+        explanation: "Stopping after one loss prevents compounding errors during recovery.",
+      },
+    ],
+  },
+  "advanced-review": {
+    title: "Advanced Review & Weekly Ritual",
+    overview:
+      "An athlete-style review treats trading like performance training: review the process, classify outcomes, and make one focused adjustment. This lesson shows how to label trades, run a weekly ritual, and use a printable checklist to keep review consistent.",
+    objectives: [
+      "Classify trades as good, bad, or unlucky.",
+      "Run a weekly review using objective metrics.",
+      "Use a printable checklist to keep reviews consistent.",
+    ],
+    sections: [
+      {
+        heading: "Athlete-Style Review",
+        content: [
+          "Review like a coach: focus on process, not ego.",
+          "Separate decisions from outcomes to avoid biased conclusions.",
+          "Make one change at a time so improvements are measurable.",
+        ],
+      },
+      {
+        heading: "Trade Classification",
+        content: [
+          "Good trade = followed the plan, regardless of outcome.",
+          "Bad trade = broke a rule (entry, size, stop, or management).",
+          "Unlucky trade = plan was right, but outcome was a loss.",
+        ],
+      },
+      {
+        heading: "Weekly Ritual Metrics",
+        content: [
+          "Win rate (%).",
+          "Average R per trade.",
+          "Number of rule breaks.",
+          "Best-performing setup.",
+          "One change to test next week.",
+        ],
+      },
+      {
+        heading: "Printable Review Checklist",
+        content: [
+          "Classify every trade: good, bad, or unlucky.",
+          "Count rule breaks and list the most common one.",
+          "Calculate win rate and average R.",
+          "Identify the best setup and why it worked.",
+          "Write one behavior change for next week.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When you have not completed the weekly review.",
+      "When a rule break pattern is still unresolved.",
+      "When you cannot explain your one change for the week.",
+    ],
+    diagram: "Review Loop\nExecute → Log → Classify → Adjust",
+    takeaways: [
+      "Athlete-style review focuses on process first.",
+      "Good trades are defined by rule adherence, not outcome.",
+      "Weekly metrics make progress measurable.",
+      "One change per week prevents over-adjusting.",
+      "A checklist makes review consistent and repeatable.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Changing multiple variables after one bad week makes it impossible to learn what actually works.",
+      },
+      {
+        type: "tip",
+        content:
+          "Print the checklist and keep it in your journal to enforce the weekly ritual.",
+      },
+    ],
+    quiz: [
+      {
+        id: "ar-q1",
+        question: "How is a good trade defined in the review system?",
+        options: ["It made money", "It followed the plan", "It used a tight stop", "It was fast"],
+        correctIndex: 1,
+        explanation: "A good trade is defined by rule adherence, regardless of the outcome.",
+      },
+      {
+        id: "ar-q2",
+        question: "What is an unlucky trade?",
+        options: [
+          "A trade that broke a rule",
+          "A trade taken without a stop",
+          "A trade that followed the plan but lost",
+          "A trade that was late",
+        ],
+        correctIndex: 2,
+        explanation: "An unlucky trade followed the plan but still lost due to normal variance.",
+      },
+      {
+        id: "ar-q3",
+        question: "What is the weekly ritual designed to produce?",
+        options: [
+          "A new strategy every week",
+          "One focused change for the next week",
+          "More trades per day",
+          "Higher leverage",
+        ],
+        correctIndex: 1,
+        explanation: "The ritual should lead to one focused adjustment to test next week.",
+      },
+    ],
+  },
   "position-sizing": {
     title: "Position Sizing",
     isRiskCritical: true,
