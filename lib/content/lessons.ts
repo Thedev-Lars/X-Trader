@@ -1462,6 +1462,278 @@ export const lessons: Record<string, Lesson> = {
       },
     ],
   },
+  "journaling-basics": {
+    title: "Journaling Basics",
+    overview:
+      "Journaling is performance tracking, not a diary. The goal is to capture repeatable data about your setups, decisions, and outcomes so you can improve the process that creates results.",
+    objectives: [
+      "Define the minimum fields every trade journal should include.",
+      "Use a simple template that captures both process and outcome.",
+      "Apply a lazy-friendly minimum journaling standard that keeps data consistent.",
+    ],
+    sections: [
+      {
+        heading: "Concept",
+        content: [
+          "A trading journal is a performance log that measures execution quality.",
+          "Your journal is only useful if it captures the same fields every time.",
+          "Track the key inputs: setup, entry reason, stop logic, result in R, emotions, and rule breaks.",
+        ],
+      },
+      {
+        heading: "Template",
+        content: [
+          "Template (copy/paste):\n| Setup | Entry reason | Stop logic | Result (R) | Emotions | Rule breaks |\n| --- | --- | --- | --- | --- | --- |\n| Opening range breakout | Took A+ pullback after 5-min breakout | Stop below OR low | +1.8R | Calm, focused | None |",
+          "Keep entries short and factual so you can scan them quickly during reviews.",
+        ],
+      },
+      {
+        heading: "Minimum Journaling Standard",
+        content: [
+          "Minimum journaling standard (lazy-friendly): record setup name, entry reason, stop logic, and R result in under 60 seconds.",
+          "If you are too busy, skip the essay and just capture the four mandatory fields plus a one-word emotion.",
+        ],
+      },
+      {
+        heading: "Execution",
+        content: [
+          "Journal immediately after the trade, not hours later.",
+          "Use R multiples so wins and losses are comparable across sizes.",
+          "Mark any rule break clearly so it stands out in reviews.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When you refuse to journal because the last loss felt embarrassing.",
+      "When you cannot define your setup or stop logic before entry.",
+      "When you are too distracted to log the trade within the same session.",
+    ],
+    diagram: "Journaling Feedback Loop\nPlan → Trade → Journal → Review → Adjust",
+    takeaways: [
+      "Journaling is objective performance tracking, not storytelling.",
+      "Consistent fields make your data usable.",
+      "The minimum standard keeps you logging even on busy days.",
+      "R-based results make comparisons fair across trades.",
+      "Rule breaks must be explicit or they will repeat.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Writing long narratives but skipping the hard fields (stop logic, R, rule breaks) creates a journal you cannot analyze.",
+      },
+      {
+        type: "tip",
+        content:
+          "Build a one-minute template and copy it before each session so journaling stays frictionless.",
+      },
+    ],
+    quiz: [
+      {
+        id: "jb-q1",
+        question: "What is the primary purpose of a trading journal?",
+        options: ["Tell your story", "Track performance inputs and outcomes", "Log market news", "Store screenshots only"],
+        correctIndex: 1,
+        explanation: "A trading journal exists to track process and results so you can improve performance.",
+      },
+      {
+        id: "jb-q2",
+        question: "Which field is required for comparing trades fairly?",
+        options: ["Account balance", "Result in R", "Market headline", "Indicator settings"],
+        correctIndex: 1,
+        explanation: "R multiples normalize outcomes so different sizes and markets are comparable.",
+      },
+      {
+        id: "jb-q3",
+        question: "What is the minimum journaling standard focused on?",
+        options: ["Long reflections", "Four core fields plus emotion", "Saving charts only", "Posting to social media"],
+        correctIndex: 1,
+        explanation: "The minimum standard keeps logging simple: setup, entry reason, stop logic, R, and a quick emotion tag.",
+      },
+    ],
+  },
+  "journaling-accountability": {
+    title: "Journaling Accountability",
+    overview:
+      "Accountability turns a journal into a behavior change tool. By scoring rule adherence and reviewing weekly patterns, you can spot the leaks that cause drawdowns and reinforce what already works.",
+    objectives: [
+      "Apply a 0–10 accountability score to every trade.",
+      "Use weekly reviews to select one leak to fix and one strength to repeat.",
+      "Identify revenge trading patterns from journal fields.",
+    ],
+    sections: [
+      {
+        heading: "Accountability Score (0–10)",
+        content: [
+          "Score each trade on rule adherence, not P&L.",
+          "Rubric:\n10 = all rules followed with full process\n7–9 = minor timing or execution slip, no rule breaks\n4–6 = one clear rule break (early entry, late exit, or sizing)\n1–3 = multiple rule breaks or impulsive trade\n0 = no setup, no stop, or revenge trade",
+        ],
+      },
+      {
+        heading: "Weekly Review System",
+        content: [
+          "Review the last 5–20 trades and calculate your average accountability score.",
+          "Choose 1 leak to fix (the most common rule break) and 1 strength to repeat (the highest-scoring behavior).",
+          "Write a one-sentence action for each so the next week has a clear focus.",
+        ],
+      },
+      {
+        heading: "Spotting Revenge Trading",
+        content: [
+          "Look for sequences where emotions shift to angry/urgent and the next trade ignores stop logic.",
+          "Red flags: entry reason like “make it back,” sizing above plan, or rule breaks immediately after a loss.",
+          "If the journal shows a loss → rule break → oversized trade pattern, mark it as revenge trading.",
+        ],
+      },
+      {
+        heading: "Execution",
+        content: [
+          "Score trades right after journaling so the grade is honest.",
+          "Keep the rubric visible at your desk to reduce debate.",
+          "Track your weekly average; the goal is a rising score, not a perfect P&L.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "After a low-score trade if you feel urgency to “fix” the day.",
+      "When you cannot explain why the last trade scored below 7.",
+      "When a loss triggers a strong emotional spike in your journal.",
+    ],
+    diagram: "Accountability Feedback Loop\nTrade → Score → Review → One Fix → Repeat",
+    takeaways: [
+      "Accountability scores measure process, not profit.",
+      "Weekly review keeps focus on one leak and one strength.",
+      "Revenge trading shows up as emotional spikes plus rule breaks.",
+      "Raising your average score is the fastest path to consistency.",
+      "A clear rubric removes ambiguity and excuses.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Only reviewing big wins and losses hides the daily process errors that actually compound into drawdown.",
+      },
+      {
+        type: "tip",
+        content:
+          "If your accountability score is under 7, reduce size until the process is stable again.",
+      },
+    ],
+    quiz: [
+      {
+        id: "ja-q1",
+        question: "What does the accountability score measure?",
+        options: ["Profit size", "Rule adherence", "Market volatility", "News impact"],
+        correctIndex: 1,
+        explanation: "The score is based on how well you followed your rules, not on P&L.",
+      },
+      {
+        id: "ja-q2",
+        question: "What is the weekly review focus?",
+        options: ["Add more setups", "Choose one leak and one strength", "Increase leverage", "Change indicators"],
+        correctIndex: 1,
+        explanation: "Weekly reviews should target one fix and one repeatable strength to keep improvement focused.",
+      },
+      {
+        id: "ja-q3",
+        question: "Which pattern most suggests revenge trading?",
+        options: ["Calm emotions after a loss", "Loss → rule break → oversized trade", "Missing a trade", "Following the plan"],
+        correctIndex: 1,
+        explanation: "Revenge trading usually shows an emotional spike that leads to a rule break and increased size.",
+      },
+    ],
+  },
+  "playbook-building": {
+    title: "Playbook Building",
+    overview:
+      "A playbook is your top 1–3 setups only, distilled into repeatable rules. If you have 10 setups, you have zero. The goal is to document the trades that actually deliver positive R with clean execution.",
+    objectives: [
+      "Build a playbook from a 20-trade sample.",
+      "Measure average R and rule breaks to rank setups.",
+      "Document a clear template for each approved setup.",
+    ],
+    sections: [
+      {
+        heading: "Concept",
+        content: [
+          "Your playbook is a short list of highest-performing setups, not a catalog of ideas.",
+          "Rank setups by average R and rule adherence to find the real winners.",
+          "Only include setups you can define in one sentence.",
+        ],
+      },
+      {
+        heading: "Build From 20 Trades",
+        content: [
+          "Collect 20 recent trades and label each by setup name.",
+          "Cluster similar trades together, then measure average R and the number of rule breaks per cluster.",
+          "Keep the top 1–3 clusters with positive average R and the fewest rule breaks.",
+        ],
+      },
+      {
+        heading: "Playbook Template",
+        content: [
+          "Template:\n- Conditions (market context)\n- Trigger (entry criteria)\n- Invalidation (stop logic)\n- Targets (profit plan)\n- When not to take it (filters)",
+          "Store one page per setup so you can review it before each session.",
+        ],
+      },
+      {
+        heading: "Execution",
+        content: [
+          "Trade only playbook setups during live sessions.",
+          "If a trade does not match the template, label it as “off-playbook.”",
+          "Review playbook performance monthly and update only with data.",
+        ],
+      },
+    ],
+    whenNotToTrade: [
+      "When you want to test a new idea without tracking it separately.",
+      "When a setup is unclear or takes more than a sentence to describe.",
+      "When the trade requires breaking a playbook rule to make it work.",
+    ],
+    diagram: "Playbook Feedback Loop\nTrade → Journal → Cluster → Refine → Playbook",
+    takeaways: [
+      "A playbook is a short list of your best setups only.",
+      "Twenty trades is enough data to cluster and rank setups.",
+      "Average R and rule breaks reveal true performance.",
+      "Templates keep setups precise and repeatable.",
+      "Off-playbook trades should be rare and labeled.",
+    ],
+    callouts: [
+      {
+        type: "mistake",
+        content:
+          "Adding new setups before the current ones show consistent positive R turns the playbook into noise.",
+      },
+      {
+        type: "tip",
+        content:
+          "Print your top setup template and keep it next to your monitor as a pre-trade checklist.",
+      },
+    ],
+    quiz: [
+      {
+        id: "pb-q1",
+        question: "How many setups should a playbook contain?",
+        options: ["As many as possible", "Top 1–3 setups only", "At least 10", "One per indicator"],
+        correctIndex: 1,
+        explanation: "A playbook focuses on your top 1–3 setups so they stay repeatable and measurable.",
+      },
+      {
+        id: "pb-q2",
+        question: "What should you measure when clustering 20 trades?",
+        options: ["Social media likes", "Average R and rule breaks", "Broker fees only", "Number of indicators"],
+        correctIndex: 1,
+        explanation: "Average R and rule breaks identify which setups perform best and which are executed cleanly.",
+      },
+      {
+        id: "pb-q3",
+        question: "What is an off-playbook trade?",
+        options: ["A trade that matches the template", "A trade taken outside your defined setups", "A trade with a small win", "A trade during high volume"],
+        correctIndex: 1,
+        explanation: "Off-playbook trades do not match your documented setup rules and should be labeled.",
+      },
+    ],
+  },
   "order-flow-basics": {
     title: "Order Flow Basics",
     overview:
