@@ -34,7 +34,7 @@ export function OnboardingModal({ onStartHere, onBrowseMap }: OnboardingModalPro
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-[calc(100%-1.5rem)] sm:max-w-md p-6">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold flex items-center gap-2">
             <Compass className="w-6 h-6 text-primary" />
