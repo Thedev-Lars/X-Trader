@@ -4,78 +4,78 @@ export const lessons: Record<string, Lesson> = {
   "futures-basics": {
     title: "Futures Basics",
     overview:
-      "Futures are standardized agreements to buy or sell an asset at a set price on a future date, and traders use them to speculate on price movement. ES and NQ index futures are highly liquid, which makes execution and risk control easier for newer traders. Futures trade in ticks and are margined, so small price moves can have big account impact. The same risk logic applies to forex even though the contract structure differs.",
+      "Futures are standardized contracts that let you trade price movement in major markets like the S&P 500 (ES) or Nasdaq (NQ). Because liquidity is centralized and contracts are standardized, fills are typically cleaner than in fragmented markets. The leverage is real, though: a small price move can be a meaningful dollar swing. This lesson frames futures as a tool that rewards precision, not size.",
     objectives: [
-      "Define what a futures contract is and why it trades like a derivative.",
-      "Identify the core traits of ES/NQ contracts that matter to day traders.",
-      "Explain how leverage and margin change risk compared to spot markets.",
-      "Choose an appropriate contract size for practice trading.",
+      "Define what a futures contract is and why it differs from spot.",
+      "Identify the practical traits of ES/NQ that matter for execution.",
+      "Explain how leverage changes risk, even with small moves.",
+      "Choose a contract size that matches your risk plan.",
     ],
     sections: [
       {
         heading: "Concept",
         content: [
-          "Futures are exchange-traded contracts tied to an underlying index, commodity, or rate.",
-          "They are standardized, which keeps liquidity concentrated and spreads tight in products like ES and NQ.",
-          "You can go long or short with the same mechanics, making them flexible for trend or mean-reversion setups.",
+          "Futures are exchange-traded contracts tied to a specific underlying market.",
+          "Standardization keeps liquidity concentrated and spreads tight in core products like ES and NQ.",
+          "Long and short use the same mechanics, so bias changes don’t require a new instrument.",
         ],
       },
       {
         heading: "Setup",
         content: [
-          "Pick one contract and learn its tick size, tick value, and margin requirements.",
-          "Use micros (MES/MNQ) to match risk to account size while keeping the same price behavior.",
-          "Know the active contract month and avoid trading the old front month near rollover.",
+          "Pick one contract and learn its tick size, tick value, and trading hours.",
+          "Use micros (MES/MNQ) to keep risk consistent while learning the same price behavior.",
+          "Trade the active front month; avoid stale contracts around rollover.",
         ],
       },
       {
         heading: "Execution",
         content: [
-          "Plan entries around liquid windows like the cash open to reduce slippage.",
-          "Use limit orders for precise entries and market orders only when speed matters.",
-          "Always log your contract, entry, stop, and target in points and dollars.",
+          "Prioritize liquid windows (cash open, overlap) to reduce slippage.",
+          "Use limit orders when precision matters; use market orders only when speed is critical.",
+          "Record entry, stop, and target in both points and dollars for clarity.",
         ],
       },
       {
         heading: "Risk",
         content: [
-          "Margin lets you control large notional size, but losses still hit your account dollar-for-dollar.",
-          "A small ES move can be larger than your planned risk if you size too big.",
-          "Treat futures like leveraged forex: define a hard stop before entry.",
+          "Margin is not risk control; it is access to leverage.",
+          "A small ES move can exceed your plan if size is too large.",
+          "Define a stop before entry so risk is measured, not guessed.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "Assuming futures are like stocks and ignoring the leverage effect.",
-          "Trading thin contracts or expired months where spreads widen and fills slip.",
+          "Treating a futures contract like a stock share and ignoring leverage.",
+          "Trading thin or expired contracts where liquidity and fills are poor.",
           "Skipping contract specs and guessing P&L after the fact.",
         ],
       },
     ],
     whenNotToTrade: [
-      "When you cannot state the tick value and point value from memory.",
-      "During contract rollover if you do not know which month is most active.",
-      "When your margin buffer is tight and a single loss could trigger liquidation.",
+      "When you cannot state tick value and point value from memory.",
+      "During rollover if you are unsure which contract is most active.",
+      "When margin is tight and one loss could force liquidation.",
     ],
     diagram: "Futures Contract Snapshot\nUnderlying → Contract Size → Tick Size → Tick Value → Margin",
     takeaways: [
       "Futures are standardized derivatives with centralized liquidity.",
-      "ES and NQ offer tight spreads and fast fills for day trading.",
-      "Leverage magnifies outcomes, so position size must be intentional.",
-      "Micros let you practice the same market behavior at lower risk.",
-      "Always know specs before you place the first order.",
+      "ES and NQ offer tight spreads and consistent fills in liquid hours.",
+      "Leverage magnifies outcomes; size must be deliberate.",
+      "Micros let you practice the same behavior at smaller risk.",
+      "Know contract specs before placing the first order.",
     ],
     callouts: [
       {
         type: "mistake",
         content:
-          "Treating a futures contract like a stock share hides the leverage risk and leads to outsized drawdowns even when your entry is correct.",
+          "Treating a futures contract like a stock share hides leverage risk and creates oversized drawdowns even with a correct entry.",
       },
       {
         type: "tip",
         content:
-          "Start with MES or MNQ and graduate to ES/NQ only after you can follow your stop rules for 20 consecutive trades.",
+          "Start with MES or MNQ and move to ES/NQ only after you can follow stop rules for 20 consecutive trades.",
       },
     ],
     quiz: [
@@ -89,86 +89,86 @@ export const lessons: Record<string, Lesson> = {
           "They are only for hedgers",
         ],
         correctIndex: 1,
-        explanation: "A futures price is derived from the underlying asset (like the S&P 500 for ES), which is the definition of a derivative.",
+        explanation: "A futures price is derived from the underlying asset (like the S&P 500 for ES), which is what makes it a derivative.",
       },
       {
         id: "fb-q2",
         question: "What is the main practical advantage of micros (MES/MNQ)?",
         options: ["They move less", "They require smaller risk per trade", "They are only for swing trades", "They have no margin"],
         correctIndex: 1,
-        explanation: "Micros track the same price movement as standard contracts but with 1/10th the dollar value, making risk control easier.",
+        explanation: "Micros track the same price movement with 1/10th the dollar value, making risk control easier.",
       },
       {
         id: "fb-q3",
         question: "What should you confirm before trading a futures contract month?",
         options: ["Broker name", "Active front month", "News headlines", "Indicator settings"],
         correctIndex: 1,
-        explanation: "Liquidity concentrates in the front month, so you should trade the most active contract to avoid poor fills.",
+        explanation: "Liquidity concentrates in the front month, so trade the most active contract to avoid poor fills.",
       },
     ],
   },
   "tick-values": {
     title: "Tick Values & Contract Specs",
     overview:
-      "Ticks are the minimum price changes for a contract, and their dollar value determines your real risk. ES and NQ move in 0.25-point ticks, which is why a small chart move can still be a meaningful dollar swing. Understanding ticks lets you size trades and targets precisely. This logic maps directly to forex pip values when you convert to account currency.",
+      "Ticks are the smallest price increments a contract can move, and their dollar value defines your real exposure. ES and NQ move in 0.25-point ticks, so a seemingly small move can still be a meaningful loss or gain. If you can’t translate ticks to dollars quickly, you can’t control risk.",
     objectives: [
-      "Calculate tick value and point value for common contracts.",
-      "Convert price movement into dollar P&L quickly.",
-      "Use tick math to size positions responsibly.",
+      "Calculate tick and point values for common contracts.",
+      "Translate price movement into dollars quickly.",
+      "Use tick math to size trades responsibly.",
     ],
     sections: [
       {
         heading: "Concept",
         content: [
           "A tick is the smallest price increment allowed by the exchange.",
-          "Tick value tells you how much one tick is worth per contract.",
-          "Point value is the dollar move for a full point in ES or NQ.",
+          "Tick value tells you the dollar value of one tick per contract.",
+          "Point value is just ticks per point multiplied by tick value.",
         ],
       },
       {
         heading: "Setup",
         content: [
-          "Memorize ES and NQ tick values before you trade live.",
-          "Know the micro equivalents so you can scale risk without changing the setup.",
-          "Check contract specs when you add a new market like CL or GC.",
+          "Memorize ES and NQ tick values before trading live.",
+          "Know the micro equivalents so you can scale risk without changing setups.",
+          "Check specs whenever you add a new market (CL, GC, etc.).",
         ],
       },
       {
         heading: "Execution",
         content: [
-          "Translate your stop distance into ticks, then into dollars.",
-          "Set targets in points or ticks, not in vague dollar goals.",
+          "Translate stop distance into ticks, then into dollars.",
+          "Set targets in points or ticks, not vague dollar goals.",
           "Log P&L by ticks to spot execution drift over time.",
         ],
       },
       {
         heading: "Risk",
         content: [
-          "If the dollar risk per contract is too high, reduce size or skip the trade.",
+          "If dollar risk per contract is too high, reduce size or skip.",
           "Wide stops on NQ can exceed risk limits fast; calculate first.",
-          "Pip value in forex is the same concept—calculate it in your account currency.",
+          "Forex pip value is the same concept—convert it to your account currency.",
         ],
       },
       {
         heading: "Common Mistakes",
         content: [
-          "Mixing ticks and points and underestimating true risk.",
+          "Mixing ticks and points and underestimating real risk.",
           "Rounding tick value or stop distance to make a trade seem affordable.",
           "Ignoring contract specs after a rollover or product switch.",
         ],
       },
     ],
     whenNotToTrade: [
-      "When you cannot convert your stop distance into dollars within a few seconds.",
-      "When switching to a new market without confirming tick size and value.",
-      "When your broker margin hides the true risk per contract.",
+      "When you cannot convert stop distance to dollars within a few seconds.",
+      "When switching markets without confirming tick size and value.",
+      "When broker margin hides the true risk per contract.",
     ],
     diagram: "Tick Math\nStop (ticks) × Tick Value × Contracts = Dollar Risk",
     takeaways: [
-      "Tick value determines your true dollar exposure.",
-      "Point value is just tick value multiplied by ticks per point.",
-      "Micros allow precise sizing without changing the chart behavior.",
-      "Always calculate risk before you click buy or sell.",
+      "Tick value defines your true dollar exposure.",
+      "Point value is tick value multiplied by ticks per point.",
+      "Micros allow precise sizing without changing chart behavior.",
+      "Calculate risk before you click buy or sell.",
       "Pips in forex are the same concept—convert them to dollars.",
     ],
     callouts: [
@@ -210,34 +210,34 @@ export const lessons: Record<string, Lesson> = {
   "margin-leverage": {
     title: "Margin & Leverage",
     overview:
-      "Margin is the deposit required to control a futures contract, and it creates leverage. Leverage lets small price moves translate into meaningful gains or losses, which is why a tight risk plan matters. Brokers often advertise low intraday margin, but that does not reduce actual risk. The same leverage mindset applies to forex, where position size drives exposure.",
+      "Margin is the deposit required to control a futures contract, and it creates leverage. Leverage makes small moves meaningful in dollars, which is why sizing and stops matter more than margin rates. Broker margin offers are not risk control—they are just access.",
     objectives: [
       "Explain the difference between initial, maintenance, and intraday margin.",
-      "Identify how leverage affects real dollar risk.",
-      "Choose position size that fits your account without relying on margin limits.",
+      "Identify how leverage changes real dollar exposure.",
+      "Choose position size that fits your risk plan, not your margin limit.",
     ],
     sections: [
       {
         heading: "Concept",
         content: [
-          "Margin is not a down payment; it is a performance bond on the full contract value.",
+          "Margin is not a down payment; it is a performance bond on full contract value.",
           "Leverage magnifies outcomes because you control more notional than you deposit.",
-          "Your P&L still moves tick-for-tick regardless of margin discounts.",
+          "P&L still moves tick-for-tick regardless of margin discounts.",
         ],
       },
       {
         heading: "Setup",
         content: [
           "Know your broker’s initial and maintenance margin for ES and NQ.",
-          "Decide a personal max risk that is independent of broker margin offers.",
-          "Use micros if your risk plan does not fit the standard contract.",
+          "Set a personal max risk independent of broker margin offers.",
+          "Use micros if your risk plan does not fit a standard contract.",
         ],
       },
       {
         heading: "Execution",
         content: [
-          "Calculate risk by stop distance, not by the margin shown on the ticket.",
-          "Avoid holding positions overnight unless you can meet the higher margin.",
+          "Calculate risk by stop distance, not by margin shown on the ticket.",
+          "Avoid holding positions overnight unless you can meet higher margin.",
           "Treat leverage like a tool, not a free pass to size up.",
         ],
       },
@@ -246,7 +246,7 @@ export const lessons: Record<string, Lesson> = {
         content: [
           "A small adverse move can exceed your daily loss limit if you oversize.",
           "Margin calls are forced risk management—don’t wait for them.",
-          "Forex traders face the same issue when using high lot sizes.",
+          "Forex traders face the same issue when using oversized lots.",
         ],
       },
       {
@@ -267,7 +267,7 @@ export const lessons: Record<string, Lesson> = {
     takeaways: [
       "Margin is a deposit, not a limit on losses.",
       "Leverage increases both upside and downside equally.",
-      "Your stop distance defines real risk, not broker margin.",
+      "Stop distance defines real risk, not broker margin.",
       "Use micros to align leverage with account size.",
       "Avoid overnight holds unless your margin buffer is large.",
     ],
@@ -310,7 +310,7 @@ export const lessons: Record<string, Lesson> = {
   "market-structure": {
     title: "Market Structure Basics",
     overview:
-      "Market structure is the sequence of highs and lows that defines trend, range, or transition. Understanding structure keeps you trading with context instead of reacting to every candle. ES and NQ are clean examples because their liquidity creates clearer swings, but the same structure logic applies to forex pairs. Structure tells you where trades make sense and where they do not.",
+      "Market structure is the sequence of highs and lows that defines trend, range, or transition. It keeps you trading with context instead of reacting to every candle. ES and NQ show cleaner swings because of liquidity, but the same logic applies to forex pairs.",
     objectives: [
       "Identify higher highs, higher lows, lower highs, and lower lows.",
       "Distinguish trending, ranging, and transitioning markets.",
@@ -322,7 +322,7 @@ export const lessons: Record<string, Lesson> = {
         heading: "Concept",
         content: [
           "Trends are defined by higher highs and higher lows (uptrend) or lower highs and lower lows (downtrend).",
-          "Ranges form when price fails to make progress beyond a clear ceiling and floor.",
+          "Ranges form when price fails to progress beyond a clear ceiling and floor.",
           "Transitions show up as a break of structure followed by a retest.",
         ],
       },
@@ -330,7 +330,7 @@ export const lessons: Record<string, Lesson> = {
         heading: "Setup",
         content: [
           "Mark the most recent swing high and swing low on your execution timeframe.",
-          "Align your trade direction with the higher timeframe structure first.",
+          "Align trade direction with higher timeframe structure first.",
           "Use a simple swing definition (e.g., two-bar confirmation) to stay consistent.",
         ],
       },
@@ -411,11 +411,11 @@ export const lessons: Record<string, Lesson> = {
   "session-timing": {
     title: "Session Timing",
     overview:
-      "Trading results are heavily influenced by when you trade. ES and NQ have their best liquidity during the US morning, while forex often moves most during the London and New York overlap. Timing determines volatility, spread, and follow-through. If you trade the wrong window for your strategy, you are fighting the market instead of working with it.",
+      "Results depend on when you trade. ES and NQ are cleanest during the US morning, while forex often moves most during the London/New York overlap. Timing affects volatility, spreads, and follow-through. A good strategy in the wrong window turns into noise.",
     objectives: [
-      "Identify the most liquid windows for ES/NQ and forex pairs.",
-      "Match your strategy to the volatility profile of the session.",
-      "Avoid low-volume periods that produce choppy price action.",
+      "Identify the most liquid windows for ES/NQ and major forex pairs.",
+      "Match your strategy to the session’s volatility profile.",
+      "Avoid low-volume periods that create chop.",
     ],
     sections: [
       {
@@ -423,7 +423,7 @@ export const lessons: Record<string, Lesson> = {
         content: [
           "Liquidity clusters around session opens and overlap periods.",
           "Higher volume usually means tighter spreads and better follow-through.",
-          "Low-volume hours can be slow and mean-reverting.",
+          "Low-volume hours are slower and more mean-reverting.",
         ],
       },
       {
@@ -431,13 +431,13 @@ export const lessons: Record<string, Lesson> = {
         content: [
           "For futures, focus on the US cash open and first two hours.",
           "For forex, prioritize London open and the London/New York overlap.",
-          "Mark major economic releases that can override normal session behavior.",
+          "Mark high-impact releases that can override normal session behavior.",
         ],
       },
       {
         heading: "Execution",
         content: [
-          "Plan your trades around a defined time block to reduce fatigue.",
+          "Plan trades around a defined time block to reduce fatigue.",
           "Adjust targets and stops based on expected session volatility.",
           "If the session is slow, trade less or reduce size.",
         ],
@@ -512,7 +512,7 @@ export const lessons: Record<string, Lesson> = {
     title: "Risk Fundamentals",
     isRiskCritical: true,
     overview:
-      "Risk control is the only reason you get to trade tomorrow. Your edge can be small, but it will survive if your losses are capped and consistent. ES and NQ move fast, so a single oversized trade can erase a week of progress. Forex is no different—size and stops decide your survival.",
+      "Risk control is the only reason you get to trade tomorrow. Your edge can be small and still work if losses are capped and consistent. ES and NQ move fast, so a single oversized trade can erase a week of progress. Forex is no different—size and stops decide survival.",
     objectives: [
       "Set a maximum risk per trade and per day.",
       "Use risk-to-reward to evaluate trades before entry.",
@@ -532,7 +532,7 @@ export const lessons: Record<string, Lesson> = {
         heading: "Setup",
         content: [
           "Define max risk per trade (often 1% or less) and a daily loss limit.",
-          "Calculate dollar risk before every entry using your stop distance.",
+          "Calculate dollar risk before every entry using stop distance.",
           "Write the rule down and keep it visible during the session.",
         ],
       },
@@ -540,7 +540,7 @@ export const lessons: Record<string, Lesson> = {
         heading: "Execution",
         content: [
           "If the setup requires more risk than allowed, skip it.",
-          "Target at least a 2:1 reward-to-risk when the market structure supports it.",
+          "Target at least a 2:1 reward-to-risk when structure supports it.",
           "Do not widen stops after entry—accept the loss and move on.",
         ],
       },
@@ -613,7 +613,7 @@ export const lessons: Record<string, Lesson> = {
   "trading-psychology-intro": {
     title: "Trading Psychology Intro",
     overview:
-      "Most traders lose not because their strategy is bad, but because they break it under pressure. Emotions show up as overtrading, revenge trades, and moving stops. ES and NQ move fast, which exposes weak discipline quickly. The same emotional traps exist in forex when trades move against you.",
+      "Most traders lose not because their strategy is bad, but because they break it under pressure. Emotions show up as overtrading, revenge trades, and moving stops. ES and NQ move fast, which exposes weak discipline quickly. The same traps exist in forex when trades move against you.",
     objectives: [
       "Identify the most common psychological errors in trading.",
       "Build a pre-trade routine that reduces impulsive decisions.",
@@ -1117,7 +1117,7 @@ export const lessons: Record<string, Lesson> = {
     title: "Position Sizing",
     isRiskCritical: true,
     overview:
-      "Position sizing turns a good setup into a survivable trade. The same ES move can be a small loss or a large drawdown depending on size. Proper sizing keeps you aligned with your risk rules and prevents emotional swings. This is identical to choosing lot size in forex.",
+      "Position sizing turns a good setup into a survivable trade. The same ES move can be a small loss or a large drawdown depending on size. Proper sizing keeps you aligned with risk rules and limits emotional swings. This is identical to choosing lot size in forex.",
     objectives: [
       "Calculate position size using account risk and stop distance.",
       "Apply micro contracts to fit smaller accounts.",
@@ -1218,7 +1218,7 @@ export const lessons: Record<string, Lesson> = {
     title: "Stop-Loss Placement",
     isRiskCritical: true,
     overview:
-      "A stop-loss defines where your trade idea is proven wrong. Without it, you cannot measure risk or size properly. ES and NQ move fast, so a well-placed stop protects you from sudden spikes. This same logic applies to forex, where spreads and volatility can widen.",
+      "A stop-loss defines where your trade idea is proven wrong. Without it, you cannot measure risk or size properly. ES and NQ move fast, so a well-placed stop protects you from sudden spikes. The same logic applies to forex, where spreads and volatility can widen.",
     objectives: [
       "Place stops at structural invalidation levels.",
       "Avoid using arbitrary dollar stops with no chart logic.",
@@ -1229,8 +1229,8 @@ export const lessons: Record<string, Lesson> = {
         heading: "Concept",
         content: [
           "A stop is the price where your trade thesis is invalidated.",
-          "Stops allow you to define risk before you enter.",
-          "The stop location is more important than the entry precision.",
+          "Stops define risk before you enter.",
+          "Stop location matters more than entry precision.",
         ],
       },
       {
@@ -1319,7 +1319,7 @@ export const lessons: Record<string, Lesson> = {
     title: "Diversification & Position Sizing",
     isRiskCritical: true,
     overview:
-      "Sizing is not just math; it is how you keep risk consistent while avoiding overexposure. The same ES move can be survivable or account-ending depending on size, and stacking correlated positions (like ES + NQ) silently multiplies risk. This lesson covers fixed-dollar and fixed-percent sizing methods, plus how to avoid correlation traps.",
+      "Sizing is not just math; it is how you keep risk consistent while avoiding overexposure. The same ES move can be survivable or account-ending depending on size, and stacking correlated positions (like ES + NQ) silently multiplies risk. This lesson covers fixed-dollar and fixed-percent sizing methods plus how to avoid correlation traps.",
     objectives: [
       "Calculate size using fixed-dollar risk and fixed-percent risk methods.",
       "Work through an ES sizing example using the $12.50 tick value.",
@@ -1441,7 +1441,7 @@ export const lessons: Record<string, Lesson> = {
     title: "Stop-Loss & Risk-Reward",
     isRiskCritical: true,
     overview:
-      "Stops are not about pain tolerance; they define where your idea is invalid. Pairing a clean invalidation stop with a realistic target creates a repeatable risk-reward framework. This lesson covers structure-based stops, volatility-aware placement, and how R multiples drive expectancy.",
+      "Stops are not about pain tolerance; they define where your idea is invalid. Pairing a clean invalidation stop with a realistic target creates a repeatable risk-reward framework. This lesson covers structure-based stops, volatility-aware placement, and how R multiples shape expectancy.",
     objectives: [
       "Place stops at invalidation levels, not at random dollar amounts.",
       "Use structure and volatility to determine stop distance.",
@@ -2544,7 +2544,7 @@ export const lessons: Record<string, Lesson> = {
   "breakout-entries": {
     title: "Breakout Entries",
     overview:
-      "Breakouts work when price moves beyond a level and holds, not when it spikes and reverses. ES and NQ breakouts often show clear follow-through during high volume, while forex breakouts need confirmation from session momentum. The goal is to filter false breaks and enter when continuation is likely. This lesson covers two practical breakout models.",
+      "Breakouts work when price clears a level and accepts beyond it, not when it spikes and snaps back. ES and NQ breakouts often show clearer follow-through during high volume, while forex breakouts need confirmation from session momentum. The goal is to filter false breaks and enter only when continuation is likely. This lesson covers two practical breakout models.",
     objectives: [
       "Identify high-quality breakout levels.",
       "Use break-and-hold and break-pullback-continue models.",
