@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/s
 
 const links = [
   { href: "/map", label: "Map" },
-  { href: "/funding", label: "Get Funded" },
+  { href: "/tools", label: "Tools" },
   { href: "/community", label: "Community" },
 ]
 
@@ -45,10 +45,20 @@ export function AppNav() {
         </nav>
 
         {/* Mobile Nav */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2">
+          <Link href="/map" className="hidden md:inline-flex">
+            <Button className="h-11 px-4 text-sm font-semibold">Start Learning</Button>
+          </Link>
+          <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-11 w-11">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-11 w-11"
+                aria-label="Open navigation menu"
+                aria-expanded={open}
+              >
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -78,9 +88,15 @@ export function AppNav() {
                     </Link>
                   ))}
                 </nav>
+                <div className="mt-auto p-4 border-t border-border">
+                  <Link href="/map" onClick={() => setOpen(false)}>
+                    <Button className="w-full h-12 text-base font-semibold">Start Learning</Button>
+                  </Link>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
+          </div>
         </div>
       </div>
     </header>
