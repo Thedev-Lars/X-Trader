@@ -73,7 +73,7 @@ export function DesktopTimeline({
   }
 
   return (
-    <div className="flex-1 overflow-y-auto">
+    <div className="flex-1 overflow-y-auto scrollbar-hide">
       <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="mb-6">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Knowledge Path</p>

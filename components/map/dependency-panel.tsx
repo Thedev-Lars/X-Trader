@@ -67,7 +67,7 @@ export function DependencyPanel({
     .filter(Boolean) as MapNode[]
 
   return (
-    <aside className="w-96 border-l border-border bg-card/60 p-6 overflow-y-auto">
+    <aside className="w-96 border-l border-border bg-card/60 p-6 overflow-y-auto scrollbar-hide">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Lesson Details</p>

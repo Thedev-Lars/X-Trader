@@ -440,6 +440,41 @@ export default function MapPage() {
                     onToggleBookmark={handleToggleBookmark}
                     onSelectNode={setSelectedNode}
                   />
+                  <div
+                    className="hidden xl:flex w-[560px] min-w-[420px] max-w-[720px] flex-col border-l border-border bg-card/60 scrollbar-hide"
+                    style={{ resize: "horizontal", overflow: "auto" }}
+                  >
+                    <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Lesson Preview</p>
+                        <p className="text-sm font-semibold text-foreground">
+                          {selectedNode ? selectedNode.title : "Select a lesson"}
+                        </p>
+                      </div>
+                      {selectedNode && (
+                        <Link
+                          href={`/learn/${selectedNode.slug}`}
+                          className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                          target="_blank"
+                        >
+                          Open full lesson
+                        </Link>
+                      )}
+                    </div>
+                    <div className="flex-1 overflow-hidden scrollbar-hide">
+                      {selectedNode ? (
+                        <iframe
+                          title={`${selectedNode.title} lesson`}
+                          src={`/learn/${selectedNode.slug}`}
+                          className="h-full w-full border-0"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center text-sm text-muted-foreground px-6 text-center">
+                          Choose a lesson to preview it here without leaving the map.
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   <DependencyPanel
                     node={selectedNode}
                     completedSet={completedSet}
