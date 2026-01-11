@@ -8,6 +8,7 @@ import { phases } from "@/lib/map/types"
 import { MapNodeCard } from "./map-node-card"
 import { getNodeStatus } from "@/lib/progress/progress"
 import { learningPaths } from "@/lib/paths/paths"
+import { Minus, Plus, RefreshCcw } from "lucide-react"
 
 interface MapCanvasProps {
   nodes: MapNode[]
@@ -59,6 +60,20 @@ export function MapCanvas({
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [hasInitializedPosition, setHasInitializedPosition] = useState(false)
 
+  const fitMapToView = useCallback(() => {
+    if (!containerRef.current) return
+    const containerRect = containerRef.current.getBoundingClientRect()
+    const padding = 96
+    const scaleX = (containerRect.width - padding) / MAP_WIDTH
+    const scaleY = (containerRect.height - padding) / MAP_HEIGHT
+    const nextScale = Math.min(1, Math.max(0.6, Math.min(scaleX, scaleY)))
+    setScale(nextScale)
+    setOffset({
+      x: (containerRect.width - MAP_WIDTH * nextScale) / 2,
+      y: (containerRect.height - MAP_HEIGHT * nextScale) / 2,
+    })
+  }, [])
+
   // Get highlighted path node IDs
   const highlightedPathNodeIds = highlightedPath
     ? new Set(learningPaths.find((p) => p.id === highlightedPath)?.nodeIds || [])
@@ -91,20 +106,10 @@ export function MapCanvas({
 
   useEffect(() => {
     if (!hasInitializedPosition && containerRef.current) {
-      const startNode = nodes.find((n) => n.id === "futures-basics")
-      if (startNode) {
-        const containerRect = containerRef.current.getBoundingClientRect()
-        // Center the start node with slight offset to the left to show progression
-        const centerX = containerRect.width * 0.3
-        const centerY = containerRect.height / 2
-        setOffset({
-          x: centerX - startNode.position.x * scale,
-          y: centerY - startNode.position.y * scale,
-        })
-        setHasInitializedPosition(true)
-      }
+      fitMapToView()
+      setHasInitializedPosition(true)
     }
-  }, [nodes, scale, hasInitializedPosition])
+  }, [fitMapToView, hasInitializedPosition])
 
   useEffect(() => {
     if (highlightedNodeId) {
@@ -153,6 +158,14 @@ export function MapCanvas({
     setScale((s) => Math.min(Math.max(0.5, s * delta), 2))
   }, [])
 
+  const handleZoomIn = useCallback(() => {
+    setScale((s) => Math.min(2, s * 1.1))
+  }, [])
+
+  const handleZoomOut = useCallback(() => {
+    setScale((s) => Math.max(0.5, s * 0.9))
+  }, [])
+
   // Get node positions for edges
   const getNodePosition = (nodeId: string) => {
     const node = nodes.find((n) => n.id === nodeId)
@@ -187,6 +200,32 @@ export function MapCanvas({
       onMouseLeave={handleMouseUp}
       onWheel={handleWheel}
     >
+      <div className="absolute right-4 top-4 z-10 hidden md:flex items-center gap-2 rounded-full border border-border bg-card/90 px-3 py-2 shadow-sm">
+        <button
+          type="button"
+          onClick={handleZoomOut}
+          className="h-9 w-9 rounded-full border border-border bg-background/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 flex items-center justify-center transition-colors"
+          aria-label="Zoom out"
+        >
+          <Minus className="w-4 h-4" />
+        </button>
+        <button
+          type="button"
+          onClick={handleZoomIn}
+          className="h-9 w-9 rounded-full border border-border bg-background/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 flex items-center justify-center transition-colors"
+          aria-label="Zoom in"
+        >
+          <Plus className="w-4 h-4" />
+        </button>
+        <button
+          type="button"
+          onClick={fitMapToView}
+          className="h-9 w-9 rounded-full border border-border bg-background/80 text-muted-foreground hover:text-foreground hover:bg-muted/60 flex items-center justify-center transition-colors"
+          aria-label="Reset view"
+        >
+          <RefreshCcw className="w-4 h-4" />
+        </button>
+      </div>
       <div className="absolute inset-0 pointer-events-none hidden lg:block">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent via-50% to-primary/12 opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/5 via-transparent to-orange-500/8 opacity-40" />
