@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/s
 
 const links = [
   { href: "/map", label: "Map" },
-  { href: "/funding", label: "Get Funded" },
+  { href: "/tools", label: "Tools" },
   { href: "/community", label: "Community" },
 ]
 
