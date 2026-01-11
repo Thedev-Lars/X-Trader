@@ -45,8 +45,8 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-3">Trade</h4>
             <nav className="flex flex-col gap-2">
-              <Link href="/mentorship" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Mentorship
+              <Link href="/community" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Community & Mentorship
               </Link>
               <Link href="/tools" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Tools & Resources

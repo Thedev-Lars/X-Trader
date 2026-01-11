@@ -28,9 +28,6 @@ export default function HomePage() {
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="h-12 bg-transparent">
-                  <Link href="/mentorship">Mentorship Overview</Link>
-                </Button>
               </div>
             </div>
             <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-4 lg:max-w-2xl lg:w-full">
