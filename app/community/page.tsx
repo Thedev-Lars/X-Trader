@@ -2,8 +2,7 @@ import { AppNav } from "@/components/app-nav"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Check, Users, MessageCircle, Video, Calendar, ArrowRight } from "lucide-react"
-import Link from "next/link"
+import { Check, Users, MessageCircle, ShieldCheck, Scale } from "lucide-react"
 
 export default function CommunityPage() {
   return (
@@ -11,223 +10,226 @@ export default function CommunityPage() {
       <AppNav />
 
       <main className="flex-1">
-        {/* Hero Section */}
         <section className="py-12 sm:py-20 border-b border-border">
           <div className="container px-4 sm:px-6">
             <div className="max-w-3xl mx-auto text-center">
               <Badge variant="secondary" className="mb-4">
-                Community & Mentorship
+                Free & Open Community
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-                Learn faster together
+                A collaborative, grounded space for traders.
               </h1>
               <p className="text-base sm:text-lg text-muted-foreground mb-8 text-pretty max-w-2xl mx-auto">
-                Join a community of serious futures traders. Get your questions answered, share ideas, and accelerate
-                your learning with direct mentorship.
+                The Community is a free, open group for traders who want to learn in public, compare notes, and improve
+                decision-making through shared discussion and support.
               </p>
+              <a href="https://discord.gg/xtrader" target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="gap-2 w-full sm:w-auto">
+                  <MessageCircle className="w-4 h-4" />
+                  Join the Community
+                </Button>
+              </a>
             </div>
           </div>
         </section>
 
-        {/* Pricing Section */}
         <section className="py-12 sm:py-16">
           <div className="container px-4 sm:px-6">
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {/* Free Community */}
-              <div className="bg-card border border-border rounded-xl p-6 sm:p-8">
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-1">Free Community</h3>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-3xl font-bold text-foreground">$0</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Connect with other traders and access community resources.
-                  </p>
-                </div>
-
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Access to Discord community</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Trade idea discussions</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Weekly market recaps</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Resource library access</span>
-                  </li>
-                </ul>
-
-                <a href="https://discord.gg/xtrader" target="_blank" rel="noopener noreferrer" className="block">
-                  <Button variant="outline" className="w-full gap-2 bg-transparent">
-                    <MessageCircle className="w-4 h-4" />
-                    Join Discord
-                  </Button>
-                </a>
-              </div>
-
-              {/* Paid Mentorship */}
-              <div className="relative bg-card border-2 border-primary rounded-xl p-6 sm:p-8">
-                <Badge className="absolute -top-3 left-6 bg-primary text-primary-foreground">Most Popular</Badge>
-
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-1">1-on-1 Mentorship</h3>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-3xl font-bold text-foreground">$299</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Personal guidance to accelerate your trading journey.</p>
-                </div>
-
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Everything in Free, plus:</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">
-                      <strong>2-3 private video calls</strong> per month (45 min each)
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Trade review and feedback</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Personalized learning plan</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Direct message access</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-sm">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">Priority support</span>
-                  </li>
-                </ul>
-
-                <a
-                  href="https://calendly.com/xtrader/mentorship"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block"
-                >
-                  <Button className="w-full gap-2">
-                    <Calendar className="w-4 h-4" />
-                    Book Discovery Call
-                  </Button>
-                </a>
-              </div>
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-3">What the Community includes</h2>
+              <p className="text-sm text-muted-foreground">
+                A focused space for discussion, learning support, and weekly reflections.
+              </p>
             </div>
-          </div>
-        </section>
-
-        {/* What You Get Section */}
-        <section className="py-12 sm:py-16 border-t border-border">
-          <div className="container px-4 sm:px-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-foreground text-center mb-8">What mentorship includes</h2>
-            <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <div className="bg-card border border-border rounded-lg p-6">
-                <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
-                  <Video className="w-5 h-5 text-primary" />
-                </div>
-                <h3 className="font-semibold text-foreground mb-2">Private Video Calls</h3>
-                <p className="text-sm text-muted-foreground">
-                  2-3 focused 45-minute sessions per month. Screen share your charts, review trades, and get real-time
-                  feedback.
-                </p>
-              </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
               <div className="bg-card border border-border rounded-lg p-6">
                 <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
                   <Users className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">Personalized Plan</h3>
+                <h3 className="font-semibold text-foreground mb-2">Trader discussion</h3>
                 <p className="text-sm text-muted-foreground">
-                  Get a custom learning roadmap based on your experience level, goals, and available trading time.
+                  Conversations around structure, risk, and decision quality.
                 </p>
               </div>
               <div className="bg-card border border-border rounded-lg p-6">
                 <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
-                  <MessageCircle className="w-5 h-5 text-primary" />
+                  <Scale className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">Ongoing Support</h3>
+                <h3 className="font-semibold text-foreground mb-2">Weekly recaps</h3>
                 <p className="text-sm text-muted-foreground">
-                  Direct message access between calls. Ask questions, share setups, and get guidance when you need it.
+                  Regular summaries of what mattered and what to improve.
+                </p>
+              </div>
+              <div className="bg-card border border-border rounded-lg p-6">
+                <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
+                  <ShieldCheck className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">Resource sharing</h3>
+                <p className="text-sm text-muted-foreground">
+                  Checklists, templates, and routines that support consistency.
+                </p>
+              </div>
+              <div className="bg-card border border-border rounded-lg p-6">
+                <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
+                  <Check className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">Learning support</h3>
+                <p className="text-sm text-muted-foreground">
+                  Ask questions and get feedback on process-focused topics.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* FAQ Section */}
         <section className="py-12 sm:py-16 border-t border-border">
           <div className="container px-4 sm:px-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-foreground text-center mb-8">Common questions</h2>
-            <div className="max-w-2xl mx-auto space-y-6">
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Who is mentorship for?</h3>
-                <p className="text-sm text-muted-foreground">
-                  Traders who are serious about improving and want personalized guidance. Whether you're struggling to
-                  be consistent or want to level up your execution, mentorship accelerates your progress.
-                </p>
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground text-center mb-8">
+              What the Community does NOT include
+            </h2>
+            <div className="max-w-3xl mx-auto space-y-4">
+              <div className="flex items-start gap-3 text-sm">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-foreground">No 1:1 calls</p>
+                  <p className="text-muted-foreground">
+                    This is a group discussion space, not private coaching.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">How do the calls work?</h3>
-                <p className="text-sm text-muted-foreground">
-                  We meet via Zoom. You can share your screen to review charts, trades, or your journal. Sessions are
-                  recorded so you can rewatch them.
-                </p>
+              <div className="flex items-start gap-3 text-sm">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-foreground">No signals</p>
+                  <p className="text-muted-foreground">
+                    We do not provide trade calls or alerts.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Can I cancel anytime?</h3>
-                <p className="text-sm text-muted-foreground">
-                  Yes. Mentorship is month-to-month with no long-term commitment. Cancel anytime before your next
-                  billing date.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">What if I'm a complete beginner?</h3>
-                <p className="text-sm text-muted-foreground">
-                  Start with the free curriculum and Discord community. Once you have the fundamentals down, mentorship
-                  will help you apply them effectively.
-                </p>
+              <div className="flex items-start gap-3 text-sm">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-foreground">No model access</p>
+                  <p className="text-muted-foreground">
+                    Proprietary models are reserved for mentorship.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
+        <section className="py-12 sm:py-16 border-t border-border">
+          <div className="container px-4 sm:px-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground text-center mb-8">Community standards</h2>
+            <div className="max-w-3xl mx-auto space-y-4">
+              <div className="flex items-start gap-3 text-sm">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-foreground">Process over outcomes</p>
+                  <p className="text-muted-foreground">
+                    Share reasoning, not screenshots. Context matters more than PnL.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 text-sm">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-foreground">Respectful critique</p>
+                  <p className="text-muted-foreground">
+                    Keep feedback specific, honest, and helpful.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 text-sm">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-foreground">No hype or guru behavior</p>
+                  <p className="text-muted-foreground">
+                    We keep the tone professional and grounded.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="py-12 sm:py-16 border-t border-border bg-muted/30">
           <div className="container px-4 sm:px-6">
             <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Start with the free community</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Join the Community</h2>
               <p className="text-muted-foreground mb-6">
-                Not sure if mentorship is right for you? Join the Discord first, get to know the community, and upgrade
-                when you're ready.
+                Join the free Community to learn with other traders in a grounded, collaborative environment.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <a href="https://discord.gg/xtrader" target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" className="gap-2 w-full sm:w-auto">
-                    <MessageCircle className="w-4 h-4" />
-                    Join Discord Free
-                  </Button>
-                </a>
-                <Link href="/map">
-                  <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto bg-transparent">
-                    Explore Curriculum
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
+              <a href="https://discord.gg/xtrader" target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="gap-2 w-full sm:w-auto">
+                  <MessageCircle className="w-4 h-4" />
+                  Join the Community
+                </Button>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-12 sm:py-16 border-t border-border">
+          <div className="container px-4 sm:px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <Badge variant="secondary" className="mb-4">
+                Invite-only Mentorship
+              </Badge>
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-3">$75/month, by invitation</h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                Mentorship is for traders who have completed the Foundations phase and want guided execution feedback.
+                It is invite-only and focused on implementation, accountability, and decision quality.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-8">
+              <div className="bg-card border border-border rounded-lg p-6">
+                <h3 className="font-semibold text-foreground mb-2">1:1 calls</h3>
+                <p className="text-sm text-muted-foreground">Private sessions to review execution and routines.</p>
               </div>
+              <div className="bg-card border border-border rounded-lg p-6">
+                <h3 className="font-semibold text-foreground mb-2">Validated trading models</h3>
+                <p className="text-sm text-muted-foreground">Frameworks used to guide structure, entries, and risk.</p>
+              </div>
+              <div className="bg-card border border-border rounded-lg p-6">
+                <h3 className="font-semibold text-foreground mb-2">Live execution guidance</h3>
+                <p className="text-sm text-muted-foreground">
+                  Real-time reasoning and decision context. Not for mirroring.
+                </p>
+              </div>
+              <div className="bg-card border border-border rounded-lg p-6">
+                <h3 className="font-semibold text-foreground mb-2">Accountability and review</h3>
+                <p className="text-sm text-muted-foreground">Honest review to build consistency and discipline.</p>
+              </div>
+            </div>
+            <div className="max-w-3xl mx-auto space-y-3 text-sm mb-8">
+              <h3 className="font-semibold text-foreground text-center">This is NOT for you if...</h3>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <p className="text-muted-foreground">You want signals, trade calls, or copy-trading.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <p className="text-muted-foreground">You are looking for guarantees, income promises, or shortcuts.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <p className="text-muted-foreground">You are not willing to follow a routine or document decisions.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                <p className="text-muted-foreground">You have not completed the Foundations phase.</p>
+              </div>
+            </div>
+            <div className="max-w-3xl mx-auto text-center">
+              <Button size="lg" className="gap-2 w-full sm:w-auto">
+                Apply for Mentorship
+              </Button>
+              <p className="text-xs text-muted-foreground mt-3">
+                Risk disclaimer: Trading involves substantial risk. Mentorship is educational and provides no profit
+                guarantees.
+              </p>
             </div>
           </div>
         </section>
