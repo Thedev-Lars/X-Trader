@@ -4,13 +4,12 @@ import { useState, useEffect, useCallback } from "react"
 import { AppNav } from "@/components/app-nav"
 import { ProgressPill } from "@/components/progress-pill"
 import { FiltersSidebar } from "@/components/map/filters-sidebar"
-import { MapCanvas } from "@/components/map/map-canvas"
 import { MobileNodeList } from "@/components/map/mobile-node-list"
-import { NodeDetailsPanel } from "@/components/map/node-details-panel"
+import { DesktopTimeline } from "@/components/map/desktop-timeline"
+import { DependencyPanel } from "@/components/map/dependency-panel"
 import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 import { OnboardingModal } from "@/components/map/onboarding-modal"
 import { mapNodes } from "@/lib/map/nodes"
-import { mapEdges } from "@/lib/map/edges"
 import type { MapNode, NodeLevel, NodeTag, Phase } from "@/lib/map/types"
 import { phases } from "@/lib/map/types"
 import {
@@ -426,22 +425,31 @@ export default function MapPage() {
                 />
               </div>
               <div className="hidden md:block h-full">
-                <MapCanvas
-                  nodes={filteredByPhase}
-                  edges={mapEdges}
-                  completedSet={completedSet}
-                  selectedNode={selectedNode}
-                  selectedLevels={selectedLevels}
-                  selectedTags={selectedTags}
-                  showOnlyAvailable={showOnlyAvailable}
-                  onNodeSelect={setSelectedNode}
-                  searchQuery={searchQuery}
-                  bookmarkedIds={bookmarkedSet}
-                  onToggleBookmark={handleToggleBookmark}
-                  highlightedPath={highlightedPath}
-                  highlightedNodeId={highlightedNodeId}
-                  glowingNodeId={glowingNodeId ?? nextNode?.id ?? null}
-                />
+                <div className="flex h-full bg-background">
+                  <DesktopTimeline
+                    nodes={filteredByPhase}
+                    completedSet={completedSet}
+                    selectedLevels={selectedLevels}
+                    selectedTags={selectedTags}
+                    showOnlyAvailable={showOnlyAvailable}
+                    searchQuery={searchQuery}
+                    selectedNodeId={selectedNode?.id ?? null}
+                    highlightedPath={highlightedPath}
+                    highlightedNodeId={highlightedNodeId}
+                    bookmarkedIds={bookmarkedSet}
+                    onToggleBookmark={handleToggleBookmark}
+                    onSelectNode={setSelectedNode}
+                  />
+                  <DependencyPanel
+                    node={selectedNode}
+                    completedSet={completedSet}
+                    onClose={() => setSelectedNode(null)}
+                    isBookmarked={selectedNode ? bookmarkedSet.has(selectedNode.id) : false}
+                    onToggleBookmark={() => selectedNode && handleToggleBookmark(selectedNode.id)}
+                    currentPhase={currentPhase}
+                    phaseProgress={currentPhaseProgress}
+                  />
+                </div>
               </div>
             </TabsContent>
 
@@ -539,20 +547,6 @@ export default function MapPage() {
           </Tabs>
         </div>
 
-        {selectedNode && (
-          <div className="hidden md:block">
-            <NodeDetailsPanel
-              node={selectedNode}
-              status={getNodeStatus(selectedNode, completedSet)}
-              completedSet={completedSet}
-              onClose={() => setSelectedNode(null)}
-              isBookmarked={bookmarkedSet.has(selectedNode.id)}
-              onToggleBookmark={() => handleToggleBookmark(selectedNode.id)}
-              currentPhase={currentPhase}
-              phaseProgress={currentPhaseProgress}
-            />
-          </div>
-        )}
       </div>
 
       <MobileBottomNav />
