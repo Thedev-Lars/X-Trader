@@ -22,6 +22,9 @@ interface DesktopTimelineProps {
   bookmarkedIds: Set<string>
   onToggleBookmark: (nodeId: string) => void
   onSelectNode: (node: MapNode) => void
+  className?: string
+  contentClassName?: string
+  showIntro?: boolean
 }
 
 const sortNodes = (a: MapNode, b: MapNode) => {
@@ -42,6 +45,9 @@ export function DesktopTimeline({
   bookmarkedIds,
   onToggleBookmark,
   onSelectNode,
+  className,
+  contentClassName,
+  showIntro = true,
 }: DesktopTimelineProps) {
   const highlightedPathNodeIds = highlightedPath
     ? new Set(learningPaths.find((path) => path.id === highlightedPath)?.nodeIds || [])
@@ -73,12 +79,14 @@ export function DesktopTimeline({
   }
 
   return (
-    <div className="flex-1 overflow-y-auto scrollbar-hide">
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <div className="mb-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Knowledge Path</p>
-          <h2 className="text-2xl font-semibold text-foreground">Structured learning, phase by phase.</h2>
-        </div>
+    <div className={cn("flex-1 overflow-y-auto scrollbar-hide", className)}>
+      <div className={cn("max-w-4xl mx-auto px-6 py-8", contentClassName)}>
+        {showIntro && (
+          <div className="mb-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Knowledge Path</p>
+            <h2 className="text-2xl font-semibold text-foreground">Structured learning, phase by phase.</h2>
+          </div>
+        )}
 
         <div className="space-y-8">
           {phases.map((phase) => {
