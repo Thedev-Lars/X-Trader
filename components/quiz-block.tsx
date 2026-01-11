@@ -74,18 +74,21 @@ export const QuizBlock = memo(function QuizBlock({ questions, onComplete }: Quiz
         {currentQuestion.question}
       </p>
 
-      <div className="space-y-3 mb-6">
+      <div className="space-y-3 mb-6" role="radiogroup" aria-label="Quiz options">
         {currentQuestion.options.map((option, index) => {
           const isSelected = selectedAnswer === index
           const isCorrect = index === currentQuestion.correctIndex
           const showCorrect = showResult && isCorrect
           const showWrong = showResult && isSelected && !isCorrect
+          const indicatorClass = showCorrect ? "bg-green-500" : showWrong ? "bg-red-500" : isSelected ? "bg-primary" : ""
 
           return (
             <button
               key={index}
               onClick={() => handleSelect(index)}
               disabled={showResult}
+              role="radio"
+              aria-checked={isSelected}
               className={cn(
                 "w-full p-4 text-left rounded-lg border transition-all min-h-[56px] touch-manipulation",
                 !showResult && "hover:border-primary active:scale-[0.99] cursor-pointer",
@@ -97,18 +100,31 @@ export const QuizBlock = memo(function QuizBlock({ questions, onComplete }: Quiz
               )}
             >
               <div className="flex items-center justify-between gap-3">
-                <span
-                  className={cn(
-                    "text-base leading-relaxed",
-                    showCorrect
-                      ? "text-green-600 dark:text-green-400 font-medium"
-                      : showWrong
-                        ? "text-red-600 dark:text-red-400"
-                        : "text-foreground",
-                  )}
-                >
-                  {option}
-                </span>
+                <div className="flex items-start gap-3">
+                  <span
+                    className={cn(
+                      "mt-1 h-4 w-4 rounded-full border flex items-center justify-center",
+                      isSelected ? "border-primary" : "border-muted-foreground/50",
+                      showCorrect && "border-green-500",
+                      showWrong && "border-red-500",
+                    )}
+                    aria-hidden="true"
+                  >
+                    {indicatorClass && <span className={cn("h-2 w-2 rounded-full", indicatorClass)} />}
+                  </span>
+                  <span
+                    className={cn(
+                      "text-base leading-relaxed",
+                      showCorrect
+                        ? "text-green-600 dark:text-green-400 font-medium"
+                        : showWrong
+                          ? "text-red-600 dark:text-red-400"
+                          : "text-foreground",
+                    )}
+                  >
+                    {option}
+                  </span>
+                </div>
                 {showCorrect && <Check className="w-6 h-6 text-green-500 flex-shrink-0" />}
                 {showWrong && <X className="w-6 h-6 text-red-500 flex-shrink-0" />}
               </div>
