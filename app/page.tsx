@@ -11,8 +11,8 @@ export default function HomePage() {
 
       <main className="flex-1">
         <section className="container px-4 sm:px-6 py-10 sm:py-16 max-w-5xl">
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-center">
-            <div className="space-y-5">
+          <div className="grid gap-8 lg:grid-cols-1 lg:justify-items-center items-center">
+            <div className="space-y-5 lg:text-center lg:max-w-3xl">
               <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Futures Education</p>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground text-balance">
                 A calm, structured path for traders who want process first.
@@ -21,7 +21,7 @@ export default function HomePage() {
                 X Trader is an education system built around risk control, psychology, and execution. The map guides
                 you in the right order so you build skill without chasing hype.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 lg:justify-center">
                 <Button asChild size="lg" className="h-12">
                   <Link href="/map">
                     Open the Map
@@ -33,7 +33,7 @@ export default function HomePage() {
                 </Button>
               </div>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-4">
+            <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-4 lg:max-w-2xl lg:w-full">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <ShieldCheck className="h-5 w-5 text-primary" />
@@ -72,15 +72,15 @@ export default function HomePage() {
         </section>
 
         <section className="border-t border-border bg-card/40">
-          <div className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl space-y-8">
-            <div className="space-y-3">
+          <div className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl space-y-8 lg:text-center">
+            <div className="space-y-3 lg:max-w-3xl lg:mx-auto">
               <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">Why it works</h2>
               <p className="text-muted-foreground leading-relaxed">
                 Most traders fail for three reasons: risk is undefined, psychology is unmanaged, and randomness is
                 misunderstood. Our map addresses them in order, with calm, repeatable steps.
               </p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-3 lg:max-w-4xl lg:mx-auto">
               {[
                 {
                   title: "Risk comes first",
@@ -104,12 +104,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl space-y-6">
-          <div className="flex items-center gap-3">
+        <section className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl space-y-6 lg:text-center">
+          <div className="flex items-center gap-3 lg:justify-center">
             <Sparkles className="h-5 w-5 text-primary" />
             <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">Learning order that compounds</h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:max-w-4xl lg:mx-auto">
             {[
               {
                 title: "Foundations",
@@ -137,15 +137,15 @@ export default function HomePage() {
         </section>
 
         <section className="border-t border-border bg-card/40">
-          <div className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl grid gap-6 md:grid-cols-[1.2fr_0.8fr] items-center">
-            <div className="space-y-3">
+          <div className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl grid gap-6 lg:grid-cols-1 lg:justify-items-center items-center">
+            <div className="space-y-3 lg:text-center lg:max-w-3xl">
               <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">Process over profits</h2>
               <p className="text-muted-foreground leading-relaxed">
                 This is education, not promises. The process is what you can control: risk, routines, and execution.
                 When the process is consistent, results become measurable and improvable.
               </p>
             </div>
-            <div className="rounded-xl border border-border bg-background p-5 space-y-3 text-sm text-muted-foreground">
+            <div className="rounded-xl border border-border bg-background p-5 space-y-3 text-sm text-muted-foreground lg:max-w-md lg:w-full">
               <p>✓ Define risk before entry</p>
               <p>✓ Follow the same routine every session</p>
               <p>✓ Review outcomes weekly, not hourly</p>
