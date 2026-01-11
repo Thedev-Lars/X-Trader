@@ -10,14 +10,16 @@ export default function MentorshipPage() {
       <AppNav />
 
       <main className="flex-1">
-        <div className="container px-4 sm:px-6 py-8 sm:py-12 max-w-4xl">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6 text-balance">
-            Mentorship
-          </h1>
-          <p className="text-muted-foreground leading-relaxed mb-8">
-            Mentorship is invite-only and intentionally limited. It is designed for traders who have completed the
-            fundamentals and want direct accountability on execution, risk control, and consistency.
-          </p>
+        <div className="container px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6 text-balance">
+              Mentorship
+            </h1>
+            <p className="text-muted-foreground leading-relaxed">
+              Mentorship is invite-only and intentionally limited. It is designed for traders who have completed the
+              fundamentals and want direct accountability on execution, risk control, and consistency.
+            </p>
+          </div>
 
           <section className="mb-10">
             <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-4">What it focuses on</h2>

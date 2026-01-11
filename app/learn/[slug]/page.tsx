@@ -105,7 +105,7 @@ export default function LearnPage() {
       <AppNav />
 
       <main className="flex-1 pb-6 sm:pb-8">
-        <div className="container px-4 sm:px-6 py-6 sm:py-8 max-w-3xl">
+        <div className="container px-4 sm:px-6 py-6 sm:py-8 max-w-3xl mx-auto">
           {/* Breadcrumb - touch-friendly */}
           <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-4 sm:mb-6 overflow-x-auto touch-compact">
             <Link href="/" className="hover:text-primary transition-colors p-1 min-h-[44px] flex items-center">

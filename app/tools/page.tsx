@@ -111,14 +111,16 @@ export default function ToolsPage() {
       <AppNav />
 
       <main className="flex-1">
-        <div className="container px-4 sm:px-6 py-8 sm:py-12 max-w-5xl">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6 text-balance">
-            Tools & Resources
-          </h1>
-          <p className="text-muted-foreground leading-relaxed mb-8">
-            Tools only work when the foundation is solid. Each recommendation below includes who it fits, who it does
-            not, and the map prerequisites that should be completed first.
-          </p>
+        <div className="container px-4 sm:px-6 py-8 sm:py-12 max-w-5xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6 text-balance">
+              Tools & Resources
+            </h1>
+            <p className="text-muted-foreground leading-relaxed">
+              Tools only work when the foundation is solid. Each recommendation below includes who it fits, who it
+              does not, and the map prerequisites that should be completed first.
+            </p>
+          </div>
 
           <div className="space-y-10">
             {toolGroups.map((group) => (

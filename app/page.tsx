@@ -10,7 +10,7 @@ export default function HomePage() {
       <AppNav />
 
       <main className="flex-1">
-        <section className="container px-4 sm:px-6 py-10 sm:py-16 max-w-5xl">
+        <section className="container px-4 sm:px-6 py-10 sm:py-16 max-w-5xl mx-auto">
           <div className="grid gap-8 lg:grid-cols-1 lg:justify-items-center items-center">
             <div className="space-y-5 lg:text-center lg:max-w-3xl">
               <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Futures Education</p>
@@ -72,7 +72,7 @@ export default function HomePage() {
         </section>
 
         <section className="border-t border-border bg-card/40">
-          <div className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl space-y-8 lg:text-center">
+          <div className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl mx-auto space-y-8 lg:text-center">
             <div className="space-y-3 lg:max-w-3xl lg:mx-auto">
               <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">Why it works</h2>
               <p className="text-muted-foreground leading-relaxed">
@@ -104,7 +104,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl space-y-6 lg:text-center">
+        <section className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl mx-auto space-y-6 lg:text-center">
           <div className="flex items-center gap-3 lg:justify-center">
             <Sparkles className="h-5 w-5 text-primary" />
             <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">Learning order that compounds</h2>
@@ -137,7 +137,7 @@ export default function HomePage() {
         </section>
 
         <section className="border-t border-border bg-card/40">
-          <div className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl grid gap-6 lg:grid-cols-1 lg:justify-items-center items-center">
+          <div className="container px-4 sm:px-6 py-10 sm:py-14 max-w-5xl mx-auto grid gap-6 lg:grid-cols-1 lg:justify-items-center items-center">
             <div className="space-y-3 lg:text-center lg:max-w-3xl">
               <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">Process over profits</h2>
               <p className="text-muted-foreground leading-relaxed">
