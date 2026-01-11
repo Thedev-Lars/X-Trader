@@ -58,7 +58,7 @@ export function MobileNodeList({
   }
 
   return (
-    <div className="flex-1 overflow-y-auto pb-20">
+    <div className="flex-1 overflow-y-auto pb-16">
       <div className="divide-y divide-border">
         {nextNode && (
           <div className="px-4 py-3 bg-primary/5 border-b border-primary/20">
