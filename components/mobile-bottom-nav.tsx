@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { Map, DollarSign, Users } from "lucide-react"
+import { Map, Users, Wrench } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function MobileBottomNav() {
@@ -10,7 +10,7 @@ export function MobileBottomNav() {
 
   const navItems = [
     { href: "/map", label: "Map", icon: Map },
-    { href: "/funding", label: "Funding", icon: DollarSign },
+    { href: "/tools", label: "Tools", icon: Wrench },
     { href: "/community", label: "Community", icon: Users },
   ]
 

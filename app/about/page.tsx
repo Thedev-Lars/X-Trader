@@ -8,10 +8,12 @@ export default function AboutPage() {
       <AppNav />
 
       <main className="flex-1">
-        <div className="container px-4 sm:px-6 py-8 sm:py-12 max-w-3xl">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6 text-balance">
-            About X Trader
-          </h1>
+        <div className="container px-4 sm:px-6 py-8 sm:py-12 max-w-3xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6 text-balance">
+              About X Trader
+            </h1>
+          </div>
 
           <section className="mb-8 sm:mb-12">
             <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-3 sm:mb-4">What is X Trader?</h2>
