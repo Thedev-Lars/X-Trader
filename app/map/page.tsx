@@ -4,18 +4,21 @@ import { useState, useEffect, useCallback } from "react"
 import { AppNav } from "@/components/app-nav"
 import { ProgressPill } from "@/components/progress-pill"
 import { FiltersSidebar } from "@/components/map/filters-sidebar"
-import { MapCanvas } from "@/components/map/map-canvas"
 import { MobileNodeList } from "@/components/map/mobile-node-list"
-import { NodeDetailsPanel } from "@/components/map/node-details-panel"
+import { DesktopTimeline } from "@/components/map/desktop-timeline"
+import { DependencyPanel } from "@/components/map/dependency-panel"
+import { LessonContent } from "@/components/learn/lesson-content"
 import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 import { OnboardingModal } from "@/components/map/onboarding-modal"
 import { mapNodes } from "@/lib/map/nodes"
-import { mapEdges } from "@/lib/map/edges"
+import { getLessonBySlug } from "@/lib/content/lessons"
 import type { MapNode, NodeLevel, NodeTag, Phase } from "@/lib/map/types"
 import { phases } from "@/lib/map/types"
 import {
   getCompletedNodeIds,
   getNextRecommendedNode,
+  markNodeComplete,
+  markQuizComplete,
   resetProgress,
   getNodeStatus,
   getLastCompletedNode,
@@ -67,7 +70,6 @@ export default function MapPage() {
   const [highlightedNodeId, setHighlightedNodeId] = useState<string | null>(null)
   const [mobileViewMode, setMobileViewMode] = useState<"list" | "map">("list")
   const [selectedPhase, setSelectedPhase] = useState<Phase | null>(null)
-  const [glowingNodeId, setGlowingNodeId] = useState<string | null>(null)
 
   const initialTab = searchParams.get("tab") === "bookmarks" ? "bookmarks" : "map"
   const [activeTab, setActiveTab] = useState(initialTab)
@@ -111,6 +113,7 @@ export default function MapPage() {
   const filteredByPhase = selectedPhase ? mapNodes.filter((n) => n.phase === selectedPhase) : mapNodes
 
   const bookmarkedNodes = mapNodes.filter((node) => bookmarkedSet.has(node.id))
+  const selectedLesson = selectedNode ? getLessonBySlug(selectedNode.slug) : null
 
   const handleLevelToggle = (level: NodeLevel) => {
     const newSet = new Set(selectedLevels)
@@ -145,6 +148,17 @@ export default function MapPage() {
     setBookmarkedIds(getBookmarkedNodeIds())
   }
 
+  const handleEmbeddedMarkComplete = () => {
+    if (!selectedNode) return
+    markNodeComplete(selectedNode.id)
+    setCompletedIds(getCompletedNodeIds())
+  }
+
+  const handleEmbeddedQuizComplete = () => {
+    if (!selectedNode) return
+    markQuizComplete(selectedNode.slug)
+  }
+
   const handleHighlightNextNode = (nodeId: string) => {
     setHighlightedNodeId(nodeId)
     setActiveTab("map")
@@ -170,12 +184,8 @@ export default function MapPage() {
     if (firstFoundationsNode) {
       setHighlightedNodeId(firstFoundationsNode.id)
       setSelectedNode(firstFoundationsNode)
-      if (nextNode && nextNode.id !== firstFoundationsNode.id) {
-        setGlowingNodeId(nextNode.id)
-      }
       setTimeout(() => {
         setHighlightedNodeId(null)
-        setGlowingNodeId(null)
       }, 5000)
     }
   }
@@ -426,22 +436,65 @@ export default function MapPage() {
                 />
               </div>
               <div className="hidden md:block h-full">
-                <MapCanvas
-                  nodes={filteredByPhase}
-                  edges={mapEdges}
-                  completedSet={completedSet}
-                  selectedNode={selectedNode}
-                  selectedLevels={selectedLevels}
-                  selectedTags={selectedTags}
-                  showOnlyAvailable={showOnlyAvailable}
-                  onNodeSelect={setSelectedNode}
-                  searchQuery={searchQuery}
-                  bookmarkedIds={bookmarkedSet}
-                  onToggleBookmark={handleToggleBookmark}
-                  highlightedPath={highlightedPath}
-                  highlightedNodeId={highlightedNodeId}
-                  glowingNodeId={glowingNodeId ?? nextNode?.id ?? null}
-                />
+                <div className="flex h-full bg-background">
+                  <DesktopTimeline
+                    nodes={filteredByPhase}
+                    completedSet={completedSet}
+                    selectedLevels={selectedLevels}
+                    selectedTags={selectedTags}
+                    showOnlyAvailable={showOnlyAvailable}
+                    searchQuery={searchQuery}
+                    selectedNodeId={selectedNode?.id ?? null}
+                    highlightedPath={highlightedPath}
+                    highlightedNodeId={highlightedNodeId}
+                    bookmarkedIds={bookmarkedSet}
+                    onToggleBookmark={handleToggleBookmark}
+                    onSelectNode={setSelectedNode}
+                    className="w-[360px] min-w-[320px] border-r border-border bg-card/40"
+                    contentClassName="px-4 py-6"
+                    showIntro={false}
+                  />
+                  <div className="flex-1 overflow-y-auto scrollbar-hide">
+                    {selectedNode && selectedLesson ? (
+                      <div className="max-w-3xl mx-auto px-6 py-6">
+                        <div className="flex items-center justify-end gap-3 mb-4">
+                          {!completedSet.has(selectedNode.id) && (
+                            <Button onClick={handleEmbeddedMarkComplete} className="h-10 px-4 text-sm">
+                              Mark Complete
+                            </Button>
+                          )}
+                          <Link
+                            href={`/learn/${selectedNode.slug}`}
+                            className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                          >
+                            Open full lesson
+                          </Link>
+                        </div>
+                        <LessonContent
+                          node={selectedNode}
+                          lesson={selectedLesson}
+                          completed={completedSet.has(selectedNode.id)}
+                          onQuizComplete={handleEmbeddedQuizComplete}
+                          showBackToMap={false}
+                          compact
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-sm text-muted-foreground px-6 text-center">
+                        Select a lesson to view it here without leaving the map.
+                      </div>
+                    )}
+                  </div>
+                  <DependencyPanel
+                    node={selectedNode}
+                    completedSet={completedSet}
+                    onClose={() => setSelectedNode(null)}
+                    isBookmarked={selectedNode ? bookmarkedSet.has(selectedNode.id) : false}
+                    onToggleBookmark={() => selectedNode && handleToggleBookmark(selectedNode.id)}
+                    currentPhase={currentPhase}
+                    phaseProgress={currentPhaseProgress}
+                  />
+                </div>
               </div>
             </TabsContent>
 
@@ -539,20 +592,6 @@ export default function MapPage() {
           </Tabs>
         </div>
 
-        {selectedNode && (
-          <div className="hidden md:block">
-            <NodeDetailsPanel
-              node={selectedNode}
-              status={getNodeStatus(selectedNode, completedSet)}
-              completedSet={completedSet}
-              onClose={() => setSelectedNode(null)}
-              isBookmarked={bookmarkedSet.has(selectedNode.id)}
-              onToggleBookmark={() => handleToggleBookmark(selectedNode.id)}
-              currentPhase={currentPhase}
-              phaseProgress={currentPhaseProgress}
-            />
-          </div>
-        )}
       </div>
 
       <MobileBottomNav />
