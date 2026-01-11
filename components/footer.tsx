@@ -35,9 +35,6 @@ export function Footer() {
               <Link href="/map" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Knowledge Map
               </Link>
-              <Link href="/why-this-works" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Why This Works
-              </Link>
               <Link href="/curriculum" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Curriculum
               </Link>

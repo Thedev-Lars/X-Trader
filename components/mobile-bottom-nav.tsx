@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { Map, Lightbulb, GraduationCap, Wrench } from "lucide-react"
+import { Map, GraduationCap, Users, Wrench } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function MobileBottomNav() {
@@ -10,9 +10,9 @@ export function MobileBottomNav() {
 
   const navItems = [
     { href: "/map", label: "Map", icon: Map },
-    { href: "/why-this-works", label: "Why", icon: Lightbulb },
     { href: "/mentorship", label: "Mentor", icon: GraduationCap },
     { href: "/tools", label: "Tools", icon: Wrench },
+    { href: "/community", label: "Community", icon: Users },
   ]
 
   return (

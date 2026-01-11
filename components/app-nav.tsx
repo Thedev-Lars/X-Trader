@@ -10,9 +10,9 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/s
 
 const links = [
   { href: "/map", label: "Map" },
-  { href: "/why-this-works", label: "Why This Works" },
   { href: "/mentorship", label: "Mentorship" },
   { href: "/tools", label: "Tools" },
+  { href: "/community", label: "Community" },
 ]
 
 export function AppNav() {
